@@ -349,7 +349,55 @@ class LiquidationDetector:
             print(f"    {rank}. {row['timestamp']} | {row['direction']} | {row['amplitude']:.2f}%")
         
         return hit_count
-    
+
+        def generate_event_record(self, df, score_threshold=0.8, output_dir="events"):
+        """
+        将检测到的插针事件写入 JSON 文件，供未来链上验证使用。
+        每条记录包含事件摘要和哈希指纹，确保不可篡改。
+        """
+        import os
+        import json
+        import hashlib
+        
+        if df.empty or 'wick_score' not in df.columns:
+            return None
+        
+        hits = df[df['wick_score'] >= score_threshold]
+        if len(hits) == 0:
+            return None
+        
+        os.makedirs(output_dir, exist_ok=True)
+        
+        records = []
+        for _, row in hits.iterrows():
+            record = {
+                "symbol": self.symbol,
+                "exchange": self.exchange_name,
+                "timestamp": str(row['timestamp']),
+                "amplitude_pct": round(float(row['amplitude']), 2),
+                "body_pct": round(float(row['body']), 2),
+                "upper_wick_pct": round(float(row['upper_wick']), 2),
+                "lower_wick_pct": round(float(row['lower_wick']), 2),
+                "direction": str(row.get('direction', 'none')),
+                "wick_score": float(row['wick_score']),
+                "detected_at": datetime.now().isoformat()
+            }
+            # 生成事件指纹
+            record['event_hash'] = hashlib.sha256(
+                json.dumps(record, sort_keys=True, default=str).encode()
+            ).hexdigest()
+            records.append(record)
+        
+        timestamp_str = datetime.now().strftime('%Y%m%d_%H%M%S')
+        symbol_clean = self.symbol.replace('/', '_')
+        filename = f"{output_dir}/wick_events_{symbol_clean}_{timestamp_str}.json"
+        
+        with open(filename, 'w') as f:
+            json.dump(records, f, indent=2, default=str)
+        
+        print(f"\n  📝 已生成事件证据文件: {filename} ({len(records)} 条记录)")
+        return filename
+
     def _debug_top_amplitude(self, df):
         """调试：分析振幅最大的K线"""
         top_row = df.loc[df['amplitude'].idxmax()]
@@ -560,7 +608,8 @@ if __name__ == "__main__":
         detector = LiquidationDetector()
         df_scored = detector.detect_wicks(df, MIN_AMP, BODY_RATIO, WICK_RATIO, REBOUND)
         detector.print_report(df_scored, show_debug=not args.no_debug)
-    
+        # 生成链上验证证据文件
+        detector.generate_event_record(df_scored, score_threshold=0.8)    
     # ========== 模式2: 历史回溯 ==========
     elif args.mode == 'backtest':
         if not args.date:
@@ -579,7 +628,8 @@ if __name__ == "__main__":
         detector = LiquidationDetector()
         df_scored = detector.detect_wicks(df, MIN_AMP, BODY_RATIO, WICK_RATIO, REBOUND)
         detector.print_report(df_scored, show_debug=not args.no_debug)
-    
+        # 生成链上验证证据文件
+        detector.generate_event_record(df_scored, score_threshold=0.8)
     # ========== 模式3: 实时监控 ==========
     else:
         detector = LiquidationDetector(exchange_name=args.exchange, symbol=args.symbol)
@@ -600,7 +650,8 @@ if __name__ == "__main__":
         
         df_scored = detector.detect_wicks(df, MIN_AMP, BODY_RATIO, WICK_RATIO, REBOUND)
         hit_count = detector.print_report(df_scored, show_debug=not args.no_debug)
-        
+        # 生成链上验证证据文件
+        detector.generate_event_record(df_scored, score_threshold=0.8)
         # 交叉验证
         if args.cross_check and hit_count > 0:
             print(f"\n{'='*70}")
