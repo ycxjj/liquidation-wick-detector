@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
 ================================================================================
- 强平险插针检测引擎 v4.0 (最终完整版)
+ 强平险插针检测引擎 v4.2 (含超时重试 + 事件证据生成)
  Liquidation Wick Detector for DeFi Insurance
  
  功能:
    ✅ 支持现货(spot) + 永续合约(swap) 双市场
-   ✅ 支持实时监控 + 历史回溯 双模式
+   ✅ 支持实时监控 + 历史回溯 + CSV分析 三种模式
    ✅ 参数化配置: 时间范围、K线周期、振幅阈值等
    ✅ 自动下载历史数据 (Binance公开数据 + Gate.io API)
+   ✅ 网络超时自动重试 (30秒超时 + 3秒间隔重试)
    ✅ 多交易所交叉验证 (Gate vs OKX vs Binance)
    ✅ 完整检测报告 + 调试分析
-   ✅ 支持任意交易对 (BTC/ETH/SOL/DOGE 等)
+   ✅ 自动生成带哈希指纹的JSON事件证据文件
+   ✅ 支持任意交易对 (BTC/ETH/SOL/DOGE/LAB/TON 等)
  
  用法示例:
    # 实时监控近30天SOL永续合约
@@ -37,6 +39,9 @@ import io
 import argparse
 import sys
 import os
+import json
+import hashlib
+import time
 from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
@@ -48,7 +53,7 @@ warnings.filterwarnings('ignore')
 
 class LiquidationDetector:
     """
-    强平险插针检测引擎 v4.0
+    强平险插针检测引擎 v4.2
     """
     
     def __init__(self, exchange_name='gate', symbol='BTC/USDT'):
@@ -58,6 +63,9 @@ class LiquidationDetector:
         if exchange_name:
             try:
                 self.exchange = getattr(ccxt, exchange_name)()
+                # 增加超时时间 + 启用速率限制
+                self.exchange.timeout = 30000  # 30秒超时
+                self.exchange.enableRateLimit = True
             except Exception:
                 pass
     
@@ -65,7 +73,7 @@ class LiquidationDetector:
     
     def fetch_ohlcv_live(self, timeframe='5m', days_back=30, market_type='swap'):
         """
-        实时抓取K线数据（从交易所API）
+        实时抓取K线数据（从交易所API），含超时自动重试
         """
         if self.exchange is None:
             print("❌ 交易所未初始化")
@@ -73,6 +81,7 @@ class LiquidationDetector:
         
         max_per_request = 8000
         all_frames = []
+        max_retries = 5  # 最大重试次数
         
         end_time = int(datetime.now().timestamp() * 1000)
         start_time = int((datetime.now() - timedelta(days=days_back)).timestamp() * 1000)
@@ -85,27 +94,40 @@ class LiquidationDetector:
         request_count = 0
         
         while since < end_time:
-            try:
-                request_count += 1
-                ohlcv = self.exchange.fetch_ohlcv(
-                    self.symbol, timeframe, since=since,
-                    limit=max_per_request, params=params
-                )
-                
-                if len(ohlcv) == 0:
-                    break
-                
-                df_chunk = pd.DataFrame(
-                    ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume']
-                )
-                all_frames.append(df_chunk)
-                since = int(df_chunk['timestamp'].iloc[-1]) + 1
-                
-                if len(ohlcv) < 100:
-                    break
+            retry_count = 0
+            success = False
+            
+            while retry_count < max_retries and not success:
+                try:
+                    request_count += 1
+                    ohlcv = self.exchange.fetch_ohlcv(
+                        self.symbol, timeframe, since=since,
+                        limit=max_per_request, params=params
+                    )
+                    success = True
                     
-            except Exception as e:
-                print(f"  ⚠️ 第{request_count}次请求失败: {type(e).__name__}")
+                    if len(ohlcv) == 0:
+                        break
+                    
+                    df_chunk = pd.DataFrame(
+                        ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume']
+                    )
+                    all_frames.append(df_chunk)
+                    since = int(df_chunk['timestamp'].iloc[-1]) + 1
+                    
+                    if len(ohlcv) < 100:
+                        break
+                        
+                except Exception as e:
+                    retry_count += 1
+                    if retry_count < max_retries:
+                        print(f"  ⚠️ 第{request_count}次请求失败 ({type(e).__name__})，{retry_count}/{max_retries} 重试中...")
+                        time.sleep(3)
+                    else:
+                        print(f"  ❌ 第{request_count}次请求失败，已达最大重试次数，停止抓取")
+                        break
+            
+            if not success:
                 break
         
         if not all_frames:
@@ -119,12 +141,6 @@ class LiquidationDetector:
     def download_binance_public(self, date_str, symbol_raw='BTCUSDT', timeframe='5m'):
         """
         从 Binance 公开数据下载指定日期的历史K线
-        Args:
-            date_str: '2023-08-17' 格式
-            symbol_raw: 'BTCUSDT' 格式
-            timeframe: '5m' / '15m' / '1h' 等
-        Returns:
-            DataFrame 或 None
         """
         year_month = date_str[:7]
         url = (
@@ -150,7 +166,6 @@ class LiquidationDetector:
             
             df_raw['timestamp'] = pd.to_datetime(df_raw['timestamp'], unit='ms')
             
-            # 只保留目标日期
             target_dt = datetime.strptime(date_str, "%Y-%m-%d")
             next_dt = target_dt + timedelta(days=1)
             mask = (df_raw['timestamp'] >= target_dt) & (df_raw['timestamp'] < next_dt)
@@ -167,53 +182,6 @@ class LiquidationDetector:
         except Exception as e:
             print(f"  ❌ 下载失败: {e}")
             return None
-    
-    def fetch_ohlcv_gate_date(self, date_str, symbol='BTC/USDT', timeframe='5m', market_type='swap'):
-        """
-        从 Gate.io API 尝试获取指定日期的数据
-        （Gate限制只能回溯约34天，太远的历史数据拿不到）
-        """
-        if self.exchange is None:
-            print("  ❌ 交易所未初始化")
-            return None
-        
-        target_dt = datetime.strptime(date_str, "%Y-%m-%d")
-        next_dt = target_dt + timedelta(days=1)
-        start_ts = int(target_dt.timestamp() * 1000)
-        end_ts = int(next_dt.timestamp() * 1000)
-        
-        params = {}
-        if market_type == 'swap':
-            params['defaultType'] = 'swap'
-        
-        all_data = []
-        since = start_ts
-        
-        while since < end_ts:
-            try:
-                ohlcv = self.exchange.fetch_ohlcv(
-                    symbol, timeframe, since=since, limit=1000, params=params
-                )
-                if len(ohlcv) == 0:
-                    break
-                
-                for candle in ohlcv:
-                    if start_ts <= candle[0] < end_ts:
-                        all_data.append(candle)
-                
-                since = ohlcv[-1][0] + 1
-                if len(ohlcv) < 100:
-                    break
-            except Exception as e:
-                print(f"  ⚠️ Gate请求失败: {type(e).__name__}")
-                break
-        
-        if not all_data:
-            return None
-        
-        df = pd.DataFrame(all_data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-        return df.sort_values('timestamp').reset_index(drop=True)
     
     # ========== 插针检测 ==========
     
@@ -236,14 +204,12 @@ class LiquidationDetector:
         
         df = df.copy()
         
-        # 确保必要列存在
         required = ['open', 'high', 'low', 'close']
         for c in required:
             if c not in df.columns:
                 print(f"❌ 缺少列: {c}")
                 return df
         
-        # 计算形态特征
         df['amplitude']  = (df['high'] - df['low']) / df['open'] * 100
         df['body']       = abs(df['close'] - df['open']) / df['open'] * 100
         df['upper_wick'] = (df['high'] - df[['open', 'close']].max(axis=1)) / df['open'] * 100
@@ -254,19 +220,15 @@ class LiquidationDetector:
         for i in df.index:
             row = df.loc[i]
             
-            # ① 振幅门槛
             if row['amplitude'] < min_amplitude_pct:
                 continue
             
-            # ② 实体足够小
             if row['body'] >= row['amplitude'] * body_ratio_threshold:
                 continue
             
-            # ③ 影线足够长
             has_upper = row['upper_wick'] > row['body'] * wick_ratio_threshold
             has_lower = row['lower_wick'] > row['body'] * wick_ratio_threshold
             
-            # ④ 回弹验证
             if has_upper and not has_lower:
                 if row['amplitude'] > 0:
                     if row['upper_wick'] / row['amplitude'] >= rebound_threshold:
@@ -302,37 +264,59 @@ class LiquidationDetector:
     
     # ========== 报告生成 ==========
     
+    def _debug_top_amplitude(self, df):
+        """调试：分析振幅最大的K线"""
+        if df.empty or 'amplitude' not in df.columns:
+            return
+        
+        top_row = df.loc[df['amplitude'].idxmax()]
+        max_wick = max(top_row['upper_wick'], top_row['lower_wick'])
+        wb_ratio = max_wick / max(top_row['body'], 0.0001)
+        
+        print(f"\n  {'─'*60}")
+        print(f"  🔍 振幅最大K线详细分析")
+        print(f"  {'─'*60}")
+        print(f"  时间:     {top_row['timestamp']}")
+        print(f"  开/高/低/收: {top_row['open']:.2f} / {top_row['high']:.2f} / {top_row['low']:.2f} / {top_row['close']:.2f}")
+        print(f"  振幅:     {top_row['amplitude']:.2f}%")
+        print(f"  实体:     {top_row['body']:.2f}%  (占振幅 {top_row['body']/max(top_row['amplitude'],0.001)*100:.1f}%)")
+        print(f"  影线/实体: {wb_ratio:.1f}倍")
+        print(f"  判定:     {'✅ 插针' if top_row['wick_score'] >= 0.8 else '❌ 非插针'}")
+        
+        if top_row['wick_score'] < 0.8:
+            reasons = []
+            if top_row['body'] >= top_row['amplitude'] * 0.5:
+                reasons.append("实体过大(真实单边行情)")
+            if wb_ratio < 5.0:
+                reasons.append("影线不够长")
+            print(f"  原因:     {', '.join(reasons) if reasons else '其他'}")
+    
     def print_report(self, df, score_threshold=0.8, show_debug=True):
         """
         打印完整检测报告
         """
         if df.empty or 'wick_score' not in df.columns:
             print("❌ 无有效数据")
-            return 0
+            return pd.DataFrame()
         
-        hits = df[df['wick_score'] >= score_threshold]
-        hit_count = len(hits)
+        hits = df[df['wick_score'] >= score_threshold].copy()
         
         print(f"\n{'='*70}")
         print(f"  📊 插针检测报告")
         print(f"{'='*70}")
         print(f"  📈 总K线数:   {len(df):,}")
-        print(f"  🎯 命中事件:  {hit_count}")
+        print(f"  🎯 命中事件:  {len(hits)}")
         print(f"  ✅ 误报数:    0")
-        print(f"  📐 检测阈值:  振幅≥{MIN_AMP}% | 实体<振幅×{BODY_RATIO} | 影线≥实体×{WICK_RATIO} | 回弹≥{REBOUND*100}%")
         print(f"{'='*70}")
         
-        # 调试：分析振幅最大的K线
         if show_debug and len(df) > 0:
             self._debug_top_amplitude(df)
         
-        if hit_count == 0:
+        if len(hits) == 0:
             print(f"\n  ✅ 未发现符合严格标准的插针事件。")
-            return 0
+            return hits
         
-        # 打印命中事件
-        print(f"\n  🔍 疑似恶意插针事件：\n")
-        print(f"  {'时间':<22} {'方向':<12} {'振幅':<8} {'实体':<8} {'上影':<8} {'下影':<8} {'得分':<6}")
+        print(f"\n  {'时间':<22} {'方向':<12} {'振幅':<8} {'实体':<8} {'上影':<8} {'下影':<8} {'得分':<6}")
         print(f"  {'-'*66}")
         
         for _, row in hits.iterrows():
@@ -341,24 +325,20 @@ class LiquidationDetector:
                   f"{row['upper_wick']:>5.2f}%   {row['lower_wick']:>5.2f}%   "
                   f"{row['wick_score']:.2f}")
         
-        # Top 5
+        top5 = hits.nlargest(5, 'amplitude')
         print(f"\n  {'='*70}")
-        print(f"  🏆 振幅最大 Top 5:")
+        print(f"  🔥 振幅最大 Top 5:")
         print(f"  {'='*70}")
-        for rank, (_, row) in enumerate(hits.nlargest(5, 'amplitude').iterrows(), 1):
-            print(f"    {rank}. {row['timestamp']} | {row['direction']} | {row['amplitude']:.2f}%")
+        for rank, (_, row) in enumerate(top5.iterrows(), 1):
+            print(f"    {rank}. {row['timestamp']} | {row['direction']} | 振幅:{row['amplitude']:.2f}%")
         
-        return hit_count
-
-        def generate_event_record(self, df, score_threshold=0.8, output_dir="events"):
+        return hits
+    
+    def generate_event_record(self, df, score_threshold=0.8, output_dir="events"):
         """
         将检测到的插针事件写入 JSON 文件，供未来链上验证使用。
         每条记录包含事件摘要和哈希指纹，确保不可篡改。
         """
-        import os
-        import json
-        import hashlib
-        
         if df.empty or 'wick_score' not in df.columns:
             return None
         
@@ -382,7 +362,6 @@ class LiquidationDetector:
                 "wick_score": float(row['wick_score']),
                 "detected_at": datetime.now().isoformat()
             }
-            # 生成事件指纹
             record['event_hash'] = hashlib.sha256(
                 json.dumps(record, sort_keys=True, default=str).encode()
             ).hexdigest()
@@ -398,32 +377,6 @@ class LiquidationDetector:
         print(f"\n  📝 已生成事件证据文件: {filename} ({len(records)} 条记录)")
         return filename
 
-    def _debug_top_amplitude(self, df):
-        """调试：分析振幅最大的K线"""
-        top_row = df.loc[df['amplitude'].idxmax()]
-        
-        print(f"\n  {'─'*60}")
-        print(f"  🔍 振幅最大K线详细分析")
-        print(f"  {'─'*60}")
-        print(f"  时间:     {top_row['timestamp']}")
-        print(f"  开/高/低/收: {top_row['open']:.2f} / {top_row['high']:.2f} / {top_row['low']:.2f} / {top_row['close']:.2f}")
-        print(f"  振幅:     {top_row['amplitude']:.2f}%")
-        print(f"  实体:     {top_row['body']:.2f}%  (占振幅 {top_row['body']/max(top_row['amplitude'],0.001)*100:.1f}%)")
-        
-        max_wick = max(top_row['upper_wick'], top_row['lower_wick'])
-        wb_ratio = max_wick / max(top_row['body'], 0.0001)
-        print(f"  影线/实体: {wb_ratio:.1f}倍  (需 ≥ {WICK_RATIO})")
-        print(f"  判定:     {'✅ 插针' if top_row['wick_score'] >= 0.8 else '❌ 非插针'}")
-        
-        if top_row['wick_score'] < 0.8:
-            print(f"  原因: ", end='')
-            reasons = []
-            if top_row['body'] >= top_row['amplitude'] * BODY_RATIO:
-                reasons.append("实体过大(真实单边行情)")
-            if wb_ratio < WICK_RATIO:
-                reasons.append("影线不够长")
-            print(', '.join(reasons) if reasons else '其他')
-
 
 # ============================================================
 # 自动获取历史数据
@@ -436,7 +389,6 @@ def auto_fetch_history(symbol_raw, date_str, timeframe):
     """
     print(f"\n📡 自动获取 {symbol_raw} {date_str} {timeframe} 历史数据...")
     
-    # 方式1: Binance 公开数据（现货）
     print("  [1/2] 尝试 Binance 公开数据...")
     detector = LiquidationDetector()
     df = detector.download_binance_public(date_str, symbol_raw, timeframe)
@@ -445,11 +397,10 @@ def auto_fetch_history(symbol_raw, date_str, timeframe):
         print(f"  ✅ Binance公开数据获取成功: {len(df)} 根K线")
         return df, 'binance_spot'
     
-    # 方式2: Gate.io API
     print("  [2/2] 尝试 Gate.io API...")
     symbol_slash = f"{symbol_raw[:-4]}/{symbol_raw[-4:]}" if symbol_raw.endswith('USDT') else symbol_raw
     detector_gate = LiquidationDetector(exchange_name='gate', symbol=symbol_slash)
-    df = detector_gate.fetch_ohlcv_gate_date(date_str, symbol_slash, timeframe, 'swap')
+    df = detector_gate.fetch_ohlcv_live(timeframe=timeframe, days_back=30, market_type='swap')
     
     if df is not None and len(df) > 0:
         print(f"  ✅ Gate.io API获取成功: {len(df)} 根K线")
@@ -465,7 +416,7 @@ def auto_fetch_history(symbol_raw, date_str, timeframe):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description='强平险插针检测引擎 v4.0',
+        description='强平险插针检测引擎 v4.2',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例:
@@ -479,45 +430,32 @@ def parse_args():
     parser.add_argument('--mode', type=str, default='live',
                         choices=['live', 'backtest', 'csv'],
                         help='运行模式: live=实时监控, backtest=历史回溯, csv=从文件分析')
-    
     parser.add_argument('--symbol', type=str, default='SOL/USDT',
                         help='交易对 (默认: SOL/USDT)')
-    
     parser.add_argument('--market', type=str, default='swap',
                         choices=['spot', 'swap'],
                         help='市场类型: spot=现货, swap=永续合约 (默认: swap)')
-    
     parser.add_argument('--days', type=int, default=30,
                         help='回溯天数 (默认: 30, 仅live模式)')
-    
     parser.add_argument('--date', type=str, default=None,
                         help='目标日期 YYYY-MM-DD (backtest模式)')
-    
     parser.add_argument('--timeframe', type=str, default='5m',
                         choices=['1m', '5m', '15m', '30m', '1h', '4h'],
                         help='K线周期 (默认: 5m)')
-    
     parser.add_argument('--amp', type=float, default=None,
-                        help='最低振幅阈值%% (默认: BTC=1.5, ETH=2.0, SOL=3.0)')
-    
+                        help='最低振幅阈值%% (默认: 根据币种自动选择)')
     parser.add_argument('--body_ratio', type=float, default=0.5,
                         help='实体/振幅比上限 (默认: 0.5)')
-    
     parser.add_argument('--wick_ratio', type=float, default=5.0,
                         help='影线/实体比下限 (默认: 5.0)')
-    
     parser.add_argument('--rebound', type=float, default=0.7,
                         help='回弹比例下限 (默认: 0.7)')
-    
     parser.add_argument('--file', type=str, default=None,
                         help='CSV文件路径 (csv模式)')
-    
     parser.add_argument('--exchange', type=str, default='gate',
                         help='交易所 (默认: gate)')
-    
     parser.add_argument('--no_debug', action='store_true',
                         help='关闭调试输出')
-    
     parser.add_argument('--cross_check', action='store_true',
                         help='启用交叉验证')
     
@@ -536,6 +474,8 @@ def get_default_amplitude(symbol):
         'SOL': 3.0,
         'DOGE': 4.0,
         'PEPE': 5.0,
+        'LAB': 5.0,
+        'TON': 3.0,
         'ARB': 3.0,
         'OP': 3.0,
         'SUI': 3.5,
@@ -544,7 +484,7 @@ def get_default_amplitude(symbol):
     for key, val in mapping.items():
         if key in symbol.upper():
             return val
-    return 2.5  # 默认值
+    return 2.5
 
 
 # ============================================================
@@ -554,14 +494,13 @@ def get_default_amplitude(symbol):
 if __name__ == "__main__":
     args = parse_args()
     
-    # 全局参数（供类方法使用）
     MIN_AMP = args.amp if args.amp else get_default_amplitude(args.symbol)
     BODY_RATIO = args.body_ratio
     WICK_RATIO = args.wick_ratio
     REBOUND = args.rebound
     
     print("=" * 70)
-    print("  🛡️  强平险插针检测引擎 v4.0")
+    print("  🛡️  强平险插针检测引擎 v4.2")
     print("  Liquidation Wick Detector for DeFi Insurance")
     print("=" * 70)
     print(f"  模式:     {args.mode}")
@@ -571,7 +510,9 @@ if __name__ == "__main__":
     print(f"  振幅阈值: {MIN_AMP}%")
     print("=" * 70)
     
-    # ========== 模式1: CSV文件分析 ==========
+    detector = LiquidationDetector(exchange_name=args.exchange, symbol=args.symbol)
+    
+    # ========== CSV模式 ==========
     if args.mode == 'csv':
         if not args.file:
             print("❌ csv模式需要指定 --file 参数")
@@ -585,7 +526,6 @@ if __name__ == "__main__":
             print(f"❌ 读取失败: {e}")
             sys.exit(1)
         
-        # 处理时间列
         time_col = None
         for col in df.columns:
             if col.lower() in ['time', 'timestamp', 'datetime', 'date']:
@@ -596,7 +536,6 @@ if __name__ == "__main__":
         else:
             df['timestamp'] = df.index
         
-        # 列名映射
         col_map = {}
         for orig_col in df.columns:
             low = orig_col.lower().strip()
@@ -605,35 +544,29 @@ if __name__ == "__main__":
         if col_map:
             df = df.rename(columns=col_map)
         
-        detector = LiquidationDetector()
         df_scored = detector.detect_wicks(df, MIN_AMP, BODY_RATIO, WICK_RATIO, REBOUND)
         detector.print_report(df_scored, show_debug=not args.no_debug)
-        # 生成链上验证证据文件
-        detector.generate_event_record(df_scored, score_threshold=0.8)    
-    # ========== 模式2: 历史回溯 ==========
+        detector.generate_event_record(df_scored, score_threshold=0.8)
+    
+    # ========== 历史回溯模式 ==========
     elif args.mode == 'backtest':
         if not args.date:
             print("❌ backtest模式需要指定 --date YYYY-MM-DD")
             sys.exit(1)
         
-        # 转换符号格式: SOL/USDT → SOLUSDT
         symbol_raw = args.symbol.replace('/', '')
-        
         df, source = auto_fetch_history(symbol_raw, args.date, args.timeframe)
         
         if df is None:
             sys.exit(1)
         
         print(f"  数据来源: {source}")
-        detector = LiquidationDetector()
         df_scored = detector.detect_wicks(df, MIN_AMP, BODY_RATIO, WICK_RATIO, REBOUND)
         detector.print_report(df_scored, show_debug=not args.no_debug)
-        # 生成链上验证证据文件
         detector.generate_event_record(df_scored, score_threshold=0.8)
-    # ========== 模式3: 实时监控 ==========
+    
+    # ========== 实时监控模式 ==========
     else:
-        detector = LiquidationDetector(exchange_name=args.exchange, symbol=args.symbol)
-        
         print(f"\n📡 正在抓取 {args.exchange} {args.symbol} {args.market} {args.timeframe}K线 (近{args.days}天)...")
         df = detector.fetch_ohlcv_live(
             timeframe=args.timeframe,
@@ -649,11 +582,10 @@ if __name__ == "__main__":
         print(f"🔬 扫描中 (最小振幅: {MIN_AMP}%)...")
         
         df_scored = detector.detect_wicks(df, MIN_AMP, BODY_RATIO, WICK_RATIO, REBOUND)
-        hit_count = detector.print_report(df_scored, show_debug=not args.no_debug)
-        # 生成链上验证证据文件
+        detector.print_report(df_scored, show_debug=not args.no_debug)
         detector.generate_event_record(df_scored, score_threshold=0.8)
-        # 交叉验证
-        if args.cross_check and hit_count > 0:
+        
+        if args.cross_check:
             print(f"\n{'='*70}")
             print(f"🔗 交叉验证: {args.exchange} vs OKX")
             print(f"{'='*70}")
