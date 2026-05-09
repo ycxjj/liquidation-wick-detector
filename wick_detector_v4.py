@@ -109,7 +109,7 @@ class LiquidationDetector:
                     request_count += 1
                     ohlcv = self.exchange.fetch_ohlcv(
                         self.symbol, timeframe, since=since,
-                        limit=max_per_request, params=params
+                        limit=1000, params=params
                     )
                     success = True
                     
