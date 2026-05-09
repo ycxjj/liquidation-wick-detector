@@ -4,7 +4,7 @@
 >
 > 为散户合约交易者建立第一道防线。
 
-[!GitHub release (latest by date)](https://img.shields.io/github/v/release/ycxjj/liquidation-wick-detector)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/ycxjj/liquidation-wick-detector)
 ![GitHub stars](https://img.shields.io/github/stars/ycxjj/liquidation-wick-detector?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/ycxjj/liquidation-wick-detector?style=social)
 ![GitHub license](https://img.shields.io/github/license/ycxjj/liquidation-wick-detector)
@@ -24,12 +24,13 @@
 
 ### 📊 核心验证数据
 
-| 指标 | 数值 |
+| **指标** | **数值** |
 | :--- | :--- |
-| 总验证K线数 | **43,200+** |
-| 误报数 | **0** |
-| 命中事件 | **97+** (LAB专项，标准参数下20次) |
-| 支持交易所 | 币安 / 欧易 / Gate.io (677+ 合约) |
+| **总验证K线数** | **43,200+** |
+| **误报数** | **0** |
+| **命中事件** | **97+** (LAB专项，标准参数下20次) |
+| **支持交易所** | 币安 / 欧易 / Gate.io (677+ 合约) |
+
 ---
 
 ## ⚠️ 免责声明 (Disclaimer)
