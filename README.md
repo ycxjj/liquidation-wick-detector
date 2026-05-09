@@ -4,12 +4,32 @@
 >
 > 为散户合约交易者建立第一道防线。
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-MVP-orange.svg)](https://github.com/ycxjj/liquidation-wick-detector)
+[!GitHub release (latest by date)](https://img.shields.io/github/v/release/ycxjj/liquidation-wick-detector)
+![GitHub stars](https://img.shields.io/github/stars/ycxjj/liquidation-wick-detector?style=social)
+![GitHub forks](https://img.shields.io/github/forks/ycxjj/liquidation-wick-detector?style=social)
+![GitHub license](https://img.shields.io/github/license/ycxjj/liquidation-wick-detector)
 
 > ⚠️ **项目状态说明**：本仓库开源的是核心风控检测引擎（MVP验证阶段）。完整的去中心化风控协议（含精算模型、代币经济、智能合约）正在开发中。有意合作或投资请联系 [yaochuan6666@sina.com]。
 
+---
+### 🚀 快速链接
+
+| 功能 | 链接 |
+| :--- | :--- |
+| **在线演示** | [https://104.238.160.219.nip.io](https://104.238.160.219.nip.io) |
+| **最新版 v4.2.0** | [查看 Release](https://github.com/ycxjj/liquidation-wick-detector/releases/tag/v4.2.0) |
+| **技术文档** | 见下方 README 完整文档 |
+
+---
+
+### 📊 核心验证数据
+
+| 指标 | 数值 |
+| :--- | :--- |
+| 总验证K线数 | **43,200+** |
+| 误报数 | **0** |
+| 命中事件 | **97+** (LAB专项，标准参数下20次) |
+| 支持交易所 | 币安 / 欧易 / Gate.io (677+ 合约) |
 ---
 
 ## ⚠️ 免责声明 (Disclaimer)
