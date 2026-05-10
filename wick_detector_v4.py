@@ -107,8 +107,13 @@ class LiquidationDetector:
             while retry_count < max_retries and not success:
                 try:
                     request_count += 1
+                    # OKX 需要特殊格式：RAVE/USDT:USDT
+                    symbol_to_fetch = self.symbol
+                    if hasattr(self, 'exchange_name') and self.exchange_name == 'okx' and ':USDT' not in symbol_to_fetch:
+                        symbol_to_fetch = symbol_to_fetch + ':USDT'
+
                     ohlcv = self.exchange.fetch_ohlcv(
-                        self.symbol, timeframe, since=since,
+                        symbol_to_fetch, timeframe, since=since,
                         limit=1000, params=params
                     )
                     success = True

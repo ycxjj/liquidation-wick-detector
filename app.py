@@ -145,8 +145,25 @@ def api_detect():
     sp='/root/liquidation-wick-detector/wick_detector_v4.py'
     if not os.path.exists(sp): return jsonify({"status":"error","message":"脚本未找到"}),500
     try:
-        r=subprocess.run(['python3',sp,'--exchange',ex,'--mode','live','--symbol',sym,'--timeframe',tf,'--days',str(d),'--amp',str(a),'--no_debug'],capture_output=True,text=True,timeout=600,cwd='/root/liquidation-wick-detector')
-        o=r.stdout; tk=0; hc=0; te=[]
+        r = subprocess.run(
+            ['python3', sp,
+             '--exchange', ex,
+             '--mode', 'live',
+             '--symbol', sym,
+             '--timeframe', tf,
+             '--days', str(d),
+             '--amp', str(a),
+             '--no_debug'],
+            capture_output=True,
+            text=True,
+            timeout=600,
+            cwd='/root/liquidation-wick-detector',
+            env={**os.environ, 'PYTHONUNBUFFERED': '1'}
+        )
+        o=r.stdout.strip()
+        if not o:
+            return jsonify({"status":"error","message":"脚本无输出","stderr":r.stderr[:500]})
+        tk=0; hc=0; te=[]
         km=re.search(r'总K线数:\s+([\d,]+)',o); hm=re.search(r'命中事件:\s+(\d+)',o)
         if km: tk=int(km.group(1).replace(',',''))
         if hm: hc=int(hm.group(1))
