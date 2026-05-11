@@ -1,0 +1,30 @@
+# 用法：把下面片段放进站点 server { } 里（与 HTTPS listen 443 同一块）。
+# 若已有 location / { proxy_pass ... }，请额外增加本 location /api/，
+# Nginx 会优先匹配更长前缀 /api/。
+#
+# 数值说明：Flask 里 subprocess 最长 600s，这里留 650s 余量。
+# 改完后执行：sudo nginx -t && sudo systemctl reload nginx
+
+location /api/ {
+    proxy_pass http://127.0.0.1:5000;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_connect_timeout 60s;
+    proxy_send_timeout 650s;
+    proxy_read_timeout 650s;
+}
+
+# 若你当前只有「整站」一条 proxy（例如 location /），也必须拉长等待时间，
+# 否则 /api/detect 仍会先被 60s 默认超时掐断：
+#
+# location / {
+#     proxy_pass http://127.0.0.1:5000;
+#     proxy_connect_timeout 60s;
+#     proxy_send_timeout 650s;
+#     proxy_read_timeout 650s;
+#     ...
+# }

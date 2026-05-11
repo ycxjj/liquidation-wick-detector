@@ -86,6 +86,12 @@ class LiquidationDetector:
             print("❌ 交易所未初始化")
             return pd.DataFrame()
         
+        # 一次性加载 markets，避免首次 fetch_ohlcv 内嵌触发带来的额外等待与重复逻辑
+        try:
+            self.exchange.load_markets()
+        except Exception:
+            pass
+        
         max_per_request = 8000
         all_frames = []
         max_retries = 5  # 最大重试次数
