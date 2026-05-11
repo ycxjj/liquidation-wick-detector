@@ -63,7 +63,7 @@ td.num{font-variant-numeric:tabular-nums}
 td.amp{color:#f7931a;font-weight:600}
 .sym{font-weight:600;color:var(--text)}
 .empty{text-align:center;padding:36px 16px;color:var(--muted)}
-.err{color:var(--danger);font-size:.8rem}
+.err{color:#888;font-size:.8rem;cursor:help}
 .form-row{display:flex;gap:12px;flex-wrap:wrap}
 .form-group{flex:1;min-width:150px;margin-bottom:12px}
 label{display:block;margin-bottom:5px;color:var(--muted);font-size:.85rem}
@@ -244,7 +244,9 @@ function buildTable(rows){
     var hit=r.hit_count>0;
     h+='<tr class="'+(hit?'row-hit':'')+'"><td class="num">'+r.rank_vol+'</td><td class="sym">'+r.symbol+'</td><td class="num">'+fmtVol(r.quote_volume)+'</td>';
     h+='<td class="num">'+(r.total_klines||0)+'</td><td class="num">'+(r.hit_count||0)+'</td><td class="amp">'+(r.max_amplitude!=null?r.max_amplitude+'%':'—')+'</td><td>';
-    if(r.error){h+='<span class="err">'+r.error+'</span>';}
+    if(r.error){
+      h+='<span class="err" title="'+r.error.replace(/"/g,'&quot;')+'">数据异常</span>';
+    }
     else if(r.hits&&r.hits.length){
       h+='<details class="hit-detail"><summary>'+r.hits.length+' 条事件</summary><div class="details">';
       r.hits.forEach(function(e){h+=e.timestamp+' '+e.direction+' '+e.amplitude+'%<br>';});
@@ -335,7 +337,15 @@ function loadDaily(){
     document.getElementById('dailyBody').innerHTML='<div class="empty">加载失败</div>';
   });
 }
-document.getElementById('btnRefreshDaily').onclick=function(){fillDatePick();loadDaily();};
+document.getElementById('btnRefreshDaily').onclick=function(){
+  var b=document.getElementById('btnRefreshDaily');
+  var orig=b.textContent;
+  b.disabled=true;
+  b.textContent='刷新中…';
+  fillDatePick();
+  loadDaily();
+  setTimeout(function(){b.disabled=false;b.textContent=orig;},800);
+};
 document.getElementById('dailyDatePick').onchange=function(){
   document.getElementById('dailyDateManual').value='';
   loadDaily();

@@ -111,8 +111,21 @@ def get_hot_symbols_usdm(exchange_id: str, limit: int) -> List[Tuple[str, float]
         clean = _normalize_symbol(sid)
         if not clean.endswith("/USDT"):
             continue
-        qv = float(t.get("quoteVolume") or 0) or 0.0
-        pairs.append((clean, qv))
+        # 尝试多个字段：quoteVolume, baseVolume * last
+        qv = 0.0
+        if t.get("quoteVolume"):
+            qv = float(t.get("quoteVolume") or 0)
+        elif t.get("baseVolume") and t.get("last"):
+            qv = float(t.get("baseVolume") or 0) * float(t.get("last") or 0)
+        elif t.get("info") and isinstance(t.get("info"), dict):
+            # 欧易可能在 info 里
+            info = t.get("info")
+            if info.get("volCcy24h"):
+                qv = float(info.get("volCcy24h") or 0)
+            elif info.get("vol24h") and info.get("last"):
+                qv = float(info.get("vol24h") or 0) * float(info.get("last") or 0)
+        if qv > 0:
+            pairs.append((clean, qv))
     pairs.sort(key=lambda x: -x[1])
     out: List[Tuple[str, float]] = []
     seen = set()
