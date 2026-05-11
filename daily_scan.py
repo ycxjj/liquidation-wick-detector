@@ -31,7 +31,7 @@ EXCHANGE_ID = os.environ.get("DAILY_HOT_EXCHANGE", "binanceusdm")
 
 
 def _daily_exchange_ids() -> List[str]:
-    raw = os.environ.get("DAILY_EXCHANGES", "binanceusdm,okx,gate")
+    raw = os.environ.get("DAILY_EXCHANGES", "binanceusdm,okx,gate,bybit,mexc,bitget")
     return [x.strip() for x in raw.split(",") if x.strip()]
 
 
@@ -39,6 +39,9 @@ EXCHANGE_LABELS = {
     "binanceusdm": "币安 USDM",
     "okx": "欧易",
     "gate": "Gate.io",
+    "bybit": "Bybit",
+    "mexc": "MEXC",
+    "bitget": "Bitget",
 }
 
 _job_lock = threading.Lock()
@@ -94,22 +97,30 @@ def _normalize_symbol(sym: str) -> str:
 def get_hot_symbols_usdm(exchange_id: str, limit: int) -> List[Tuple[str, float]]:
     import ccxt
 
-    ex = getattr(ccxt, exchange_id)(
-        {"enableRateLimit": True, "timeout": 30000, "options": {"defaultType": "swap"}}
-    )
-    ex.load_markets()
-    tickers = ex.fetch_tickers()
+    try:
+        ex = getattr(ccxt, exchange_id)(
+            {"enableRateLimit": True, "timeout": 30000, "options": {"defaultType": "swap"}}
+        )
+        ex.load_markets()
+        tickers = ex.fetch_tickers()
+    except Exception as e:
+        raise RuntimeError(f"无法获取热门合约列表: {exchange_id} - {type(e).__name__}: {str(e)[:100]}")
+    
     pairs: List[Tuple[str, float]] = []
     for sid, t in tickers.items():
         m = ex.markets.get(sid)
         if not m:
             continue
+        # 支持永续合约和线性合约
         if not (m.get("swap") or m.get("linear")):
             continue
-        if m.get("quote") != "USDT":
+        # 支持 USDT、USD、USDC 计价
+        quote = m.get("quote")
+        if quote not in ("USDT", "USD", "USDC"):
             continue
         clean = _normalize_symbol(sid)
-        if not clean.endswith("/USDT"):
+        # 接受 /USDT、/USD、/USDC 结尾
+        if not (clean.endswith("/USDT") or clean.endswith("/USD") or clean.endswith("/USDC")):
             continue
         # 尝试多个字段：quoteVolume, baseVolume * last
         qv = 0.0
@@ -126,6 +137,10 @@ def get_hot_symbols_usdm(exchange_id: str, limit: int) -> List[Tuple[str, float]
                 qv = float(info.get("vol24h") or 0) * float(info.get("last") or 0)
         if qv > 0:
             pairs.append((clean, qv))
+    
+    if not pairs:
+        raise RuntimeError(f"无法获取热门合约列表: {exchange_id} - 没有找到符合条件的永续合约（USDT/USD/USDC）")
+    
     pairs.sort(key=lambda x: -x[1])
     out: List[Tuple[str, float]] = []
     seen = set()
@@ -164,6 +179,8 @@ def fetch_ohlcv_calendar_day(
 
     sym = symbol
     if exchange_id == "okx" and ":USDT" not in sym:
+        sym = sym + ":USDT"
+    elif exchange_id == "bybit" and ":USDT" not in sym:
         sym = sym + ":USDT"
 
     chunks: list = []

@@ -121,11 +121,11 @@ details.hit-detail{margin-top:6px}
   <div id="p1" class="panel show">
     <div class="card">
       <h2>热门榜插针概览 <span class="badge" id="jobBadge">—</span></h2>
-      <p class="meta">每日 <strong>08:00（Asia/Shanghai）</strong> 依次对 <strong>币安 / 欧易 / Gate</strong> 三家 USDT 永续市场分别取 <strong>24h 成交额 Top100</strong>，
+      <p class="meta">每日 <strong>08:00（Asia/Shanghai）</strong> 依次对 <strong>币安 / 欧易 / Gate / Bybit / MEXC / Bitget</strong> 六家 USDT 永续市场分别取 <strong>24h 成交额 Top100</strong>，
       对<strong>前一自然日</strong>整日 K 线做插针扫描（规则与下方自选一致）。下方分 Tab 查看各所数据；首次可手动触发生成。</p>
       <div class="toolbar">
         <button type="button" class="btn ghost" id="btnRefreshDaily">刷新数据</button>
-        {% if is_admin %}<button type="button" class="btn" id="btnRunDaily">后台生成昨日日报（三所）</button>{% endif %}
+        {% if is_admin %}<button type="button" class="btn" id="btnRunDaily">后台生成昨日日报（六所）</button>{% endif %}
         <label class="chk"><input type="checkbox" id="onlyHits"> 仅显示有插针命中</label>
       </div>
       <div class="date-bar">
@@ -141,6 +141,9 @@ details.hit-detail{margin-top:6px}
         <button type="button" class="ex-tab on" data-ex="binanceusdm">币安 USDM</button>
         <button type="button" class="ex-tab" data-ex="okx">欧易</button>
         <button type="button" class="ex-tab" data-ex="gate">Gate.io</button>
+        <button type="button" class="ex-tab" data-ex="bybit">Bybit</button>
+        <button type="button" class="ex-tab" data-ex="mexc">MEXC</button>
+        <button type="button" class="ex-tab" data-ex="bitget">Bitget</button>
       </div>
       <div id="dailyMetaEx" class="meta"></div>
       <div id="dailyBody"><div class="empty">加载中…</div></div>
@@ -153,7 +156,7 @@ details.hit-detail{margin-top:6px}
       <form id="f" autocomplete="off">
         <div class="form-row">
           <div class="form-group"><label>交易所</label>
-            <select id="ex"><option value="binanceusdm" selected>币安</option><option value="okx">欧易</option><option value="gate">Gate.io</option></select></div>
+            <select id="ex"><option value="binanceusdm" selected>币安</option><option value="okx">欧易</option><option value="gate">Gate.io</option><option value="bybit">Bybit</option><option value="mexc">MEXC</option><option value="bitget">Bitget</option></select></div>
           <div class="form-group" style="position:relative"><label>交易对</label>
             <input type="text" id="sym" placeholder="加载中…" autocomplete="off"><div id="dd" class="dd"></div></div>
           <div class="form-group"><label>K线周期</label>
@@ -176,7 +179,7 @@ details.hit-detail{margin-top:6px}
 (function(){
 var sym=document.getElementById('sym'),dd=document.getElementById('dd'),ex=document.getElementById('ex'),btn=document.getElementById('btn'),res=document.getElementById('res');
 var all=[],loading=false,pollT=null,prevJobRunning=false;
-var EX_NAMES={binanceusdm:'币安 USDM',okx:'欧易',gate:'Gate.io'};
+var EX_NAMES={binanceusdm:'币安 USDM',okx:'欧易',gate:'Gate.io',bybit:'Bybit',mexc:'MEXC',bitget:'Bitget'};
 var __reports=null,currentDailyEx='binanceusdm';
 
 function showModal(msg){
@@ -221,7 +224,15 @@ function startPoll(){
         el.textContent='就绪';
         el.className='badge';
         if(hint)hint.style.display='none';
-        if(d.last_error){el.textContent='上次异常';el.title=d.last_error;}
+        if(d.last_error){
+          el.textContent='上次异常';
+          el.title='点击查看详情';
+          el.style.cursor='pointer';
+          el.onclick=function(){showModal('上次后台生成日报时发生错误：\n\n'+d.last_error);};
+        }else{
+          el.style.cursor='default';
+          el.onclick=null;
+        }
       }
     }).catch(function(){}).finally(function(){
       if(document.getElementById('p1').classList.contains('show'))
@@ -376,7 +387,7 @@ document.getElementById('btnRunDaily').onclick=function(){
       return;
     }
     if(d.started){
-      showModal('已在后台开始依次扫描「币安 → 欧易 → Gate」昨日热门 Top100。\n请勿重复点击；进度见标题旁徽章与本页橙色提示。');
+      showModal('已在后台开始依次扫描「币安 → 欧易 → Gate → Bybit → MEXC → Bitget」昨日热门 Top100。\n请勿重复点击；进度见标题旁徽章与本页橙色提示。');
       startPoll();
     }else{
       showModal(d.message||'未启动（可能已有任务在运行）');
@@ -387,8 +398,32 @@ document.getElementById('btnRunDaily').onclick=function(){
 
 async function loadSym(){if(loading)return;loading=true;sym.value='';sym.placeholder='加载中…';dd.style.display='none';
 try{var r=await fetch('/api/symbols?exchange='+ex.value);var d=await r.json();
-if(d.status==='success'&&d.symbols.length>0){all=d.symbols;sym.placeholder='搜索（'+d.count+'个合约）';sym.value=all.includes('SOL/USDT')?'SOL/USDT':all[0];}
-else{sym.placeholder='加载失败';}}catch(e){sym.placeholder='加载失败';}loading=false;}
+if(d.status==='success'&&d.symbols.length>0){
+  all=d.symbols;
+  sym.placeholder='搜索（'+d.count+'个合约）';
+  // 优先选择常见币种，避免选到 PERP 这种奇怪的
+  var defaultSym=null;
+  var priority=['SOL','BTC','ETH','DOGE','XRP','ADA','MATIC','AVAX','DOT','LINK'];
+  var suffixes=['/USDT','/USD','/USDC'];
+  for(var i=0;i<priority.length;i++){
+    for(var j=0;j<suffixes.length;j++){
+      var candidate=priority[i]+suffixes[j];
+      if(all.includes(candidate)){defaultSym=candidate;break;}
+    }
+    if(defaultSym)break;
+  }
+  // 如果还没找到，选第一个不是 PERP 开头的
+  if(!defaultSym){
+    for(var k=0;k<all.length;k++){
+      if(!all[k].startsWith('PERP')){defaultSym=all[k];break;}
+    }
+  }
+  // 实在没办法就选第一个
+  if(!defaultSym)defaultSym=all[0];
+  sym.value=defaultSym;
+}
+else if(d.status==='error'){sym.placeholder='不支持';console.error('加载交易对失败:',d.message);showModal(d.message);}
+else{sym.placeholder='加载失败';}}catch(e){sym.placeholder='加载失败';console.error('加载交易对异常:',e);}loading=false;}
 loadSym();ex.addEventListener('change',loadSym);
 function rd(m){if(!m.length){dd.innerHTML='<div style="padding:10px;color:#8892b0;text-align:center">无匹配</div>';}else{dd.innerHTML=m.map(function(s,i){return '<div data-s="'+s+'">'+s+'</div>';}).join('');}dd.style.display='block';}
 function fs(q){if(!q)return all.slice(0,120);var qq=q.toUpperCase();return all.filter(function(s){return s.toUpperCase().indexOf(qq)>=0;}).slice(0,60);}
@@ -405,8 +440,18 @@ res.innerHTML='<div class="loading"><div class="spinner"></div><p>抓取 '+sv+' 
 elapsedTimer=setInterval(function(){sec++;var el=document.getElementById('elapsed'),big=document.getElementById('elapsedBig');if(big)big.textContent=sec+' 秒';if(el)el.textContent='已等待 '+sec+' 秒';},1000);
 var p=new URLSearchParams({exchange:ex.value,symbol:sv,timeframe:document.getElementById('tf').value,days:document.getElementById('d').value,amp:document.getElementById('a').value});
 try{
-var r=await fetch('/api/detect?'+p.toString());var d=await r.json();
-if(d.status==='error'){res.innerHTML='<div class="error-box"><h3>错误</h3><p>'+d.message+'</p></div>';}
+var r=await fetch('/api/detect?'+p.toString(),{signal:AbortSignal.timeout(620000)});
+if(!r.ok){
+  var errData=await r.json().catch(function(){return {message:'服务器响应错误 '+r.status};});
+  res.innerHTML='<div class="error-box"><h3>错误</h3><p>'+(errData.message||'请求失败')+'</p></div>';
+  return;
+}
+var d=await r.json();
+if(d.status==='error'){
+  var errMsg=d.message||'未知错误';
+  if(d.stderr)errMsg+='<br><small style="color:#888">'+d.stderr+'</small>';
+  res.innerHTML='<div class="error-box"><h3>检测失败</h3><p>'+errMsg+'</p><p class="hint">可能原因：网络问题、交易所限流、数据不足。请稍后重试或换个交易对。</p></div>';
+}
 else{
 var h='<div class="result-card"><h3>'+d.symbol+' 报告</h3><div class="result-stats">';
 h+='<div class="stat"><span class="n">'+d.total_klines.toLocaleString()+'</span><div class="lb">K线</div></div>';
@@ -416,7 +461,12 @@ if(d.hit_count>0&&d.top_events&&d.top_events.length){h+='<table><tr><th>时间</
 d.top_events.forEach(function(ev){h+='<tr><td>'+ev.timestamp+'</td><td>'+ev.direction+'</td><td class="amp">'+ev.amplitude+'%</td></tr>';});
 h+='</table>';}else{h+='<p style="color:var(--accent);margin-top:8px">未发现命中</p>';}
 h+='</div>';res.innerHTML=h;
-}}catch(err){res.innerHTML='<div class="error-box"><h3>失败</h3><p>'+(err&&err.message?err.message:'请求失败')+'</p></div>';}
+}}catch(err){
+  var errMsg='网络请求失败';
+  if(err.name==='TimeoutError')errMsg='请求超时（>10分钟），请减少回溯天数或换个交易对';
+  else if(err.message)errMsg=err.message;
+  res.innerHTML='<div class="error-box"><h3>失败</h3><p>'+errMsg+'</p><p class="hint">建议：减少回溯天数、检查网络连接、或稍后重试。</p></div>';
+}
 finally{if(elapsedTimer)clearInterval(elapsedTimer);btn.disabled=false;btn.textContent='开始检测';}});
 
 fillDatePick();
@@ -447,25 +497,53 @@ def api_symbols():
     try:
         import ccxt
 
-        ex = getattr(ccxt, eid)({"enableRateLimit": True, "timeout": 30000})
+        ex = getattr(ccxt, eid)({"enableRateLimit": True, "timeout": 30000, "options": {"defaultType": "swap"}})
         ex.load_markets(reload=True)
         syms = []
+        
         for s, m in ex.markets.items():
-            if (m.get("swap") or m.get("type") == "swap" or m.get("linear")) and (
-                "/USDT" in s or s.endswith(":USDT")
-            ):
-                clean = s.split(":")[0] if ":" in s else s
-                if clean.endswith("/USDT"):
-                    syms.append(clean)
+            # 放宽条件：只要是衍生品市场就可以
+            market_type = m.get("type", "")
+            is_derivative = (
+                m.get("swap") or 
+                m.get("linear") or 
+                market_type in ("swap", "future", "delivery") or
+                m.get("future") or
+                m.get("contract")
+            )
+            if not is_derivative:
+                continue
+            
+            # 支持 USDT、USD、USDC 计价
+            quote = m.get("quote")
+            if quote not in ("USDT", "USD", "USDC"):
+                continue
+            
+            clean = s.split(":")[0] if ":" in s else s
+            # 接受 /USDT、/USD、/USDC 结尾
+            if clean.endswith("/USDT") or clean.endswith("/USD") or clean.endswith("/USDC"):
+                syms.append(clean)
+        
+        if not syms:
+            return jsonify(
+                {
+                    "status": "error",
+                    "message": f"{eid} 没有找到支持的永续合约（USDT/USD/USDC）",
+                    "symbols": [],
+                    "count": 0,
+                }
+            )
+        
         return jsonify(
             {"status": "success", "symbols": sorted(list(set(syms))), "count": len(syms)}
         )
-    except Exception:
+    except Exception as e:
         return jsonify(
             {
-                "status": "success",
-                "symbols": ["BTC/USDT", "ETH/USDT", "SOL/USDT", "DOGE/USDT"],
-                "count": 4,
+                "status": "error",
+                "message": f"{type(e).__name__}: {str(e)[:150]}",
+                "symbols": [],
+                "count": 0,
             }
         )
 
@@ -478,11 +556,11 @@ def api_detect():
     d = request.args.get("days", "3")
     a = request.args.get("amp", "3.0")
     if not sym or "/" not in sym:
-        return jsonify({"status": "error", "message": "格式错误"}), 400
+        return jsonify({"status": "error", "message": "交易对格式错误"}), 400
     base = os.path.dirname(os.path.abspath(__file__))
     sp = os.path.join(base, "wick_detector_v4.py")
     if not os.path.exists(sp):
-        return jsonify({"status": "error", "message": "脚本未找到: " + sp}), 500
+        return jsonify({"status": "error", "message": "检测脚本未找到"}), 500
     py = os.environ.get("PYTHON", "python3")
     try:
         r = subprocess.run(
@@ -509,11 +587,28 @@ def api_detect():
             cwd=base,
             env={**os.environ, "PYTHONUNBUFFERED": "1"},
         )
+        
+        # 检查返回码
+        if r.returncode != 0:
+            err_msg = r.stderr.strip() if r.stderr else "脚本执行失败"
+            return jsonify(
+                {
+                    "status": "error",
+                    "message": f"执行失败: {err_msg[:200]}",
+                    "returncode": r.returncode,
+                }
+            ), 500
+        
         o = r.stdout.strip()
         if not o:
             return jsonify(
-                {"status": "error", "message": "脚本无输出", "stderr": r.stderr[:500]}
-            )
+                {
+                    "status": "error",
+                    "message": "脚本无输出，可能是网络问题或交易所限流",
+                    "stderr": r.stderr[:300] if r.stderr else "",
+                }
+            ), 500
+        
         tk, hc, te = 0, 0, []
         km = re.search(r"总K线数:\s+([\d,]+)", o)
         hm = re.search(r"命中事件:\s+(\d+)", o)
