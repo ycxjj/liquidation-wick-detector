@@ -387,6 +387,76 @@ def _write_daily_json_file(
     return path
 
 
+def _git_auto_commit(report_date: date) -> None:
+    """自动提交数据到 GitHub"""
+    try:
+        import subprocess
+        
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        date_str = report_date.strftime("%Y-%m-%d")
+        
+        # 检查是否是 git 仓库
+        result = subprocess.run(
+            ["git", "rev-parse", "--git-dir"],
+            cwd=base_dir,
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        if result.returncode != 0:
+            print(f"[git] 不是 Git 仓库，跳过自动提交")
+            return
+        
+        # 添加数据文件
+        subprocess.run(
+            ["git", "add", "data/reports/", "data/wick_daily.db"],
+            cwd=base_dir,
+            capture_output=True,
+            timeout=30
+        )
+        
+        # 检查是否有变更
+        result = subprocess.run(
+            ["git", "diff", "--cached", "--quiet"],
+            cwd=base_dir,
+            capture_output=True,
+            timeout=10
+        )
+        
+        if result.returncode == 0:
+            print(f"[git] 没有数据变更，跳过提交")
+            return
+        
+        # 提交
+        commit_msg = f"chore: update daily reports for {date_str}"
+        subprocess.run(
+            ["git", "commit", "-m", commit_msg],
+            cwd=base_dir,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        
+        # 推送到远程
+        result = subprocess.run(
+            ["git", "push"],
+            cwd=base_dir,
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+        
+        if result.returncode == 0:
+            print(f"[git] ✅ 成功提交并推送数据: {date_str}")
+        else:
+            print(f"[git] ⚠️ 推送失败: {result.stderr}")
+            
+    except subprocess.TimeoutExpired:
+        print(f"[git] ⚠️ Git 操作超时")
+    except Exception as e:
+        print(f"[git] ⚠️ Git 自动提交失败: {e}")
+
+
 def job_worker(report_date: Optional[date] = None) -> None:
     with _job_lock:
         if JOB_STATE["running"]:
@@ -398,6 +468,7 @@ def job_worker(report_date: Optional[date] = None) -> None:
         JOB_STATE["phase_exchange"] = None
         JOB_STATE["phase_index"] = None
     exlist = _daily_exchange_ids()
+    actual_report_date = report_date or (date.today() - timedelta(days=1))
     try:
         errs: List[str] = []
         for i, exid in enumerate(exlist):
@@ -408,6 +479,11 @@ def job_worker(report_date: Optional[date] = None) -> None:
             except Exception:
                 errs.append(f"{exid}: {traceback.format_exc()}")
                 JOB_STATE["last_error"] = "\n---\n".join(errs)
+        
+        # 所有交易所扫描完成后，自动提交到 GitHub
+        if not errs or len(errs) < len(exlist):  # 至少有一个成功
+            _git_auto_commit(actual_report_date)
+            
     except Exception:
         JOB_STATE["last_error"] = traceback.format_exc()
     finally:
