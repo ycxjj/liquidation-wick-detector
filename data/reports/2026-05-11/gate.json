@@ -1,0 +1,1094 @@
+{
+  "report_date": "2026-05-11",
+  "exchange": "gate",
+  "generated_at": "2026-05-12T09:34:12+08:00",
+  "symbol_count": 100,
+  "with_hits_count": 10,
+  "rows": [
+    {
+      "rank_vol": 1,
+      "symbol": "BTC/USDT",
+      "quote_volume": 4378648340.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.7699,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 2,
+      "symbol": "ETH/USDT",
+      "quote_volume": 3802074729.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.0049,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 3,
+      "symbol": "SOL/USDT",
+      "quote_volume": 802608934.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.4329,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 4,
+      "symbol": "XRP/USDT",
+      "quote_volume": 219625096.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.71,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 5,
+      "symbol": "XAG/USDT",
+      "quote_volume": 214798093.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol XAG/USDT"
+    },
+    {
+      "rank_vol": 6,
+      "symbol": "XAU/USDT",
+      "quote_volume": 178585793.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol XAU/USDT"
+    },
+    {
+      "rank_vol": 7,
+      "symbol": "DOGE/USDT",
+      "quote_volume": 122002735.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.2867,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 8,
+      "symbol": "LAB/USDT",
+      "quote_volume": 110356109.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 9.6081,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 9,
+      "symbol": "SUI/USDT",
+      "quote_volume": 71385531.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.6152,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 10,
+      "symbol": "ZEC/USDT",
+      "quote_volume": 39150574.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.732,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 11,
+      "symbol": "B/USDT",
+      "quote_volume": 38836678.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 18.5006,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 12,
+      "symbol": "SKYAI/USDT",
+      "quote_volume": 35486036.0,
+      "total_klines": 288,
+      "hit_count": 1,
+      "max_amplitude": 9.4688,
+      "hits": [
+        {
+          "timestamp": "2026-05-11 06:15:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.74
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 13,
+      "symbol": "PEPE/USDT",
+      "quote_volume": 34437293.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.9032,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 14,
+      "symbol": "ADA/USDT",
+      "quote_volume": 30194015.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.2719,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 15,
+      "symbol": "XAUT/USDT",
+      "quote_volume": 27964385.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.5235,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 16,
+      "symbol": "TON/USDT",
+      "quote_volume": 25164919.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.4768,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 17,
+      "symbol": "BNB/USDT",
+      "quote_volume": 25098437.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.9753,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 18,
+      "symbol": "CRCLX/USDT",
+      "quote_volume": 17069828.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 9.3002,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 19,
+      "symbol": "VVV/USDT",
+      "quote_volume": 16508664.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 4.1391,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 20,
+      "symbol": "ONDO/USDT",
+      "quote_volume": 16245844.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.0964,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 21,
+      "symbol": "BILL/USDT",
+      "quote_volume": 16214908.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol BILL/USDT"
+    },
+    {
+      "rank_vol": 22,
+      "symbol": "AVAX/USDT",
+      "quote_volume": 13953959.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.095,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 23,
+      "symbol": "MU/USDT",
+      "quote_volume": 13206624.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol MU/USDT"
+    },
+    {
+      "rank_vol": 24,
+      "symbol": "LINK/USDT",
+      "quote_volume": 11197326.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.7793,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 25,
+      "symbol": "TSLAX/USDT",
+      "quote_volume": 11195653.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.8209,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 26,
+      "symbol": "SAGA/USDT",
+      "quote_volume": 10641864.0,
+      "total_klines": 288,
+      "hit_count": 1,
+      "max_amplitude": 10.6993,
+      "hits": [
+        {
+          "timestamp": "2026-05-11 07:05:00",
+          "direction": "上插针 🔺",
+          "amplitude": 2.9
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 27,
+      "symbol": "LTC/USDT",
+      "quote_volume": 10540371.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.4092,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 28,
+      "symbol": "INX/USDT",
+      "quote_volume": 10455232.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 4.9636,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 29,
+      "symbol": "LDO/USDT",
+      "quote_volume": 9925569.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 11.1396,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 30,
+      "symbol": "HYPE/USDT",
+      "quote_volume": 9565610.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.9746,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 31,
+      "symbol": "FARTCOIN/USDT",
+      "quote_volume": 9372346.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.467,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 32,
+      "symbol": "UB/USDT",
+      "quote_volume": 8967737.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 6.136,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 33,
+      "symbol": "XBR/USDT",
+      "quote_volume": 8822270.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol XBR/USDT"
+    },
+    {
+      "rank_vol": 34,
+      "symbol": "ENA/USDT",
+      "quote_volume": 7831407.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.6883,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 35,
+      "symbol": "CL/USDT",
+      "quote_volume": 7619659.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol CL/USDT"
+    },
+    {
+      "rank_vol": 36,
+      "symbol": "TAO/USDT",
+      "quote_volume": 6381480.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.3988,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 37,
+      "symbol": "WIF/USDT",
+      "quote_volume": 6167445.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.3217,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 38,
+      "symbol": "Q/USDT",
+      "quote_volume": 6157390.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 11.7841,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 39,
+      "symbol": "SIREN/USDT",
+      "quote_volume": 6030848.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 7.0732,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 40,
+      "symbol": "FIL/USDT",
+      "quote_volume": 5923998.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.6666,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 41,
+      "symbol": "INTC/USDT",
+      "quote_volume": 5834866.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol INTC/USDT"
+    },
+    {
+      "rank_vol": 42,
+      "symbol": "SNDK/USDT",
+      "quote_volume": 5672695.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol SNDK/USDT"
+    },
+    {
+      "rank_vol": 43,
+      "symbol": "UNI/USDT",
+      "quote_volume": 5413128.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.7415,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 44,
+      "symbol": "US/USDT",
+      "quote_volume": 5393190.0,
+      "total_klines": 288,
+      "hit_count": 1,
+      "max_amplitude": 19.4785,
+      "hits": [
+        {
+          "timestamp": "2026-05-10 19:10:00",
+          "direction": "下插针 🔻",
+          "amplitude": 6.05
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 45,
+      "symbol": "ICP/USDT",
+      "quote_volume": 5097285.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.4761,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 46,
+      "symbol": "BSB/USDT",
+      "quote_volume": 4994598.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol BSB/USDT"
+    },
+    {
+      "rank_vol": 47,
+      "symbol": "TRUTH/USDT",
+      "quote_volume": 4850092.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol TRUTH/USDT"
+    },
+    {
+      "rank_vol": 48,
+      "symbol": "BCH/USDT",
+      "quote_volume": 4836760.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.7041,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 49,
+      "symbol": "H/USDT",
+      "quote_volume": 4799900.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.7541,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 50,
+      "symbol": "CRV/USDT",
+      "quote_volume": 4520672.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.6602,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 51,
+      "symbol": "NVDAX/USDT",
+      "quote_volume": 4471978.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.3419,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 52,
+      "symbol": "XTI/USDT",
+      "quote_volume": 4426800.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol XTI/USDT"
+    },
+    {
+      "rank_vol": 53,
+      "symbol": "OPG/USDT",
+      "quote_volume": 4405627.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 6.7081,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 54,
+      "symbol": "LAYER/USDT",
+      "quote_volume": 4389008.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 5.4034,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 55,
+      "symbol": "ORDI/USDT",
+      "quote_volume": 4301604.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.8916,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 56,
+      "symbol": "RAVE/USDT",
+      "quote_volume": 4177197.0,
+      "total_klines": 288,
+      "hit_count": 1,
+      "max_amplitude": 2.8143,
+      "hits": [
+        {
+          "timestamp": "2026-05-10 18:00:00",
+          "direction": "上插针 🔺",
+          "amplitude": 2.74
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 57,
+      "symbol": "ARB/USDT",
+      "quote_volume": 4077291.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.21,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 58,
+      "symbol": "WLFI/USDT",
+      "quote_volume": 3740733.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.8627,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 59,
+      "symbol": "BIO/USDT",
+      "quote_volume": 3654192.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.4968,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 60,
+      "symbol": "PAXG/USDT",
+      "quote_volume": 3574095.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.59,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 61,
+      "symbol": "CHIP/USDT",
+      "quote_volume": 3457395.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.9748,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 62,
+      "symbol": "AAVE/USDT",
+      "quote_volume": 3433294.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.7506,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 63,
+      "symbol": "ASTEROID/USDT",
+      "quote_volume": 3164059.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol ASTEROID/USDT"
+    },
+    {
+      "rank_vol": 64,
+      "symbol": "TRUMP/USDT",
+      "quote_volume": 2993332.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.1845,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 65,
+      "symbol": "SHIB/USDT",
+      "quote_volume": 2933085.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.5045,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 66,
+      "symbol": "VIRTUAL/USDT",
+      "quote_volume": 2878551.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.4565,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 67,
+      "symbol": "ASTER/USDT",
+      "quote_volume": 2854546.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.1968,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 68,
+      "symbol": "币安人生/USDT",
+      "quote_volume": 2713335.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol 币安人生/USDT"
+    },
+    {
+      "rank_vol": 69,
+      "symbol": "FOLKS/USDT",
+      "quote_volume": 2657438.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol FOLKS/USDT"
+    },
+    {
+      "rank_vol": 70,
+      "symbol": "JELLYJELLY/USDT",
+      "quote_volume": 2644535.0,
+      "total_klines": 288,
+      "hit_count": 4,
+      "max_amplitude": 10.6049,
+      "hits": [
+        {
+          "timestamp": "2026-05-11 13:30:00",
+          "direction": "上插针 🔺",
+          "amplitude": 10.51
+        },
+        {
+          "timestamp": "2026-05-10 20:50:00",
+          "direction": "下插针 🔻",
+          "amplitude": 10.39
+        },
+        {
+          "timestamp": "2026-05-11 14:00:00",
+          "direction": "下插针 🔻",
+          "amplitude": 4.46
+        },
+        {
+          "timestamp": "2026-05-11 06:55:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.72
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 71,
+      "symbol": "BZ/USDT",
+      "quote_volume": 2612323.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol BZ/USDT"
+    },
+    {
+      "rank_vol": 72,
+      "symbol": "GALA/USDT",
+      "quote_volume": 2606903.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.9662,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 73,
+      "symbol": "LITE/USDT",
+      "quote_volume": 2485795.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol LITE/USDT"
+    },
+    {
+      "rank_vol": 74,
+      "symbol": "XPL/USDT",
+      "quote_volume": 2461314.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.3496,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 75,
+      "symbol": "PI/USDT",
+      "quote_volume": 2423840.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 0.9293,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 76,
+      "symbol": "APT/USDT",
+      "quote_volume": 2375215.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.0326,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 77,
+      "symbol": "NEAR/USDT",
+      "quote_volume": 2369126.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.0835,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 78,
+      "symbol": "BLEND/USDT",
+      "quote_volume": 2304356.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.8956,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 79,
+      "symbol": "XLM/USDT",
+      "quote_volume": 2255864.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.7087,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 80,
+      "symbol": "COLLECT/USDT",
+      "quote_volume": 2161004.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol COLLECT/USDT"
+    },
+    {
+      "rank_vol": 81,
+      "symbol": "LUNC/USDT",
+      "quote_volume": 2136480.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.7416,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 82,
+      "symbol": "WLD/USDT",
+      "quote_volume": 2094861.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.2456,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 83,
+      "symbol": "PENGU/USDT",
+      "quote_volume": 2078784.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.1016,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 84,
+      "symbol": "SAHARA/USDT",
+      "quote_volume": 2034804.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 5.4203,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 85,
+      "symbol": "FET/USDT",
+      "quote_volume": 1985139.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.3392,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 86,
+      "symbol": "ATOM/USDT",
+      "quote_volume": 1981911.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.6619,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 87,
+      "symbol": "KITE/USDT",
+      "quote_volume": 1945073.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.4978,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 88,
+      "symbol": "PROS/USDT",
+      "quote_volume": 1884441.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol PROS/USDT"
+    },
+    {
+      "rank_vol": 89,
+      "symbol": "FHE/USDT",
+      "quote_volume": 1867229.0,
+      "total_klines": 288,
+      "hit_count": 2,
+      "max_amplitude": 4.5353,
+      "hits": [
+        {
+          "timestamp": "2026-05-10 22:30:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.79
+        },
+        {
+          "timestamp": "2026-05-10 16:20:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.78
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 90,
+      "symbol": "DOGS/USDT",
+      "quote_volume": 1843636.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.858,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 91,
+      "symbol": "PLAY/USDT",
+      "quote_volume": 1832726.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol PLAY/USDT"
+    },
+    {
+      "rank_vol": 92,
+      "symbol": "PARTI/USDT",
+      "quote_volume": 1814792.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 3.156,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 93,
+      "symbol": "SONIC/USDT",
+      "quote_volume": 1779113.0,
+      "total_klines": 288,
+      "hit_count": 1,
+      "max_amplitude": 6.6421,
+      "hits": [
+        {
+          "timestamp": "2026-05-11 00:20:00",
+          "direction": "下插针 🔻",
+          "amplitude": 6.64
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 94,
+      "symbol": "SPK/USDT",
+      "quote_volume": 1767558.0,
+      "total_klines": 288,
+      "hit_count": 2,
+      "max_amplitude": 4.1854,
+      "hits": [
+        {
+          "timestamp": "2026-05-11 08:25:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.76
+        },
+        {
+          "timestamp": "2026-05-11 07:40:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.43
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 95,
+      "symbol": "SEI/USDT",
+      "quote_volume": 1756763.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.4077,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 96,
+      "symbol": "ZEREBRO/USDT",
+      "quote_volume": 1730722.0,
+      "total_klines": 288,
+      "hit_count": 1,
+      "max_amplitude": 6.6329,
+      "hits": [
+        {
+          "timestamp": "2026-05-10 19:00:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.29
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 97,
+      "symbol": "SWARMS/USDT",
+      "quote_volume": 1639973.0,
+      "total_klines": 288,
+      "hit_count": 1,
+      "max_amplitude": 10.1793,
+      "hits": [
+        {
+          "timestamp": "2026-05-11 14:40:00",
+          "direction": "下插针 🔻",
+          "amplitude": 10.18
+        }
+      ],
+      "error": null
+    },
+    {
+      "rank_vol": 98,
+      "symbol": "PUMP/USDT",
+      "quote_volume": 1634972.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.4083,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 99,
+      "symbol": "NOT/USDT",
+      "quote_volume": 1630714.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 2.7388,
+      "hits": [],
+      "error": null
+    },
+    {
+      "rank_vol": 100,
+      "symbol": "INJ/USDT",
+      "quote_volume": 1587743.0,
+      "total_klines": 288,
+      "hit_count": 0,
+      "max_amplitude": 1.5687,
+      "hits": [],
+      "error": null
+    }
+  ]
+}

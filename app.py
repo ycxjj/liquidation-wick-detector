@@ -9,7 +9,7 @@ import subprocess
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from flask import Flask, jsonify, render_template_string, request, session
+from flask import Flask, jsonify, render_template_string, render_template, request, session
 
 import daily_scan
 
@@ -201,6 +201,11 @@ function tab(id){
 }
 document.getElementById('tabP1').onclick=function(){tab('p1');};
 document.getElementById('tabP2').onclick=function(){tab('p2');};
+
+// 初始化：检查 URL 参数决定显示哪个 Tab
+var urlParams=new URLSearchParams(window.location.search);
+var initialTab=urlParams.get('tab')||'p2'; // 默认显示自选检测
+tab(initialTab);
 
 function stopPoll(){if(pollT){clearTimeout(pollT);pollT=null;}}
 function startPoll(){
@@ -477,6 +482,11 @@ startPoll();
 </body>
 </html>
 '''
+
+
+@app.route("/landing")
+def landing():
+    return render_template("landing.html")
 
 
 @app.route("/")
