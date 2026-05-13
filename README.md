@@ -15,7 +15,7 @@
 
 | **功能** | **链接** |
 | :--- | :--- |
-| **官网地址** | [https://wickdetector.com/landing](https://wickdetector.com) |
+| **官网地址** | [https://wickdetector.com](https://wickdetector.com) |
 | **最新版 v4.2.0** | [查看 Release](https://github.com/ycxjj/liquidation-wick-detector/releases/latest) |
 | **技术文档** | 见下方 README 完整文档 |
 
