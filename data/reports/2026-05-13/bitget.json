@@ -18,12 +18,12 @@
     {
       "rank_vol": 2,
       "symbol": "ETH/USDT",
-      "quote_volume": 1911847915.0768,
-      "total_klines": 288,
+      "quote_volume": 1911848141.6096,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.7496,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "DDoSProtection: bitget {\"code\":\"429\",\"msg\":\"Too Many Requests\",\"requestTime\":1778717650511,\"data\":null}"
     },
     {
       "rank_vol": 3,
@@ -48,7 +48,7 @@
     {
       "rank_vol": 5,
       "symbol": "XRP/USDT",
-      "quote_volume": 200550683.6487,
+      "quote_volume": 200550916.3801,
       "total_klines": 288,
       "hit_count": 0,
       "max_amplitude": 0.8426,
@@ -68,7 +68,7 @@
     {
       "rank_vol": 7,
       "symbol": "DOGE/USDT",
-      "quote_volume": 130702953.25936,
+      "quote_volume": 130706844.91392,
       "total_klines": 288,
       "hit_count": 0,
       "max_amplitude": 1.0467,
@@ -366,7 +366,7 @@
     {
       "rank_vol": 31,
       "symbol": "IRYS/USDT",
-      "quote_volume": 26772360.91349,
+      "quote_volume": 26772535.49794,
       "total_klines": 288,
       "hit_count": 2,
       "max_amplitude": 7.5648,
@@ -484,7 +484,7 @@
     {
       "rank_vol": 39,
       "symbol": "CHIP/USDT",
-      "quote_volume": 14734358.29667,
+      "quote_volume": 14734588.38215,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
@@ -604,7 +604,7 @@
     {
       "rank_vol": 51,
       "symbol": "BCH/USDT",
-      "quote_volume": 10034668.7505,
+      "quote_volume": 10034690.5015,
       "total_klines": 288,
       "hit_count": 0,
       "max_amplitude": 1.0782,
@@ -741,11 +741,11 @@
       "rank_vol": 64,
       "symbol": "DYM/USDT",
       "quote_volume": 7239430.027853,
-      "total_klines": 0,
+      "total_klines": 288,
       "hit_count": 0,
-      "max_amplitude": 0.0,
+      "max_amplitude": 10.0592,
       "hits": [],
-      "error": "DDoSProtection: bitget {\"code\":\"429\",\"msg\":\"Too Many Requests\",\"requestTime\":1778717712435,\"data\":null}"
+      "error": null
     },
     {
       "rank_vol": 65,
@@ -780,7 +780,7 @@
     {
       "rank_vol": 68,
       "symbol": "H/USDT",
-      "quote_volume": 6535221.90865,
+      "quote_volume": 6535239.97318,
       "total_klines": 288,
       "hit_count": 0,
       "max_amplitude": 4.5093,
@@ -900,7 +900,7 @@
     {
       "rank_vol": 80,
       "symbol": "BGB/USDT",
-      "quote_volume": 5736917.8348,
+      "quote_volume": 5737035.3973,
       "total_klines": 288,
       "hit_count": 0,
       "max_amplitude": 0.816,
@@ -990,7 +990,7 @@
     {
       "rank_vol": 89,
       "symbol": "1000BONK/USDT",
-      "quote_volume": 4823092.965111,
+      "quote_volume": 4823390.224354,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
@@ -1047,11 +1047,11 @@
       "rank_vol": 94,
       "symbol": "JUP/USDT",
       "quote_volume": 4654113.8033,
-      "total_klines": 288,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 1.5453,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "DDoSProtection: bitget {\"code\":\"429\",\"msg\":\"Too Many Requests\",\"requestTime\":1778717740964,\"data\":null}"
     },
     {
       "rank_vol": 95,
@@ -1066,7 +1066,7 @@
     {
       "rank_vol": 96,
       "symbol": "ICP/USDT",
-      "quote_volume": 4534147.42899,
+      "quote_volume": 4534432.67733,
       "total_klines": 288,
       "hit_count": 0,
       "max_amplitude": 1.7236,
