@@ -23,3 +23,6 @@ Thumbs.db
 # 敏感配置
 .env
 *.pem
+gunicorn.log
+*.log
+app.py.server.bak
