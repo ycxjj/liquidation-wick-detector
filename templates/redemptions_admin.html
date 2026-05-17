@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>积分兑换审核 - Wick Detector</title>
+    <style>
+        body{background:#0a0e27;color:#e0e6ed;font-family:sans-serif;margin:0;padding:24px}
+        .container{max-width:1200px;margin:0 auto}
+        .back-link{color:#00d4ff;text-decoration:none}
+        h1{color:#00d4ff}
+        button{background:#00d4ff;color:#042;border:none;border-radius:8px;padding:8px 14px;font-weight:bold;cursor:pointer;margin:4px}
+        button.secondary{background:#1e3a5f;color:#e0e6ed}
+        button.reject{background:#ff5c5c;color:#fff}
+        table{width:100%;border-collapse:collapse;margin-top:16px}
+        th,td{padding:12px;border-bottom:1px solid #1e3a5f;text-align:left;vertical-align:top}
+        th{color:#00d4ff}
+        .mono{font-family:monospace;word-break:break-all;font-size:.82rem}
+        .muted{color:#8892b0;font-size:.9rem}
+        input{width:220px;padding:8px;background:#0a1020;border:1px solid #1e3a5f;color:#e0e6ed;border-radius:6px}
+    </style>
+</head>
+<body>
+<div class="container">
+<a href="/admin/points" class="back-link">← 积分管理首页</a>
+<h1>积分兑换人工审核</h1>
+<p class="muted">流程：审核通过 → 链上打款 → 填写 TxHash 标记已发放（与排行榜奖励一致）。拒绝将退回积分。</p>
+<button class="secondary" onclick="load()">刷新</button>
+<div id="list" class="muted" style="margin-top:12px">加载中...</div>
+</div>
+<script>
+async function load(){
+  var box=document.getElementById('list');
+  box.textContent='加载中...';
+  var res=await fetch('/api/points/redemptions/pending');
+  var data=await res.json();
+  if(!res.ok){box.textContent=data.error||'加载失败';return;}
+  if(!data.requests.length){box.textContent='暂无待审核申请';return;}
+  var html='<table><thead><tr><th>ID</th><th>钱包</th><th>积分</th><th>USDT</th><th>提币地址</th><th>TxHash</th><th>操作</th></tr></thead><tbody>';
+  data.requests.forEach(function(r){
+    html+='<tr><td>#'+r.id+'</td>';
+    html+='<td class="mono">'+r.wallet_address+'</td>';
+    html+='<td>'+r.points_amount+'</td><td>'+r.usdt_amount+'</td>';
+    html+='<td class="mono">'+r.withdrawal_address+'</td>';
+    html+='<td><input id="tx_'+r.id+'" placeholder="打款后填写"></td>';
+    html+='<td><button class="secondary" onclick="approve('+r.id+')">审核通过</button> ';
+    html+='<button onclick="markPaid('+r.id+')">标记已打款</button> ';
+    html+='<button class="reject" onclick="reject('+r.id+')">拒绝</button></td></tr>';
+  });
+  html+='</tbody></table>';
+  box.innerHTML=html;
+}
+async function approve(id){
+  var res=await fetch('/api/points/redemptions/'+id+'/review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({approve:true})});
+  var data=await res.json();
+  alert(data.error||(data.success?'已审核通过':'')); if(res.ok) load();
+}
+async function reject(id){
+  if(!confirm('拒绝将退回积分，确认？')) return;
+  var res=await fetch('/api/points/redemptions/'+id+'/review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({approve:false,review_notes:'管理员拒绝'})});
+  var data=await res.json();
+  alert(data.error||(data.success?'已拒绝并退回积分':'')); if(res.ok) load();
+}
+async function markPaid(id){
+  var tx=(document.getElementById('tx_'+id).value||'').trim();
+  if(!tx){alert('请先填写 TxHash');return;}
+  var res=await fetch('/api/points/redemptions/'+id+'/paid',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({txhash:tx})});
+  var data=await res.json();
+  alert(data.error||(data.success?'已标记打款':'')); if(res.ok) load();
+}
+load();
+</script>
+</body>
+</html>

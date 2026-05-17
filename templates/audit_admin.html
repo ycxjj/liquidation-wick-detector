@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>操作审计日志 - Wick Detector</title>
+    <style>
+        body{background:#0a0e27;color:#e0e6ed;font-family:sans-serif;margin:0;padding:24px}
+        table{width:100%;border-collapse:collapse;margin-top:16px}
+        th,td{padding:10px;border-bottom:1px solid #1e3a5f;text-align:left;font-size:.9rem}
+        th{color:#00d4ff}
+        .back-link{color:#00d4ff;text-decoration:none}
+        .mono{font-family:monospace;font-size:.8rem}
+    </style>
+</head>
+<body>
+<div class="container">
+<a href="/admin/points" class="back-link">← 积分管理首页</a>
+<h1 style="color:#00d4ff">管理后台操作审计</h1>
+<p style="color:#8892b0" id="backend">限流后端: -</p>
+<button onclick="load()" style="background:#00d4ff;color:#042;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;cursor:pointer">刷新</button>
+<table><thead><tr><th>时间</th><th>操作者</th><th>动作</th><th>目标</th><th>IP</th><th>详情</th></tr></thead><tbody id="tbody"></tbody></table>
+</div>
+<script>
+async function load(){
+  var res=await fetch('/api/admin/audit_logs?limit=200');
+  var data=await res.json();
+  document.getElementById('backend').textContent='限流后端: '+(data.rate_limit_backend||'-');
+  if(!res.ok)return;
+  document.getElementById('tbody').innerHTML=(data.logs||[]).map(function(l){
+    return '<tr><td>'+l.created_at+'</td><td class="mono">'+l.actor_wallet+'</td><td>'+l.action+'</td><td>'+(l.target||'')+'</td><td>'+(l.ip_address||'')+'</td><td class="mono">'+(l.detail||'')+'</td></tr>';
+  }).join('');
+}
+load();
+</script>
+</body>
+</html>

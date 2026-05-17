@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排行榜奖励 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <style>
+        body { background: #0a0e27; color: #e0e6ed; font-family: sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { color: #00d4ff; text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #8892b0; margin-bottom: 30px; }
+        .card { background: #10192e; border: 1px solid #1e3a5f; border-radius: 12px; padding: 30px; margin: 20px 0; }
+        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        
+        .reward-tier {
+            background: rgba(0,212,255,0.03);
+            border: 1px solid #1e3a5f;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        .reward-tier:hover {
+            border-color: #00d4ff;
+            background: rgba(0,212,255,0.05);
+        }
+        
+        .tier-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .tier-icon {
+            font-size: 3rem;
+            margin-right: 20px;
+        }
+        .tier-info { flex: 1; }
+        .tier-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+        .tier-rank {
+            color: #8892b0;
+            font-size: 0.9rem;
+        }
+        
+        .tier-rewards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .reward-item {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .reward-value {
+            font-size: 1.5rem;
+            color: #3ecf8e;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .reward-label {
+            color: #8892b0;
+            font-size: 0.85rem;
+        }
+        
+        .countdown {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,102,255,0.1));
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .countdown-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        .countdown-timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e0e6ed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/leaderboard" class="back-link">← 返回排行榜</a>
+        
+        <h1>🏆 排行榜奖励</h1>
+        <p class="subtitle">每周结算，丰厚奖励等你来拿</p>
+
+        <div class="countdown card">
+            <div class="countdown-title">距离下次结算还有</div>
+            <div style="color:#8892b0;font-size:.9rem;margin-bottom:12px;">每周一 00:00（北京时间 UTC+8）锁定上周排名并发放 USDT</div>
+            <div class="countdown-timer" id="countdown">计算中...</div>
+        </div>
+
+        <div class="card">
+            <h2 style="color:#00d4ff;margin-bottom:20px;">周榜 USDT 奖励（前 10 名）</h2>
+            <div style="overflow-x:auto;margin-bottom:20px;">
+                <table style="width:100%;border-collapse:collapse;background:rgba(0,0,0,0.2);border-radius:10px;overflow:hidden;">
+                    <thead><tr><th style="padding:10px;border-bottom:1px solid #1e3a5f;color:#00d4ff;text-align:left;">名次</th><th style="padding:10px;border-bottom:1px solid #1e3a5f;color:#00d4ff;text-align:left;">USDT 奖励</th></tr></thead>
+                    <tbody>
+                        <tr><td style="padding:10px;border-bottom:1px solid #1e3a5f;">第1名</td><td style="padding:10px;border-bottom:1px solid #1e3a5f;color:#3ecf8e;font-weight:bold;">20 USDT</td></tr>
+                        <tr><td style="padding:10px;border-bottom:1px solid #1e3a5f;">第2名</td><td style="padding:10px;border-bottom:1px solid #1e3a5f;color:#3ecf8e;font-weight:bold;">10 USDT</td></tr>
+                        <tr><td style="padding:10px;border-bottom:1px solid #1e3a5f;">第3名</td><td style="padding:10px;border-bottom:1px solid #1e3a5f;color:#3ecf8e;font-weight:bold;">5 USDT</td></tr>
+                        <tr><td style="padding:10px;">第4-10名</td><td style="padding:10px;color:#3ecf8e;font-weight:bold;">各 3 USDT</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="reward-tier" style="border-color:#ffd700;">
+                <div class="tier-header">
+                    <div class="tier-icon">🥇</div>
+                    <div class="tier-info">
+                        <div class="tier-title" style="color:#ffd700;">冠军奖励</div>
+                        <div class="tier-rank">排名第 1 名 · 专属 🏆 周冠军徽章（站内展示）</div>
+                    </div>
+                </div>
+                <div class="tier-rewards">
+                    <div class="reward-item">
+                        <div class="reward-value">20</div>
+                        <div class="reward-label">USDT</div>
+                    </div>
+                    <div class="reward-item"><div class="reward-value">🏆</div><div class="reward-label">周冠军徽章</div></div>
+                </div>
+            </div>
+
+            <div class="reward-tier" style="border-color:#c0c0c0;">
+                <div class="tier-header">
+                    <div class="tier-icon">🥈</div>
+                    <div class="tier-info">
+                        <div class="tier-title" style="color:#c0c0c0;">亚军奖励</div>
+                        <div class="tier-rank">排名第 2 名</div>
+                    </div>
+                </div>
+                <div class="tier-rewards">
+                    <div class="reward-item">
+                        <div class="reward-value">10</div>
+                        <div class="reward-label">USDT</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reward-tier" style="border-color:#cd7f32;">
+                <div class="tier-header">
+                    <div class="tier-icon">🥉</div>
+                    <div class="tier-info">
+                        <div class="tier-title" style="color:#cd7f32;">季军奖励</div>
+                        <div class="tier-rank">排名第 3 名</div>
+                    </div>
+                </div>
+                <div class="tier-rewards">
+                    <div class="reward-item">
+                        <div class="reward-value">5</div>
+                        <div class="reward-label">USDT</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reward-tier">
+                <div class="tier-header">
+                    <div class="tier-icon">🎖️</div>
+                    <div class="tier-info">
+                        <div class="tier-title">优秀奖励</div>
+                        <div class="tier-rank">排名第 4-10 名</div>
+                    </div>
+                </div>
+                <div class="tier-rewards">
+                    <div class="reward-item">
+                        <div class="reward-value">3</div>
+                        <div class="reward-label">USDT（每人）</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="championsCard">
+            <h2 style="color:#00d4ff;margin-bottom:12px;font-size:1.05rem;">近期周冠军</h2>
+            <p style="color:#8892b0;font-size:.88rem;margin-bottom:12px;">管理员创建周榜快照后，第 1 名自动获得 🏆 周冠军徽章</p>
+            <div id="championsList" style="color:#8892b0;font-size:.9rem;">加载中...</div>
+        </div>
+
+        <div class="card">
+            <h2 style="color:#00d4ff;margin-bottom:15px;">规则说明</h2>
+            <ul style="color:#8892b0;line-height:2;">
+                <li>每周一 00:00（北京时间 UTC+8）结算<strong>上周</strong>积分排行榜</li>
+                <li>前 10 名按名次发放 USDT；<strong>第 1 名</strong>额外获得站内 🏆 周冠军徽章</li>
+                <li>USDT 奖励由管理员审核后发放至绑定地址</li>
+                <li>作弊、刷分等行为将取消当周资格</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const SETTLEMENT_TZ = 'Asia/Shanghai';
+
+        function ymdInTz(date, tz) {
+            return new Intl.DateTimeFormat('en-CA', {
+                timeZone: tz,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).format(date);
+        }
+
+        function weekdayShortInTz(date, tz) {
+            return new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'short' }).format(date);
+        }
+
+        /** Next Monday 00:00 UTC+8 strictly after `now` (ms). */
+        function nextSettlementMs(now) {
+            for (let d = 0; d < 14; d++) {
+                const probe = new Date(now + d * 86400000);
+                if (weekdayShortInTz(probe, SETTLEMENT_TZ) !== 'Mon') continue;
+                const ymd = ymdInTz(probe, SETTLEMENT_TZ);
+                const at = new Date(ymd + 'T00:00:00+08:00').getTime();
+                if (at > now) return at;
+            }
+            return now + 7 * 86400000;
+        }
+
+        function updateCountdown() {
+            const now = Date.now();
+            const diff = nextSettlementMs(now) - now;
+            const el = document.getElementById('countdown');
+            if (diff <= 0) {
+                el.textContent = '正在结算，请稍后刷新';
+                return;
+            }
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            el.textContent = `${days}天 ${hours}小时 ${minutes}分钟 ${seconds}秒`;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        function shortAddr(a) {
+            if (!a || a.length < 14) return a || '';
+            return a.slice(0, 8) + '...' + a.slice(-6);
+        }
+        async function loadChampions() {
+            var box = document.getElementById('championsList');
+            if (!box) return;
+            try {
+                var res = await fetch('/api/points/badges/champions?limit=10');
+                var data = await res.json();
+                if (!data.success || !data.champions || !data.champions.length) {
+                    box.textContent = '暂无周冠军记录，请等待管理员创建周榜快照';
+                    return;
+                }
+                box.innerHTML = data.champions.map(function(c) {
+                    return '<div style="padding:10px 0;border-bottom:1px solid #1e3a5f"><span style="color:#ffd700;font-weight:bold">🏆</span> ' +
+                        shortAddr(c.wallet_address) + ' · <span style="color:#8892b0">' + (c.label || '') + '</span></div>';
+                }).join('');
+            } catch (e) {
+                box.textContent = '加载失败';
+            }
+        }
+        loadChampions();
+    </script>
+</body>
+</html>

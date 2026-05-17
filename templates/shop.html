@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分商城 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=4">
+    <style>
+:root{--bg:#070b1a;--card:#10192e;--border:#1e3a5f;--accent:#00d4ff;--muted:#8892b0;--text:#e8edf7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px}
+.container{max-width:1100px;margin:0 auto}
+.back{color:var(--accent);text-decoration:none;display:inline-block;margin-bottom:20px}
+h1{color:var(--accent);margin-bottom:20px;text-align:center}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:30px}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.product{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.product-icon{font-size:3rem;margin-bottom:15px}
+.product h3{color:var(--text);margin-bottom:10px}
+.product p{color:var(--muted);font-size:.9rem;margin-bottom:15px}
+.product-price{color:var(--accent);font-size:1.3rem;font-weight:700;margin-bottom:15px}
+.btn{background:var(--accent);color:#042;font-weight:700;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;width:100%}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/points" class="back">← 返回积分系统</a>
+    <h1>🛒 积分商城</h1>
+    <p class="subtitle">使用积分兑换专属权益</p>
+    <div class="products">
+        <div class="product">
+            <div class="product-icon">🎖️</div>
+            <h3>NFT 徽章</h3>
+            <p>专属链上徽章，永久持有</p>
+            <div class="product-price">2000 积分</div>
+            <button class="btn" onclick="buy('nft_badge')">兑换</button>
+        </div>
+        <div class="product">
+            <div class="product-icon">👑</div>
+            <h3>VIP 周卡</h3>
+            <p>7天高级功能访问权限</p>
+            <div class="product-price">300 积分</div>
+            <button class="btn" onclick="buy('vip_week')">兑换</button>
+        </div>
+        <div class="product">
+            <div class="product-icon">🎰</div>
+            <h3>抽奖券</h3>
+            <p>参与每周大奖抽奖</p>
+            <div class="product-price">100 积分</div>
+            <button class="btn" onclick="buy('lottery')">兑换</button>
+        </div>
+        <div class="product">
+            <div class="product-icon">🔍</div>
+            <h3>高级检测</h3>
+            <p>单次高级插针检测</p>
+            <div class="product-price">50 积分</div>
+            <button class="btn" onclick="buy('advanced_detection')">兑换</button>
+        </div>
+    </div>
+</div>
+<script>
+function buy(itemId) {
+    alert('商城功能开发中，敬请期待！');
+}
+</script>
+</body>
+</html>

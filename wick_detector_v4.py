@@ -49,9 +49,211 @@ import os
 import json
 import hashlib
 import time
+import threading
 from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
+
+_EXCHANGE_CACHE = {}
+_EXCHANGE_LOCKS = {}
+
+def _create_exchange(exchange_name):
+    exchange = getattr(ccxt, exchange_name)({
+        "enableRateLimit": True,
+        "timeout": 15000,
+        "options": {"defaultType": "swap"},
+    })
+    exchange.load_markets()
+    return exchange
+
+def _get_cached_exchange(exchange_name):
+    lock = _EXCHANGE_LOCKS.setdefault(exchange_name, threading.Lock())
+    with lock:
+        exchange = _EXCHANGE_CACHE.get(exchange_name)
+        if exchange is None:
+            exchange = _create_exchange(exchange_name)
+            _EXCHANGE_CACHE[exchange_name] = exchange
+        return exchange
+
+def _timeframe_to_ms(timeframe):
+    unit = timeframe[-1]
+    try:
+        value = int(timeframe[:-1])
+    except Exception:
+        return 0
+    if unit == 'm':
+        return value * 60 * 1000
+    if unit == 'h':
+        return value * 60 * 60 * 1000
+    if unit == 'd':
+        return value * 24 * 60 * 60 * 1000
+    return 0
+
+def _symbol_compact(symbol):
+    return symbol.replace('/', '').replace(':USDT', '').upper()
+
+def _symbol_dash_swap(symbol):
+    base = symbol.split('/')[0].upper()
+    quote = symbol.split('/')[1].split(':')[0].upper()
+    return f"{base}-{quote}-SWAP"
+
+def _symbol_underscore(symbol):
+    return symbol.replace('/', '_').replace(':USDT', '').upper()
+
+def _filter_closed_klines(df, timeframe, start_ms=None, end_ms=None):
+    if df is None or df.empty:
+        return pd.DataFrame()
+    ts_numeric = pd.to_numeric(df['timestamp'], errors='coerce')
+    if ts_numeric.notna().all():
+        df['timestamp'] = pd.to_datetime(ts_numeric.astype('int64'), unit='ms')
+    else:
+        df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df = df.drop_duplicates(subset='timestamp').sort_values('timestamp').reset_index(drop=True)
+    if start_ms is not None or end_ms is not None:
+        ts_ms = (df['timestamp'].astype('int64') // 1_000_000).astype('int64')
+        if start_ms is not None:
+            df = df[ts_ms >= int(start_ms)]
+        if end_ms is not None:
+            ts_ms = (df['timestamp'].astype('int64') // 1_000_000).astype('int64')
+            df = df[ts_ms <= int(end_ms)]
+        df = df.reset_index(drop=True)
+    timeframe_ms = _timeframe_to_ms(timeframe)
+    if timeframe_ms > 0:
+        now_ms = int(datetime.now().timestamp() * 1000)
+        ts_ms = (df['timestamp'].astype('int64') // 1_000_000).astype('int64')
+        df = df[(ts_ms + timeframe_ms) <= now_ms].reset_index(drop=True)
+    for col in ['open', 'high', 'low', 'close', 'volume']:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+    return df.dropna(subset=['open', 'high', 'low', 'close']).reset_index(drop=True)
+
+def _df_from_rows(rows, columns, timeframe, start_ms=None, end_ms=None):
+    if not rows:
+        return pd.DataFrame()
+    df = pd.DataFrame(rows, columns=columns)
+    return _filter_closed_klines(df[['timestamp', 'open', 'high', 'low', 'close', 'volume']], timeframe, start_ms, end_ms)
+
+def fast_fetch_ohlcv_rest(exchange_name, symbol, timeframe='15m', days_back=1):
+    """六家主流合约交易所 REST K线快速抓取，返回统一 OHLCV DataFrame。"""
+    exchange_name = (exchange_name or '').lower()
+    timeframe_ms = _timeframe_to_ms(timeframe)
+    if timeframe_ms <= 0:
+        return pd.DataFrame()
+    end_ms = int(datetime.now().timestamp() * 1000)
+    start_ms = int((datetime.now() - timedelta(days=days_back)).timestamp() * 1000)
+    timeout = 8
+
+    try:
+        if exchange_name in ('binanceusdm', 'binance'):
+            url = 'https://fapi.binance.com/fapi/v1/klines'
+            rows = []
+            since = start_ms
+            while since < end_ms:
+                params = {'symbol': _symbol_compact(symbol), 'interval': timeframe, 'startTime': since, 'endTime': end_ms, 'limit': 1500}
+                data = requests.get(url, params=params, timeout=timeout).json()
+                batch = [[x[0], x[1], x[2], x[3], x[4], x[5]] for x in data if isinstance(x, list) and len(x) >= 6]
+                if not batch:
+                    break
+                rows.extend(batch)
+                next_since = int(batch[-1][0]) + timeframe_ms
+                if next_since <= since or len(batch) < 1500:
+                    break
+                since = next_since
+            return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
+
+        if exchange_name == 'okx':
+            url = 'https://www.okx.com/api/v5/market/history-candles'
+            rows = []
+            after = None
+            max_pages = min(40, int((days_back * 24 * 60 * 60 * 1000 / timeframe_ms) / 300) + 3)
+            for _ in range(max_pages):
+                params = {'instId': _symbol_dash_swap(symbol), 'bar': timeframe, 'limit': '300'}
+                if after:
+                    params['after'] = str(after)
+                data = requests.get(url, params=params, timeout=timeout).json().get('data', [])
+                batch = [[int(x[0]), x[1], x[2], x[3], x[4], x[5]] for x in data if isinstance(x, list) and len(x) >= 6]
+                if not batch:
+                    break
+                rows.extend(batch)
+                oldest = min(int(x[0]) for x in batch)
+                if oldest <= start_ms or oldest == after:
+                    break
+                after = oldest
+            return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
+
+        if exchange_name in ('gateio', 'gate'):
+            url = 'https://api.gateio.ws/api/v4/futures/usdt/candlesticks'
+            interval = timeframe.replace('m', 'm').replace('h', 'h')
+            rows = []
+            step_seconds = max(1, int(timeframe_ms / 1000))
+            chunk_seconds = int((timeframe_ms * 1900) / 1000)
+            since = start_ms // 1000
+            end_sec = end_ms // 1000
+            while since < end_sec:
+                to_sec = min(end_sec, since + chunk_seconds)
+                params = {'contract': _symbol_underscore(symbol), 'interval': interval, 'from': since, 'to': to_sec}
+                data = requests.get(url, params=params, timeout=timeout).json()
+                batch_rows = []
+                for x in data if isinstance(data, list) else []:
+                    if isinstance(x, dict):
+                        batch_rows.append([int(float(x.get('t', 0))) * 1000, x.get('o'), x.get('h'), x.get('l'), x.get('c'), x.get('v', 0)])
+                    elif isinstance(x, list) and len(x) >= 6:
+                        batch_rows.append([int(float(x[0])) * 1000, x[5], x[3], x[4], x[2], x[1]])
+                rows.extend(batch_rows)
+                if not batch_rows:
+                    since = to_sec + step_seconds
+                else:
+                    since = max(to_sec + step_seconds, int(max(x[0] for x in batch_rows) / 1000) + step_seconds)
+            return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
+
+        if exchange_name == 'bybit':
+            interval = timeframe[:-1] if timeframe.endswith('m') else str(int(timeframe[:-1]) * 60)
+            url = 'https://api.bybit.com/v5/market/kline'
+            rows = []
+            since = start_ms
+            chunk_ms = timeframe_ms * 1000
+            while since < end_ms:
+                chunk_end = min(end_ms, since + chunk_ms)
+                params = {'category': 'linear', 'symbol': _symbol_compact(symbol), 'interval': interval, 'start': since, 'end': chunk_end, 'limit': 1000}
+                data = requests.get(url, params=params, timeout=timeout).json().get('result', {}).get('list', [])
+                batch = [[int(x[0]), x[1], x[2], x[3], x[4], x[5]] for x in data if isinstance(x, list) and len(x) >= 6]
+                rows.extend(batch)
+                since = chunk_end + timeframe_ms
+            return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
+
+        if exchange_name == 'bitget':
+            url = 'https://api.bitget.com/api/v2/mix/market/candles'
+            rows = []
+            since = start_ms
+            chunk_ms = timeframe_ms * 1000
+            while since < end_ms:
+                chunk_end = min(end_ms, since + chunk_ms)
+                params = {'symbol': _symbol_compact(symbol), 'productType': 'USDT-FUTURES', 'granularity': timeframe, 'startTime': since, 'endTime': chunk_end, 'limit': '1000'}
+                data = requests.get(url, params=params, timeout=timeout).json().get('data', [])
+                batch = [[int(x[0]), x[1], x[2], x[3], x[4], x[5] if len(x) > 5 else 0] for x in data if isinstance(x, list) and len(x) >= 5]
+                rows.extend(batch)
+                since = chunk_end + timeframe_ms
+            return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
+
+        if exchange_name == 'mexc':
+            interval_map = {'1m': 'Min1', '5m': 'Min5', '15m': 'Min15', '30m': 'Min30', '1h': 'Min60', '4h': 'Hour4'}
+            url = f"https://contract.mexc.com/api/v1/contract/kline/{_symbol_underscore(symbol)}"
+            rows = []
+            since = start_ms
+            chunk_ms = timeframe_ms * 1000
+            while since < end_ms:
+                chunk_end = min(end_ms, since + chunk_ms)
+                params = {'interval': interval_map.get(timeframe, 'Min15'), 'start': since // 1000, 'end': chunk_end // 1000}
+                data = requests.get(url, params=params, timeout=timeout).json().get('data', {})
+                times = data.get('time', [])
+                for i, ts in enumerate(times):
+                    rows.append([int(ts) * 1000, data.get('open', [])[i], data.get('high', [])[i], data.get('low', [])[i], data.get('close', [])[i], data.get('vol', [0])[i]])
+                since = chunk_end + timeframe_ms
+            return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
+    except Exception as e:
+        print(f"  ⚠️ REST快速抓取失败: {exchange_name} {symbol} {type(e).__name__}: {e}")
+        return pd.DataFrame()
+
+    return pd.DataFrame()
 
 
 # ============================================================
@@ -67,14 +269,19 @@ class LiquidationDetector:
         self.exchange_name = exchange_name
         self.symbol = symbol
         self.exchange = None
+        self._exchange_lock = _EXCHANGE_LOCKS.setdefault(exchange_name, threading.Lock()) if exchange_name else threading.Lock()
         if exchange_name:
             try:
-                self.exchange = getattr(ccxt, exchange_name)()
-                # 增加超时时间 + 启用速率限制
-                self.exchange.timeout = 30000  # 30秒超时
-                self.exchange.enableRateLimit = True
+                self.exchange = _get_cached_exchange(exchange_name)
             except Exception:
-                pass
+                try:
+                    self.exchange = getattr(ccxt, exchange_name)({
+                        "enableRateLimit": True,
+                        "timeout": 15000,
+                        "options": {"defaultType": "swap"},
+                    })
+                except Exception:
+                    pass
     
     # ========== 数据获取 ==========
     
@@ -86,15 +293,16 @@ class LiquidationDetector:
             print("❌ 交易所未初始化")
             return pd.DataFrame()
         
-        # 一次性加载 markets，避免首次 fetch_ohlcv 内嵌触发带来的额外等待与重复逻辑
+        # markets 已在缓存交易所对象时加载；兜底避免未加载场景
         try:
-            self.exchange.load_markets()
+            if not getattr(self.exchange, 'markets', None):
+                self.exchange.load_markets()
         except Exception:
             pass
         
         max_per_request = 8000
         all_frames = []
-        max_retries = 5  # 最大重试次数
+        max_retries = 2  # Web实时检测优先快速失败，避免长时间卡住
         
         end_time = int(datetime.now().timestamp() * 1000)
         start_time = int((datetime.now() - timedelta(days=days_back)).timestamp() * 1000)
@@ -118,10 +326,11 @@ class LiquidationDetector:
                     if hasattr(self, 'exchange_name') and self.exchange_name == 'okx' and ':USDT' not in symbol_to_fetch:
                         symbol_to_fetch = symbol_to_fetch + ':USDT'
 
-                    ohlcv = self.exchange.fetch_ohlcv(
-                        symbol_to_fetch, timeframe, since=since,
-                        limit=1000, params=params
-                    )
+                    with self._exchange_lock:
+                        ohlcv = self.exchange.fetch_ohlcv(
+                            symbol_to_fetch, timeframe, since=since,
+                            limit=1000, params=params
+                        )
                     success = True
                     
                     if len(ohlcv) == 0:
@@ -140,7 +349,7 @@ class LiquidationDetector:
                     retry_count += 1
                     if retry_count < max_retries:
                         print(f"  ⚠️ 第{request_count}次请求失败 ({type(e).__name__})，{retry_count}/{max_retries} 重试中...")
-                        time.sleep(3)
+                        time.sleep(1)
                     else:
                         print(f"  ❌ 第{request_count}次请求失败，已达最大重试次数，停止抓取")
                         break
@@ -154,6 +363,11 @@ class LiquidationDetector:
         df = pd.concat(all_frames, ignore_index=True)
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
         df = df.drop_duplicates(subset='timestamp').sort_values('timestamp').reset_index(drop=True)
+        timeframe_ms = _timeframe_to_ms(timeframe)
+        if timeframe_ms > 0 and not df.empty:
+            now_ms = int(datetime.now().timestamp() * 1000)
+            ts_ms = (df['timestamp'].astype('int64') // 1_000_000).astype('int64')
+            df = df[(ts_ms + timeframe_ms) <= now_ms].reset_index(drop=True)
         return df
     
     def download_binance_public(self, date_str, symbol_raw='BTCUSDT', timeframe='5m'):

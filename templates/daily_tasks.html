@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日任务 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <style>
+        body { background: #0a0e27; color: #e0e6ed; font-family: sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { color: #00d4ff; text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #8892b0; margin-bottom: 30px; }
+        .card { background: #10192e; border: 1px solid #1e3a5f; border-radius: 12px; padding: 30px; margin: 20px 0; }
+        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0,212,255,0.03);
+            border-radius: 12px;
+            margin: 15px 0;
+            border: 1px solid #1e3a5f;
+            transition: all 0.2s;
+        }
+        .task-item:hover { background: rgba(0,212,255,0.05); }
+        
+        .task-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-right: 20px;
+            background: rgba(0,212,255,0.1);
+            flex-shrink: 0;
+        }
+        
+        .task-content { flex: 1; }
+        .task-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .task-desc { font-size: 0.9rem; color: #8892b0; margin-bottom: 8px; }
+        .task-progress { 
+            font-size: 0.85rem; 
+            color: #8892b0;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        
+        .task-reward {
+            text-align: center;
+            margin: 0 20px;
+            min-width: 80px;
+        }
+        .reward-points { font-size: 1.5rem; color: #3ecf8e; font-weight: bold; }
+        .reward-label { font-size: 0.8rem; color: #8892b0; }
+        
+        .task-action { min-width: 120px; }
+        .btn {
+            background: #00d4ff;
+            color: #042;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+        .btn:disabled {
+            background: #1e3a5f;
+            color: #8892b0;
+            cursor: not-allowed;
+        }
+        .btn-done {
+            background: #3ecf8e;
+            color: #042;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #0066ff);
+            transition: width 0.3s;
+        }
+        
+        .loading { text-align: center; padding: 40px; color: #8892b0; }
+        .share-modal-mask { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
+        .share-modal-mask.show { display: flex; }
+        .share-modal { background: #10192e; border: 1px solid #1e3a5f; border-radius: 12px; padding: 22px; max-width: 480px; width: 100%; }
+        .share-modal h3 { color: #00d4ff; margin: 0 0 12px; }
+        .share-modal p { color: #8892b0; font-size: .9rem; line-height: 1.6; margin: 0 0 14px; }
+        .share-modal input { width: 100%; box-sizing: border-box; padding: 10px; background: #0a1020; border: 1px solid #1e3a5f; border-radius: 8px; color: #e0e6ed; margin-bottom: 12px; }
+        .share-modal .row { display: flex; gap: 10px; }
+        .share-modal .btn-ghost { background: transparent; border: 1px solid #1e3a5f; color: #8892b0; }
+        @media (max-width: 720px) {
+            body { padding: 12px; }
+            h1 { font-size: 1.8rem; }
+            .card { padding: 16px; }
+            .task-item { align-items: flex-start; gap: 12px; padding: 16px; flex-wrap: wrap; }
+            .task-icon { width: 44px; height: 44px; font-size: 1.4rem; margin-right: 0; }
+            .task-content { min-width: calc(100% - 60px); }
+            .task-reward { margin: 8px 0 0 56px; text-align: left; min-width: 90px; }
+            .task-action { min-width: 100%; margin-top: 10px; }
+            .btn { padding: 12px 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/points" class="back-link">← 返回积分系统</a>
+        
+        <h1>📋 每日任务</h1>
+        <p class="subtitle">完成任务获取积分奖励</p>
+
+        <div id="loading" class="loading">加载中...</div>
+
+        <div id="tasksContent" class="card" style="display:none;">
+            <div class="task-item">
+                <div class="task-icon">✅</div>
+                <div class="task-content">
+                    <div class="task-title">每日签到</div>
+                    <div class="task-desc">每天签到一次，持续签到获得更多奖励</div>
+                    <div class="task-progress" id="checkinProgress">今日未签到</div>
+                </div>
+                <div class="task-reward">
+                    <div class="reward-points">+10</div>
+                    <div class="reward-label">积分</div>
+                </div>
+                <div class="task-action">
+                    <button class="btn" id="checkinBtn" onclick="doCheckin()">签到</button>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-icon">🔍</div>
+                <div class="task-content">
+                    <div class="task-title">使用检测功能</div>
+                    <div class="task-desc">使用自选合约检测功能，每次间隔5分钟</div>
+                    <div class="task-progress">今日 <span id="detectionCount">0</span>/3 次</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="detectionProgress" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="task-reward">
+                    <div class="reward-points">+5</div>
+                    <div class="reward-label">每次</div>
+                </div>
+                <div class="task-action">
+                    <button class="btn" id="detectBtn" onclick="goToDetection()">去检测</button>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-icon">📝</div>
+                <div class="task-content">
+                    <div class="task-title">提交爆仓案例</div>
+                    <div class="task-desc">提交真实的爆仓案例，帮助社区</div>
+                    <div class="task-progress">今日 <span id="caseCount">0</span>/2 次</div>
+                    <div class="progress-bar"><div class="progress-fill" id="caseProgress" style="width:0%"></div></div>
+                </div>
+                <div class="task-reward">
+                    <div class="reward-points">+50</div>
+                    <div class="reward-label">每次</div>
+                </div>
+                <div class="task-action">
+                    <button class="btn" id="caseBtn" onclick="goToCases()">提交案例</button>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-icon">📢</div>
+                <div class="task-content">
+                    <div class="task-title">分享日报到 X</div>
+                    <div class="task-desc">在 X 发布推文后，粘贴推文链接领取积分（每日 1 次）</div>
+                    <div class="task-progress">今日 <span id="shareCount">0</span>/1 次</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="shareProgress" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="task-reward">
+                    <div class="reward-points">+30</div>
+                    <div class="reward-label">积分</div>
+                </div>
+                <div class="task-action">
+                    <button class="btn" id="shareBtn" onclick="shareToX()">去分享</button>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-icon">👥</div>
+                <div class="task-content">
+                    <div class="task-title">邀请新用户</div>
+                    <div class="task-desc">邀请好友注册，双方各得100积分</div>
+                    <div class="task-progress">今日 <span id="inviteTodayCount">0</span> 人</div>
+                </div>
+                <div class="task-reward">
+                    <div class="reward-points">+100</div>
+                    <div class="reward-label">每人</div>
+                </div>
+                <div class="task-action">
+                    <button class="btn" onclick="goToInvite()">去邀请</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastMask" class="share-modal-mask" role="dialog" aria-modal="true">
+        <div class="share-modal" style="text-align:center">
+            <h3 id="toastTitle" style="color:#00d4ff;margin:0 0 12px">提示</h3>
+            <p id="toastMsg" style="color:#e0e6ed;line-height:1.6;margin:0 0 18px;font-size:.95rem"></p>
+            <button type="button" class="btn" style="width:100%" onclick="closeToast()">知道了</button>
+        </div>
+    </div>
+
+    <div id="shareModalMask" class="share-modal-mask" role="dialog" aria-modal="true">
+        <div class="share-modal">
+            <h3>提交分享证明</h3>
+            <p>1. 先在 X 发布包含本站链接的推文<br>2. 复制推文链接粘贴到下方<br>3. 打开分享窗口后需等待约 <span id="shareMinDelay">20</span> 秒才可提交</p>
+            <input type="url" id="tweetUrlInput" placeholder="https://x.com/你的用户名/status/123456...">
+            <p id="shareWaitHint" style="color:#ffb020;font-size:.85rem;display:none;"></p>
+            <div class="row">
+                <button type="button" class="btn btn-ghost" style="flex:1" onclick="closeShareModal()">取消</button>
+                <button type="button" class="btn" style="flex:1" id="claimShareBtn" onclick="claimShareReward()">领取积分</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('每日任务页面已加载');
+        var shareOpenedAt = null;
+        var shareMinDelaySec = 20;
+
+        function showToast(message, ok) {
+            document.getElementById('toastTitle').textContent = ok ? '签到成功' : '提示';
+            document.getElementById('toastMsg').textContent = message || '';
+            document.getElementById('toastMsg').style.color = ok ? '#3ecf8e' : '#ff8888';
+            document.getElementById('toastMask').classList.add('show');
+        }
+        function closeToast() {
+            document.getElementById('toastMask').classList.remove('show');
+        }
+        document.getElementById('toastMask').addEventListener('click', function(e) {
+            if (e.target.id === 'toastMask') closeToast();
+        });
+
+        async function loadTaskStatus() {
+            try {
+                const userRes = await fetch('/api/points/user');
+                if (!userRes.ok) {
+                    document.getElementById('loading').innerHTML = '请先<a href="/points" style="color:#00d4ff;">登录</a>查看任务';
+                    return;
+                }
+
+                const taskRes = await fetch('/api/points/tasks');
+                const data = await taskRes.json();
+                if (!taskRes.ok) throw new Error(data.error || '任务状态加载失败');
+
+                const byId = {};
+                (data.tasks || []).forEach(t => byId[t.id] = t);
+
+                const checkin = byId.daily_checkin;
+                if (checkin && checkin.completed) {
+                    document.getElementById('checkinBtn').textContent = '已完成';
+                    document.getElementById('checkinBtn').classList.add('btn-done');
+                    document.getElementById('checkinBtn').disabled = true;
+                    document.getElementById('checkinProgress').textContent = '今日已签到 ✓';
+                    document.getElementById('checkinProgress').style.color = '#3ecf8e';
+                }
+
+                const detection = byId.detection || {count:0, limit:3, completed:false};
+                document.getElementById('detectionCount').textContent = Math.min(detection.count || 0, detection.limit || 3);
+                document.getElementById('detectionProgress').style.width = Math.min(100, ((detection.count || 0) / (detection.limit || 3)) * 100) + '%';
+                const detectBtn = document.getElementById('detectBtn');
+                detectBtn.textContent = '去检测';
+                detectBtn.disabled = false;
+                detectBtn.classList.remove('btn-done');
+                if (detection.completed) {
+                    detectBtn.textContent = '已完成';
+                    detectBtn.disabled = true;
+                    detectBtn.classList.add('btn-done');
+                }
+
+                const share = byId.share_report || {count:0, limit:1, completed:false};
+                document.getElementById('shareCount').textContent = Math.min(share.count || 0, share.limit || 1);
+                document.getElementById('shareProgress').style.width = Math.min(100, ((share.count || 0) / (share.limit || 1)) * 100) + '%';
+                const shareBtn = document.getElementById('shareBtn');
+                shareBtn.textContent = '去分享';
+                shareBtn.disabled = false;
+                shareBtn.classList.remove('btn-done');
+                if (share.completed) {
+                    shareBtn.textContent = '已完成';
+                    shareBtn.disabled = true;
+                    shareBtn.classList.add('btn-done');
+                }
+
+                const invite = byId.invite_user || {count:0};
+                document.getElementById('inviteTodayCount').textContent = invite.count || 0;
+
+                const submitCase = byId.submit_case || {count:0, limit:2, completed:false};
+                document.getElementById('caseCount').textContent = Math.min(submitCase.count || 0, submitCase.limit || 2);
+                document.getElementById('caseProgress').style.width = Math.min(100, ((submitCase.count || 0) / (submitCase.limit || 2)) * 100) + '%';
+                const caseBtn = document.getElementById('caseBtn');
+                if (submitCase.completed) {
+                    caseBtn.textContent = '已完成';
+                    caseBtn.disabled = true;
+                    caseBtn.classList.add('btn-done');
+                }
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('tasksContent').style.display = 'block';
+            } catch (err) {
+                console.error('加载任务状态失败:', err);
+                document.getElementById('loading').innerHTML = '加载失败，请刷新重试';
+            }
+        }
+        
+        async function doCheckin() {
+            const btn = document.getElementById('checkinBtn');
+            btn.disabled = true;
+            btn.textContent = '签到中...';
+            
+            try {
+                const res = await fetch('/api/points/checkin', { method: 'POST' });
+                const data = await res.json();
+                
+                if (data.success) {
+                    showToast(data.message || '签到成功', true);
+                    btn.textContent = '已完成';
+                    btn.classList.add('btn-done');
+                    btn.disabled = true;
+                    document.getElementById('checkinProgress').textContent = '今日已签到 ✓';
+                    document.getElementById('checkinProgress').style.color = '#3ecf8e';
+                    loadTaskStatus();
+                } else {
+                    showToast(data.message || '今日签到次数已达上限', false);
+                    btn.disabled = false;
+                    btn.textContent = '签到';
+                    loadTaskStatus();
+                }
+            } catch (err) {
+                console.error('签到失败:', err);
+                showToast('签到失败，请重试', false);
+                btn.disabled = false;
+                btn.textContent = '签到';
+            }
+        }
+        
+        function closeShareModal() {
+            document.getElementById('shareModalMask').classList.remove('show');
+        }
+
+        function updateShareWaitHint() {
+            var hint = document.getElementById('shareWaitHint');
+            var btn = document.getElementById('claimShareBtn');
+            if (!shareOpenedAt) {
+                hint.style.display = 'none';
+                btn.disabled = false;
+                return;
+            }
+            var left = Math.ceil(shareMinDelaySec - (Date.now() / 1000 - shareOpenedAt));
+            if (left > 0) {
+                hint.style.display = 'block';
+                hint.textContent = '请完成分享后再提交，还需等待约 ' + left + ' 秒';
+                btn.disabled = true;
+            } else {
+                hint.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+
+        async function shareToX() {
+            const btn = document.getElementById('shareBtn');
+            if (btn.disabled) return;
+            const text = '🔍 今日爆仓日报 | Wick Detector\n\n查看最新的加密货币爆仓数据，识别市场风险！\n\n';
+            const url = window.location.origin + '/detect';
+            const twitterUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
+            shareOpenedAt = Date.now() / 1000;
+            window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+            document.getElementById('tweetUrlInput').value = '';
+            document.getElementById('shareModalMask').classList.add('show');
+            updateShareWaitHint();
+            var timer = setInterval(function() {
+                updateShareWaitHint();
+                if (!shareOpenedAt || (Date.now() / 1000 - shareOpenedAt) >= shareMinDelaySec) {
+                    clearInterval(timer);
+                }
+            }, 1000);
+        }
+
+        async function claimShareReward() {
+            const tweetUrl = document.getElementById('tweetUrlInput').value.trim();
+            if (!tweetUrl) {
+                alert('请粘贴已发布的推文链接');
+                return;
+            }
+            const btn = document.getElementById('claimShareBtn');
+            btn.disabled = true;
+            btn.textContent = '提交中...';
+            try {
+                const res = await fetch('/api/points/share_report', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        tweet_url: tweetUrl,
+                        share_opened_at: shareOpenedAt
+                    })
+                });
+                const data = await res.json();
+                if (data.min_delay_seconds) {
+                    shareMinDelaySec = data.min_delay_seconds;
+                    document.getElementById('shareMinDelay').textContent = shareMinDelaySec;
+                }
+                if (data.success) {
+                    alert('✅ ' + data.message);
+                    closeShareModal();
+                    shareOpenedAt = null;
+                    loadTaskStatus();
+                } else {
+                    alert('❌ ' + (data.message || data.error || '领取失败'));
+                    updateShareWaitHint();
+                }
+            } catch (e) {
+                alert('提交失败，请稍后重试');
+                updateShareWaitHint();
+            }
+            btn.textContent = '领取积分';
+        }
+        
+        function goToDetection() {
+            window.location.href = '/detect?from=tasks';
+        }
+        
+        function goToInvite() {
+            window.location.href = '/invite';
+        }
+
+        function goToCases() {
+            window.location.href = '/cases';
+        }
+        
+        loadTaskStatus();
+    </script>
+</body>
+</html>

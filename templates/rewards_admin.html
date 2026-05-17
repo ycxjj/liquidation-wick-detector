@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奖励发放管理 - Wick Detector</title>
+    <style>
+        body { background:#0a0e27; color:#e0e6ed; font-family:sans-serif; margin:0; padding:24px; }
+        .container { max-width:1200px; margin:0 auto; }
+        .back-link { color:#00d4ff; text-decoration:none; display:inline-block; margin-bottom:20px; }
+        h1, h2 { color:#00d4ff; }
+        .card { background:#10192e; border:1px solid #1e3a5f; border-radius:12px; padding:24px; margin:18px 0; }
+        .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+        input, select { background:#0a1020; border:1px solid #1e3a5f; color:#e0e6ed; border-radius:8px; padding:10px 12px; }
+        button { background:#00d4ff; color:#042; border:none; border-radius:8px; padding:10px 16px; font-weight:bold; cursor:pointer; }
+        button.secondary { background:#1e3a5f; color:#e0e6ed; }
+        button:disabled { opacity:.5; cursor:not-allowed; }
+        table { width:100%; border-collapse:collapse; margin-top:16px; font-size:.9rem; }
+        th, td { padding:10px 12px; border-bottom:1px solid #1e3a5f; text-align:left; vertical-align:top; }
+        th { color:#00d4ff; }
+        .muted { color:#8892b0; font-size:.9rem; line-height:1.6; }
+        .mono { font-family:monospace; word-break:break-all; font-size:.82rem; }
+        .tag { display:inline-block; padding:3px 10px; border-radius:999px; font-size:.82rem; font-weight:bold; }
+        .pending { color:#ffb020; background:rgba(255,176,32,.12); }
+        .approved { color:#00d4ff; background:rgba(0,212,255,.12); }
+        .distributed { color:#3ecf8e; background:rgba(62,207,142,.12); }
+        .alert { padding:12px 16px; border-radius:8px; margin:12px 0; display:none; }
+        .alert.ok { background:rgba(62,207,142,.1); border:1px solid #3ecf8e; color:#3ecf8e; }
+        .alert.err { background:rgba(255,92,92,.1); border:1px solid #ff5c5c; color:#ff9b9b; }
+        .rules-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin:14px 0; }
+        .rule-chip { background:rgba(0,212,255,.06); border:1px solid #1e3a5f; border-radius:8px; padding:12px; text-align:center; }
+        .rule-chip .rank { color:#8892b0; font-size:.8rem; }
+        .rule-chip .amt { color:#3ecf8e; font-size:1.2rem; font-weight:bold; margin-top:4px; }
+        .detail-box { margin-top:16px; padding:16px; background:rgba(0,0,0,.25); border-radius:10px; border:1px solid #1e3a5f; }
+        .detail-meta { display:flex; flex-wrap:wrap; gap:16px; margin-bottom:14px; font-size:.88rem; }
+        .detail-meta span { color:#8892b0; }
+        .detail-meta strong { color:#e0e6ed; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/admin/points" class="back-link">← 积分管理首页</a>
+    <h1>奖励发放管理</h1>
+    <p class="muted">流程：创建周快照 → 审核各名次 USDT 奖励 → 链上转账 → 填写 TxHash 标记已发放。</p>
+
+    <div id="alert" class="alert"></div>
+
+    <div class="card">
+        <h2>每周排名奖励标准（当前生效）</h2>
+        <p class="muted">创建快照时按<strong>当时排行榜前10名</strong>自动生成下列 USDT 奖励记录（与积分页排行榜说明一致）。</p>
+        <div class="rules-grid" id="rulesGrid">加载中...</div>
+        <p class="muted" style="margin-top:8px;">合计每周期最多发放：<strong id="totalWeeklyUsdt" style="color:#3ecf8e">—</strong> USDT</p>
+    </div>
+
+    <div class="card">
+        <h2>1. 创建周排名快照</h2>
+        <p class="muted">选择统计周期后，系统锁定当前排行榜前十名并生成奖励记录（pending）。</p>
+        <div class="row">
+            <label>开始日期 <input id="weekStart" type="date"></label>
+            <label>结束日期 <input id="weekEnd" type="date"></label>
+            <button onclick="createSnapshot()">创建快照</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>2. 历史快照</h2>
+        <button class="secondary" onclick="loadSnapshots()">刷新列表</button>
+        <div id="snapshotsBox" class="muted" style="margin-top:12px;">加载中...</div>
+    </div>
+
+    <div class="card">
+        <h2>3. 快照奖励详情</h2>
+        <p class="muted">选择快照查看该周期前十名、积分、应发 USDT 及发放状态。</p>
+        <div class="row">
+            <label>快照 ID
+                <input id="snapshotId" placeholder="输入或从上方列表选择" style="min-width:120px">
+            </label>
+            <button class="secondary" onclick="loadSnapshotDetail()">查看详情</button>
+            <button class="secondary" onclick="loadPendingRewards()">仅看待发放</button>
+        </div>
+        <div id="snapshotDetailBox" class="detail-box" style="display:none;"></div>
+        <div id="rewardsActionBox" style="margin-top:16px;"></div>
+    </div>
+</div>
+
+<script>
+var weeklyRules = [];
+
+function showAlert(message, ok) {
+    var el = document.getElementById('alert');
+    el.textContent = message;
+    el.className = 'alert ' + (ok ? 'ok' : 'err');
+    el.style.display = 'block';
+    setTimeout(function(){ el.style.display = 'none'; }, 5000);
+}
+
+function todayOffset(days) {
+    var d = new Date();
+    d.setDate(d.getDate() + days);
+    return d.toISOString().slice(0, 10);
+}
+
+function statusLabel(st) {
+    return {pending:'待审核', approved:'已审核', distributed:'已发放'}[st] || st;
+}
+
+function statusClass(st) {
+    return st === 'distributed' ? 'distributed' : (st === 'approved' ? 'approved' : 'pending');
+}
+
+function renderRulesGrid(rules) {
+    weeklyRules = rules || [];
+    var grid = document.getElementById('rulesGrid');
+    var total = 0;
+    var html = '';
+    var seen410 = false;
+    (rules || []).forEach(function(r) {
+        if (r.rank <= 3) {
+            html += '<div class="rule-chip"><div class="rank">' + r.rank_label + '</div><div class="amt">' + r.usdt + ' U</div></div>';
+            total += r.usdt;
+        } else if (!seen410) {
+            seen410 = true;
+            html += '<div class="rule-chip"><div class="rank">第4-10名</div><div class="amt">各 3 U</div></div>';
+            total += 3 * 7;
+        }
+    });
+    if (!html) {
+        html = '<div class="rule-chip"><div class="rank">第1名</div><div class="amt">20 U</div></div>' +
+            '<div class="rule-chip"><div class="rank">第2名</div><div class="amt">10 U</div></div>' +
+            '<div class="rule-chip"><div class="rank">第3名</div><div class="amt">5 U</div></div>' +
+            '<div class="rule-chip"><div class="rank">第4-10名</div><div class="amt">各 3 U</div></div>';
+        total = 20 + 10 + 5 + 7 * 3;
+    }
+    grid.innerHTML = html;
+    document.getElementById('totalWeeklyUsdt').textContent = total;
+}
+
+async function loadWeeklyRules() {
+    try {
+        var res = await fetch('/api/points/weekly_rank_rewards');
+        var data = await res.json();
+        if (data.success) renderRulesGrid(data.rules);
+    } catch (e) {
+        renderRulesGrid([]);
+    }
+}
+
+document.getElementById('weekStart').value = todayOffset(-7);
+document.getElementById('weekEnd').value = todayOffset(0);
+
+async function createSnapshot() {
+    var weekStart = document.getElementById('weekStart').value;
+    var weekEnd = document.getElementById('weekEnd').value;
+    if (!weekStart || !weekEnd) return showAlert('请选择开始和结束日期', false);
+    try {
+        var res = await fetch('/api/points/snapshots', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({week_start: weekStart, week_end: weekEnd})
+        });
+        var data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || '创建失败');
+        showAlert('快照创建成功，ID: ' + data.snapshot.id, true);
+        document.getElementById('snapshotId').value = data.snapshot.id;
+        loadSnapshots();
+        loadSnapshotDetail();
+    } catch (e) {
+        showAlert(e.message, false);
+    }
+}
+
+async function loadSnapshots() {
+    var box = document.getElementById('snapshotsBox');
+    box.textContent = '加载中...';
+    try {
+        var res = await fetch('/api/points/snapshots?limit=20');
+        var data = await res.json();
+        if (!data.success || !data.snapshots.length) {
+            box.textContent = '暂无快照';
+            return;
+        }
+        var html = '<table><thead><tr><th>ID</th><th>周期</th><th>创建时间</th><th>创建人</th><th>操作</th></tr></thead><tbody>';
+        data.snapshots.forEach(function(s) {
+            html += '<tr><td>' + s.id + '</td><td>' + s.week_start + ' ~ ' + s.week_end + '</td><td>' + (s.created_at || '-').split('T')[0] + '</td><td class="mono">' + (s.created_by || '-') + '</td><td><button class="secondary" onclick="selectSnapshot(' + s.id + ')">查看详情</button></td></tr>';
+        });
+        html += '</tbody></table>';
+        box.innerHTML = html;
+    } catch (e) {
+        box.textContent = '加载失败: ' + e.message;
+    }
+}
+
+function selectSnapshot(id) {
+    document.getElementById('snapshotId').value = id;
+    loadSnapshotDetail();
+}
+
+function renderRewardsTable(rewards, showActions) {
+    if (!rewards.length) return '<p class="muted">暂无奖励记录</p>';
+    rewards.sort(function(a, b) { return Number(a.rank) - Number(b.rank); });
+    var html = '<table><thead><tr><th>排名</th><th>钱包</th><th>快照积分</th><th>USDT</th><th>状态</th>';
+    if (showActions) html += '<th>TxHash</th><th>操作</th>';
+    html += '</tr></thead><tbody>';
+    rewards.forEach(function(r) {
+        var st = r.status;
+        html += '<tr><td>#' + r.rank + '</td><td class="mono">' + r.wallet_address + '</td><td>' + r.points + '</td><td style="color:#3ecf8e;font-weight:bold">' + r.reward_amount + '</td>';
+        html += '<td><span class="tag ' + statusClass(st) + '">' + statusLabel(st) + '</span></td>';
+        if (showActions) {
+            var tx = r.txhash || '';
+            html += '<td>' + (st === 'distributed' && tx ? '<a href="https://etherscan.io/tx/' + tx + '" target="_blank" class="mono">' + tx.slice(0,10) + '...</a>' : '<input id="tx_' + r.id + '" placeholder="TxHash" style="width:200px" value="' + tx + '">') + '</td>';
+            html += '<td>';
+            if (st === 'pending') html += '<button class="secondary" onclick="approveReward(' + r.id + ')">审核</button> ';
+            if (st === 'pending' || st === 'approved') html += '<button onclick="markDistributed(' + r.id + ')">标记已发放</button>';
+            if (st === 'distributed') html += '—';
+            html += '</td>';
+        }
+        html += '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+}
+
+async function loadSnapshotDetail() {
+    var sid = document.getElementById('snapshotId').value.trim();
+    var detailBox = document.getElementById('snapshotDetailBox');
+    var actionBox = document.getElementById('rewardsActionBox');
+    if (!sid) return showAlert('请输入快照 ID', false);
+
+    detailBox.style.display = 'block';
+    detailBox.innerHTML = '加载中...';
+    actionBox.innerHTML = '';
+
+    try {
+        var res = await fetch('/api/points/snapshots/' + encodeURIComponent(sid));
+        var data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || '加载失败');
+
+        var s = data.snapshot;
+        var sum = s.status_summary || {};
+        detailBox.innerHTML =
+            '<h3 style="color:#00d4ff;margin:0 0 12px">快照 #' + s.id + ' · ' + s.week_start + ' ~ ' + s.week_end + '</h3>' +
+            '<div class="detail-meta">' +
+            '<span>创建: <strong>' + (s.created_at || '-').split('T')[0] + '</strong></span>' +
+            '<span>创建人: <strong class="mono">' + (s.created_by || '-') + '</strong></span>' +
+            '<span>应发合计: <strong style="color:#3ecf8e">' + (s.total_usdt || 0) + ' USDT</strong></span>' +
+            '<span>待审核: <strong>' + (sum.pending || 0) + '</strong></span>' +
+            '<span>已审核: <strong>' + (sum.approved || 0) + '</strong></span>' +
+            '<span>已发放: <strong>' + (sum.distributed || 0) + '</strong></span>' +
+            '</div>' +
+            (s.weekly_champion ? '<p style="margin:12px 0;padding:10px 14px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.35);border-radius:8px;color:#ffd700">🏆 周冠军：<span class="mono">' + s.weekly_champion.wallet_address + '</span> · ' + (s.weekly_champion.label || '') + '</p>' : '') +
+            renderRewardsTable(s.rewards || [], true);
+
+        actionBox.innerHTML = '';
+    } catch (e) {
+        detailBox.innerHTML = '<p style="color:#f44">' + e.message + '</p>';
+    }
+}
+
+async function loadPendingRewards() {
+    var sid = document.getElementById('snapshotId').value.trim();
+    var actionBox = document.getElementById('rewardsActionBox');
+    actionBox.innerHTML = '加载中...';
+    try {
+        var url = '/api/points/rewards/pending' + (sid ? '?snapshot_id=' + encodeURIComponent(sid) : '');
+        var res = await fetch(url);
+        var data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || '加载失败');
+        if (!data.rewards.length) {
+            actionBox.innerHTML = '<p class="muted">暂无待发放奖励</p>';
+            return;
+        }
+        actionBox.innerHTML = '<h3 style="color:#00d4ff;margin-bottom:8px">待发放列表</h3>' + renderRewardsTable(data.rewards, true);
+    } catch (e) {
+        actionBox.innerHTML = '<p style="color:#f44">' + e.message + '</p>';
+    }
+}
+
+async function approveReward(id) {
+    try {
+        var res = await fetch('/api/points/rewards/' + id + '/approve', {method:'POST'});
+        var data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || '审核失败');
+        showAlert('已审核通过', true);
+        loadSnapshotDetail();
+    } catch (e) { showAlert(e.message, false); }
+}
+
+async function markDistributed(id) {
+    var txEl = document.getElementById('tx_' + id);
+    var tx = txEl ? txEl.value.trim() : '';
+    if (!tx) return showAlert('请先填写 TxHash', false);
+    try {
+        var res = await fetch('/api/points/rewards/' + id + '/txhash', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({txhash: tx})
+        });
+        var data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || '记录失败');
+        showAlert('已标记发放', true);
+        loadSnapshotDetail();
+    } catch (e) { showAlert(e.message, false); }
+}
+
+loadWeeklyRules();
+loadSnapshots();
+</script>
+</body>
+</html>

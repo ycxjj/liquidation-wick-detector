@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分系统 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <style>
+        body { background: #0a0e27; color: #e0e6ed; font-family: sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #00d4ff; text-align: center; font-size: 2.5rem; }
+        .card { background: #10192e; border: 1px solid #1e3a5f; border-radius: 12px; padding: 30px; margin: 20px 0; }
+        .btn { background: #00d4ff; color: #042; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.2s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-secondary { background: transparent; border: 1px solid #1e3a5f; color: #e0e6ed; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat { text-align: center; padding: 20px; background: rgba(0,212,255,0.05); border-radius: 10px; border: 1px solid #1e3a5f; }
+        .stat-value { font-size: 2rem; color: #00d4ff; font-weight: bold; }
+        .stat-label { color: #8892b0; font-size: 0.9rem; margin-top: 5px; }
+        .wallet { font-family: monospace; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; word-break: break-all; font-size: 0.9rem; }
+        .alert { padding: 12px 20px; border-radius: 8px; margin: 15px 0; }
+        .alert-success { background: rgba(62,207,142,0.1); border: 1px solid #3ecf8e; color: #3ecf8e; }
+        .alert-error { background: rgba(255,68,68,0.1); border: 1px solid #f44; color: #f44; }
+        .alert-info { background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #1e3a5f; }
+        th { color: #00d4ff; font-weight: 600; }
+        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        .login-buttons { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .wallet-info { background: rgba(0,212,255,0.05); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.9rem; color: #8892b0; }
+        .wallet-info a { color: #00d4ff; text-decoration: none; }
+        .wallet-info a:hover { text-decoration: underline; }
+        
+        /* 模态框样式 */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+        .modal.flex-center { display: none; align-items: center; justify-content: center; padding: 16px; }
+        .modal.flex-center.show { display: flex; }
+        .modal-content { background: #10192e; margin: 10% auto; padding: 30px; border: 1px solid #1e3a5f; border-radius: 12px; max-width: 500px; }
+        .modal.flex-center .modal-content { margin: 0; width: 100%; max-width: 400px; text-align: center; }
+        .modal-header { color: #00d4ff; font-size: 1.5rem; margin-bottom: 20px; }
+        .modal-body { color: #e0e6ed; line-height: 1.8; }
+        .modal-footer { margin-top: 20px; text-align: right; }
+        .close-btn { background: #1e3a5f; color: #e0e6ed; padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer; }
+        .wallet-option { display: flex; align-items: center; padding: 15px; background: rgba(0,212,255,0.05); border-radius: 8px; margin: 10px 0; cursor: pointer; transition: all 0.2s; }
+        .wallet-option:hover { background: rgba(0,212,255,0.1); }
+        .wallet-icon { width: 40px; height: 40px; margin-right: 15px; }
+        @media (max-width: 720px) {
+            body { padding: 12px; }
+            .container { max-width: 100%; }
+            h1 { font-size: 1.8rem; }
+            .card { padding: 16px; margin: 14px 0; }
+            .btn { width: 100%; margin: 6px 0 !important; }
+            .stats { grid-template-columns: 1fr; gap: 12px; }
+            table { display: block; overflow-x: auto; white-space: nowrap; }
+            .modal-content { margin: 20% 12px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← 返回首页</a>
+        <h1>🎯 积分系统</h1>
+        <p style="text-align:center;color:#8892b0;margin-bottom:30px;">完成任务获取积分，解锁更多权益</p>
+
+        <div id="loginSection" class="card" style="text-align:center;display:none;">
+            <h2>连接钱包登录</h2>
+            <p style="color:#8892b0;margin:20px 0;">使用 Web3 钱包签名登录，安全且无需注册</p>
+            <div class="login-buttons">
+                <button class="btn" onclick="connectWallet()" style="min-width:200px;">🦊 连接钱包</button>
+                <button class="btn btn-secondary" onclick="testLogin()" style="min-width:200px;">🧪 测试登录（无需钱包）</button>
+            </div>
+            <div class="wallet-info">
+                <p><strong>什么是 Web3 钱包？</strong></p>
+                <p>Web3 钱包是您的数字身份，推荐使用：</p>
+                <p>
+                    • <a href="https://metamask.io/download/" target="_blank">MetaMask</a> (最流行)<br>
+                    • <a href="https://www.okx.com/web3" target="_blank">OKX Wallet</a><br>
+                    • <a href="https://www.coinbase.com/wallet" target="_blank">Coinbase Wallet</a>
+                </p>
+                <p style="margin-top:15px;font-size:0.85rem;">💡 如果只是想体验功能，可以直接点击"测试登录"</p>
+                
+                <div style="margin-top:20px;padding:15px;background:rgba(255,184,32,0.1);border:1px solid rgba(255,184,32,0.3);border-radius:8px;">
+                    <p style="color:#ffb020;font-weight:bold;margin-bottom:8px;">⚠️ 测试登录说明</p>
+                    <p style="font-size:0.85rem;line-height:1.6;color:#e0e6ed;">
+                        • 测试地址基于当前浏览器生成，同一浏览器地址固定<br>
+                        • 换浏览器或设备会生成新的测试地址<br>
+                        • 如需跨设备使用或领取奖励，建议连接真实钱包<br>
+                        • 测试登录仅用于体验功能
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="userSection" style="display:none;">
+            <div class="card">
+                <h2 style="color:#00d4ff;">我的积分</h2>
+                <div style="text-align:center;margin:15px 0;">
+                    <a href="/tasks" style="display:inline-block;background:linear-gradient(135deg,#00d4ff,#0066ff);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:bold;">📋 每日任务</a>
+                </div>
+                <div id="alertBox"></div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="totalPoints">0</div>
+                        <div class="stat-label">总积分</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="userLevel">Lv.1</div>
+                        <div class="stat-label">当前等级</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="creditScore">100</div>
+                        <div class="stat-label">信用分</div>
+                    </div>
+                </div>
+                <p style="color:#8892b0;margin-top:20px;">钱包地址</p>
+                <div class="wallet" id="walletAddress"></div>
+                <p style="color:#8892b0;margin-top:15px;">等级称号: <span style="color:#00d4ff;font-weight:bold;" id="levelName">入门侦探</span></p>
+                <div id="badgesSection" style="display:none;margin-top:18px;padding:14px;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.25);border-radius:10px;">
+                    <p style="color:#ffd700;font-weight:bold;margin-bottom:10px;">🏆 我的徽章</p>
+                    <div id="badgesList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+                </div>
+                <div style="margin-top:20px;">
+                    <button class="btn" onclick="dailyCheckin()">每日签到 (+10)</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='/points/history'" style="margin-left:10px;">📊 查看历史</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='/invite'" style="margin-left:10px;">👥 邀请好友</button>
+                    <button class="btn btn-secondary" onclick="logout()" style="margin-left:10px;">登出</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="text-align:center;margin-top:20px;">
+                    <a href="/leaderboard" style="display:inline-block;background:#1e3a5f;color:#00d4ff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">🏆 查看排行榜</a>
+                    <a href="/shop" style="display:inline-block;background:#1e3a5f;color:#00d4ff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin-left:10px;">🛒 积分商城</a>
+                </div>
+                <h2 style="color:#00d4ff;">积分规则</h2>
+                <table>
+                    <thead><tr><th>行为</th><th>积分</th><th>频率限制</th></tr></thead>
+                    <tbody>
+                        <tr><td>每日签到</td><td>+10</td><td>1次/天</td></tr>
+                        <tr><td>使用自选检测</td><td>+5</td><td>3次/天</td></tr>
+                        <tr><td>提交爆仓案例</td><td>+50</td><td>2次/天</td></tr>
+                        <tr><td>案例被确认真实</td><td>+100</td><td>不限</td></tr>
+                        <tr><td>分享日报到 X</td><td>+30</td><td>1次/天</td></tr>
+                        <tr><td>邀请新用户</td><td>+100</td><td>不限</td></tr>
+                        <tr><td>反馈有效 Bug</td><td>+200</td><td>不限</td></tr>
+                    </tbody>
+                </table>
+                
+                <!-- 兑换规则部分 -->
+                <div style="margin-top:30px;padding:20px;background:rgba(0,212,255,0.08);border-radius:10px;border:1px solid #1e3a5f;">
+                    <h3 style="color:#00d4ff;margin-bottom:15px;">💰 积分兑换规则</h3>
+                    <div id="exchangeRulesLoading" style="text-align:center;color:#8892b0;padding:20px;">
+                        加载中...
+                    </div>
+                    <div id="exchangeRulesContent" style="display:none;">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:15px;">
+                            <div style="background:rgba(0,0,0,0.3);padding:15px;border-radius:8px;">
+                                <div style="color:#8892b0;font-size:0.85rem;">兑换比例</div>
+                                <div style="color:#00d4ff;font-size:1.3rem;font-weight:bold;margin-top:5px;" id="exchangeRate">-</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.3);padding:15px;border-radius:8px;">
+                                <div style="color:#8892b0;font-size:0.85rem;">兑换范围</div>
+                                <div style="color:#00d4ff;font-size:1.3rem;font-weight:bold;margin-top:5px;" id="exchangeRange">-</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.3);padding:15px;border-radius:8px;">
+                                <div style="color:#8892b0;font-size:0.85rem;">每日限额</div>
+                                <div style="color:#00d4ff;font-size:1.3rem;font-weight:bold;margin-top:5px;" id="dailyLimit">-</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.3);padding:15px;border-radius:8px;">
+                                <div style="color:#8892b0;font-size:0.85rem;">到账时间</div>
+                                <div style="color:#00d4ff;font-size:1.3rem;font-weight:bold;margin-top:5px;" id="settlementTime">-</div>
+                            </div>
+                        </div>
+                        <div style="color:#8892b0;font-size:0.9rem;line-height:1.8;">
+                            <p>📌 <strong>说明</strong>：</p>
+                            <ul style="margin:10px 0;padding-left:20px;">
+                                <li>积分可兑换为 USDT，按当前汇率结算</li>
+                                <li>每日限额为每人每天最多可兑换的积分数量</li>
+                                <li>兑换申请提交后进入<strong>人工审核队列</strong>，审核通过后打款</li>
+                                <li>提币地址修改有 <strong><span id="cooldownHoursRule">72</span> 小时</strong>冷却期</li>
+                                <li>兑换规则可能根据市场情况调整，以最新规则为准</li>
+                            </ul>
+                        </div>
+                        <div id="redeemSection" style="margin-top:16px;display:none;">
+                            <label style="color:#8892b0;">申请兑换积分数量</label>
+                            <input type="number" id="redeemPointsInput" min="1000" step="100" placeholder="最低 1000"
+                                   style="width:100%;padding:12px;background:#0a1020;border:1px solid #1e3a5f;border-radius:8px;color:#e0e6ed;margin:8px 0;box-sizing:border-box;">
+                            <button class="btn" onclick="submitRedemption()">提交兑换申请</button>
+                            <p id="redeemHint" class="muted" style="color:#8892b0;font-size:.85rem;margin-top:8px;"></p>
+                            <div id="myRedemptionsList" style="margin-top:12px;"></div>
+                        </div>
+                    </div>
+                    <div id="exchangeRulesError" style="display:none;text-align:center;color:#f44;padding:20px;">
+                        加载失败，请稍后重试
+                    </div>
+                </div>
+                
+                <div style="margin-top:20px;padding:15px;background:rgba(0,212,255,0.05);border-radius:8px;">
+                    <h3 style="color:#00d4ff;margin-bottom:10px;">等级系统</h3>
+                    <ul style="color:#8892b0;line-height:2;">
+                        <li><strong>Lv.1 入门侦探</strong>: 0-499 积分</li>
+                        <li><strong>Lv.2 初级风控师</strong>: 500-1,999 积分</li>
+                        <li><strong>Lv.3 高级风控师</strong>: 2,000-9,999 积分</li>
+                        <li><strong>Lv.4 创世检测师</strong>: 10,000+ 积分</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 我的奖励 -->
+            <div class="card">
+                <h2 style="color:#00d4ff;">🏆 我的奖励</h2>
+                <div id="myRewardsLoading" style="text-align:center;color:#8892b0;padding:20px;">
+                    加载中...
+                </div>
+                <div id="myRewardsContent" style="display:none;">
+                    <div id="myRewardsList"></div>
+                </div>
+                <div id="myRewardsEmpty" style="display:none;text-align:center;color:#8892b0;padding:30px;">
+                    暂无奖励记录
+                </div>
+            </div>
+            
+            <!-- 提币地址管理 -->
+            <div class="card">
+                <h2 style="color:#00d4ff;">💳 提币地址管理</h2>
+                <div id="withdrawalAddressSection">
+                    <p style="color:#8892b0;margin-bottom:15px;">绑定提币地址后，奖励与兑换将发送到此地址。修改地址需冷却 <span id="cooldownHours">72</span> 小时。</p>
+                    <p id="withdrawalCooldownMsg" style="display:none;color:#ffb020;font-size:.9rem;"></p>
+                    <div id="currentWithdrawalAddress" style="display:none;">
+                        <p style="color:#8892b0;margin-bottom:5px;">当前提币地址：</p>
+                        <div class="wallet" id="withdrawalAddressDisplay"></div>
+                        <button class="btn btn-secondary" onclick="changeWithdrawalAddress()" style="margin-top:10px;">修改地址</button>
+                    </div>
+                    <div id="bindWithdrawalAddressForm" style="display:none;">
+                        <input type="text" id="withdrawalAddressInput" placeholder="输入提币地址（支持 ERC20 / TRC20）" 
+                               style="width:100%;padding:12px;background:#0a1020;border:1px solid #1e3a5f;border-radius:8px;color:#e0e6ed;margin-bottom:10px;box-sizing:border-box;">
+                        <button class="btn" onclick="bindWithdrawalAddress()">绑定地址</button>
+                        <button class="btn btn-secondary" onclick="cancelBindAddress()" style="margin-left:10px;">取消</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 邀请统计 -->
+            <div class="card">
+                <h2 style="color:#00d4ff;">👥 邀请统计</h2>
+                <div id="inviteStatsLoading" style="text-align:center;color:#8892b0;padding:20px;">
+                    加载中...
+                </div>
+                <div id="inviteStatsContent" style="display:none;">
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value" id="inviteCount">0</div>
+                            <div class="stat-label">邀请人数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="invitePoints">0</div>
+                            <div class="stat-label">邀请获得积分</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px;">
+                        <button class="btn" onclick="window.location.href='/invite'">查看邀请详情</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 奖励发放记录（所有人可见） -->
+    <div class="container">
+        <div class="card">
+            <h2 style="color:#00d4ff;">📜 奖励发放记录</h2>
+            <p style="color:#8892b0;margin-bottom:20px;">每期排名奖励发放的链上交易记录</p>
+            <div id="allRewardsLoading" style="text-align:center;color:#8892b0;padding:20px;">
+                加载中...
+            </div>
+            <div id="allRewardsContent" style="display:none;">
+                <div id="allRewardsList"></div>
+            </div>
+            <div id="allRewardsEmpty" style="display:none;text-align:center;color:#8892b0;padding:30px;">
+                暂无发放记录
+            </div>
+        </div>
+    </div>
+
+    <!-- 钱包未安装提示模态框 -->
+    <div id="walletModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">🦊 需要安装 Web3 钱包</div>
+            <div class="modal-body">
+                <p>检测到您还没有安装 Web3 钱包。</p>
+                <p style="margin-top:15px;"><strong>推荐钱包：</strong></p>
+                <div class="wallet-option" onclick="window.open('https://metamask.io/download/', '_blank')">
+                    <div style="width:40px;height:40px;background:#f6851b;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:15px;">🦊</div>
+                    <div>
+                        <div style="font-weight:bold;">MetaMask</div>
+                        <div style="font-size:0.85rem;color:#8892b0;">最流行的 Web3 钱包</div>
+                    </div>
+                </div>
+                <div class="wallet-option" onclick="window.open('https://www.okx.com/web3', '_blank')">
+                    <div style="width:40px;height:40px;background:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:15px;color:#fff;font-weight:bold;">OKX</div>
+                    <div>
+                        <div style="font-weight:bold;">OKX Wallet</div>
+                        <div style="font-size:0.85rem;color:#8892b0;">功能强大的多链钱包</div>
+                    </div>
+                </div>
+                <p style="margin-top:15px;font-size:0.9rem;color:#8892b0;">
+                    💡 或者，您可以点击"测试登录"按钮体验功能
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="close-btn" onclick="closeModal()">知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastModal" class="modal flex-center" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header" id="toastTitle" style="font-size:1.2rem">提示</div>
+            <p id="toastMsg" style="line-height:1.6;margin:16px 0;color:#e0e6ed"></p>
+            <button class="btn" onclick="closeToast()" style="width:100%">知道了</button>
+        </div>
+    </div>
+
+    <script>
+        console.log('积分系统页面已加载');
+        let currentUser = null;
+        const inviteFromUrl = new URLSearchParams(window.location.search).get('invite') || '';
+
+        async function checkLoginStatus() {
+            try {
+                const res = await fetch('/api/points/user');
+                if (res.ok) {
+                    currentUser = await res.json();
+                    showUserSection();
+                    updateUserInfo();
+                } else {
+                    showLoginSection();
+                }
+            } catch (err) {
+                console.error('检查登录状态失败:', err);
+                showLoginSection();
+            }
+        }
+
+        function showLoginSection() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('userSection').style.display = 'none';
+        }
+
+        function showUserSection() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('userSection').style.display = 'block';
+            // 延迟加载，确保第二个 script 块中的函数已定义
+            setTimeout(function() {
+                if (typeof loadMyRewards === 'function') loadMyRewards();
+                if (typeof loadWithdrawalAddress === 'function') loadWithdrawalAddress();
+                if (typeof loadInviteStats === 'function') loadInviteStats();
+                if (typeof loadMyRedemptions === 'function') loadMyRedemptions();
+            }, 200);
+        }
+
+        function renderUserBadges(badges) {
+            var section = document.getElementById('badgesSection');
+            var list = document.getElementById('badgesList');
+            if (!section || !list) return;
+            if (!badges || !badges.length) {
+                section.style.display = 'none';
+                list.innerHTML = '';
+                return;
+            }
+            section.style.display = 'block';
+            list.innerHTML = badges.map(function(b) {
+                var cls = b.badge_type === 'weekly_champion' ? 'background:rgba(255,215,0,.15);color:#ffd700;border:1px solid rgba(255,215,0,.4);' : 'background:rgba(0,212,255,.1);color:#00d4ff;border:1px solid #1e3a5f;';
+                return '<span style="display:inline-block;padding:6px 12px;border-radius:8px;font-size:.85rem;font-weight:600;' + cls + '" title="' + (b.week_start || '') + ' ~ ' + (b.week_end || '') + '">' + (b.label || b.badge_name) + '</span>';
+            }).join('');
+        }
+
+        function updateUserInfo() {
+            if (!currentUser) return;
+            document.getElementById('totalPoints').textContent = currentUser.total_points;
+            document.getElementById('userLevel').textContent = 'Lv.' + currentUser.level;
+            document.getElementById('creditScore').textContent = currentUser.credit_score;
+            document.getElementById('walletAddress').textContent = currentUser.wallet_address;
+            document.getElementById('levelName').textContent = currentUser.level_info.name;
+            renderUserBadges(currentUser.badges || []);
+            if (currentUser.is_test_user) {
+                showAlert('当前为测试账号：可体验积分任务，但不能绑定提币地址或兑换奖励。', 'info');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('walletModal').style.display = 'none';
+        }
+
+        async function connectWallet() {
+            // 检查是否安装了钱包
+            if (typeof window.ethereum === 'undefined') {
+                // 显示提示模态框
+                document.getElementById('walletModal').style.display = 'block';
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const walletAddress = accounts[0];
+
+                showAlert('正在生成签名消息...', 'info');
+
+                const nonceRes = await fetch('/api/points/nonce', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ wallet_address: walletAddress })
+                });
+                const { nonce } = await nonceRes.json();
+
+                const signature = await window.ethereum.request({
+                    method: 'personal_sign',
+                    params: [nonce, walletAddress]
+                });
+
+                const loginRes = await fetch('/api/points/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ wallet_address: walletAddress, signature, nonce, invited_by: inviteFromUrl })
+                });
+
+                if (loginRes.ok) {
+                    const data = await loginRes.json();
+                    currentUser = data.user;
+                    showUserSection();
+                    updateUserInfo();
+                    showAlert('登录成功！', 'success');
+                } else {
+                    const error = await loginRes.json();
+                    showAlert(error.error || '登录失败', 'error');
+                }
+            } catch (err) {
+                console.error('连接钱包失败:', err);
+                if (err.code === 4001) {
+                    showAlert('您取消了连接请求', 'error');
+                } else {
+                    showAlert('连接钱包失败: ' + err.message, 'error');
+                }
+            }
+        }
+
+        async function testLogin() {
+            const testWallet = '0x' + Math.random().toString(16).substr(2, 40);
+            try {
+                showAlert('正在创建测试账号...', 'info');
+                
+                const nonceRes = await fetch('/api/points/nonce', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ wallet_address: testWallet })
+                });
+                const { nonce } = await nonceRes.json();
+
+                const loginRes = await fetch('/api/points/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ wallet_address: testWallet, signature: 'test', nonce })
+                });
+
+                if (loginRes.ok) {
+                    const data = await loginRes.json();
+                    currentUser = data.user;
+                    showUserSection();
+                    updateUserInfo();
+                    showAlert('测试登录成功！', 'success');
+                }
+            } catch (err) {
+                showAlert('测试登录失败: ' + err.message, 'error');
+            }
+        }
+
+        function showToast(message, ok) {
+            document.getElementById('toastTitle').textContent = ok ? '签到成功' : '提示';
+            document.getElementById('toastMsg').textContent = message || '';
+            document.getElementById('toastMsg').style.color = ok ? '#3ecf8e' : '#ff8888';
+            document.getElementById('toastModal').classList.add('show');
+        }
+        function closeToast() {
+            document.getElementById('toastModal').classList.remove('show');
+        }
+        document.getElementById('toastModal').addEventListener('click', function(e) {
+            if (e.target.id === 'toastModal') closeToast();
+        });
+
+        async function dailyCheckin() {
+            try {
+                const res = await fetch('/api/points/checkin', { method: 'POST' });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    showToast(data.message || '签到成功', true);
+                    if (data.total_points != null) currentUser.total_points = data.total_points;
+                    updateUserInfo();
+                } else {
+                    showToast(data.message || '今日签到次数已达上限', false);
+                }
+            } catch (err) {
+                console.error('签到异常:', err);
+                showToast('签到失败，请重试', false);
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/points/logout', { method: 'POST' });
+            currentUser = null;
+            showLoginSection();
+            showAlert('已登出', 'info');
+        }
+
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.innerHTML = '<div class="alert alert-' + type + '">' + message + '</div>';
+            setTimeout(function() { alertBox.innerHTML = ''; }, 5000);
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('walletModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // ==================== 数据加载函数 ====================
+        
+        async function loadExchangeRules() {
+            try {
+                const response = await fetch('/api/points/exchange_rules');
+                const data = await response.json();
+                if (data.success && data.rule) {
+                    const rule = data.rule;
+                    const loading = document.getElementById('exchangeRulesLoading');
+                    const content = document.getElementById('exchangeRulesContent');
+                    if (loading) loading.style.display = 'none';
+                    if (content) content.style.display = 'block';
+                    const rateEl = document.getElementById('exchangeRate');
+                    const rangeEl = document.getElementById('exchangeRange');
+                    const limitEl = document.getElementById('dailyLimit');
+                    const timeEl = document.getElementById('settlementTime');
+                    if (rateEl) rateEl.textContent = rule.exchange_rate + ' 积分 = 1 USDT';
+                    if (rangeEl) rangeEl.textContent = rule.min_amount.toLocaleString() + ' - ' + rule.max_amount.toLocaleString() + ' 积分';
+                    if (limitEl) limitEl.textContent = rule.daily_limit.toLocaleString() + ' 积分';
+                    if (timeEl) timeEl.textContent = rule.settlement_days === 1 ? 'T+1' : 'T+' + rule.settlement_days;
+                    var redeemSec = document.getElementById('redeemSection');
+                    if (redeemSec) redeemSec.style.display = 'block';
+                    var hint = document.getElementById('redeemHint');
+                    if (hint) hint.textContent = '最低 ' + rule.min_amount + ' 积分，需先绑定提币地址';
+                    var inp = document.getElementById('redeemPointsInput');
+                    if (inp) inp.min = rule.min_amount;
+                }
+            } catch (e) {
+                console.error('兑换规则加载失败:', e);
+                var el = document.getElementById('exchangeRulesLoading');
+                if (el) el.style.display = 'none';
+                var errEl = document.getElementById('exchangeRulesError');
+                if (errEl) errEl.style.display = 'block';
+            }
+        }
+
+        async function loadAllRewards() {
+            try {
+                const response = await fetch('/api/points/rewards/all');
+                const data = await response.json();
+                var loading = document.getElementById('allRewardsLoading');
+                var content = document.getElementById('allRewardsContent');
+                var empty = document.getElementById('allRewardsEmpty');
+                var list = document.getElementById('allRewardsList');
+                if (loading) loading.style.display = 'none';
+                if (data.success && data.rewards && data.rewards.length > 0) {
+                    if (content) content.style.display = 'block';
+                    if (list) {
+                        var html = '';
+                        var grouped = {};
+                        data.rewards.forEach(function(r) {
+                            var key = r.snapshot_id || 'unknown';
+                            if (!grouped[key]) grouped[key] = {week_start: r.week_start||'-', week_end: r.week_end||'-', rewards: []};
+                            grouped[key].rewards.push(r);
+                        });
+                        Object.keys(grouped).forEach(function(key) {
+                            var group = grouped[key];
+                            group.rewards.sort(function(a, b) {
+                                return (Number(a.rank) || 999999) - (Number(b.rank) || 999999);
+                            });
+                            html += '<div style="margin-bottom:25px;"><div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;"><span style="background:#00d4ff;color:#042;padding:4px 12px;border-radius:20px;font-size:0.85rem;font-weight:bold;">' + group.week_start + ' ~ ' + group.week_end + '</span><span style="color:#8892b0;font-size:0.85rem;">共 ' + group.rewards.length + ' 笔</span></div>';
+                            group.rewards.forEach(function(r) {
+                                var addr = r.wallet_address_short || r.wallet_address;
+                                var txhash = r.txhash || '';
+                                var shortHash = txhash ? txhash.substring(0,10) + '...' + txhash.substring(txhash.length-6) : '';
+                                var ethUrl = txhash ? 'https://etherscan.io/tx/' + txhash : '#';
+                                var dAt = r.distributed_at ? r.distributed_at.split('T')[0] : '';
+                                html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 15px;background:rgba(0,212,255,0.03);border-radius:8px;margin-bottom:8px;border:1px solid #1a2a45;"><div style="display:flex;align-items:center;gap:15px;"><span style="color:#ffb020;font-weight:bold;font-size:1.1rem;min-width:40px;">#' + r.rank + '</span><div><div style="font-family:monospace;color:#e0e6ed;font-size:0.9rem;">' + addr + '</div><div style="color:#8892b0;font-size:0.8rem;">' + dAt + '</div></div></div><div style="text-align:right;"><div style="color:#3ecf8e;font-weight:bold;font-size:1.1rem;">' + r.reward_amount + ' USDT</div>' + (txhash ? '<a href="' + ethUrl + '" target="_blank" style="color:#00d4ff;font-size:0.8rem;text-decoration:none;font-family:monospace;">📜 ' + shortHash + '</a>' : '') + '</div></div>';
+                            });
+                            html += '</div>';
+                        });
+                        list.innerHTML = html;
+                    }
+                } else {
+                    if (empty) empty.style.display = 'block';
+                }
+            } catch (e) {
+                console.error('奖励发放记录加载失败:', e);
+                var ld = document.getElementById('allRewardsLoading');
+                var em = document.getElementById('allRewardsEmpty');
+                if (ld) ld.style.display = 'none';
+                if (em) { em.style.display = 'block'; em.textContent = '暂无发放记录'; }
+            }
+        }
+
+        async function loadMyRewards() {
+            try {
+                const response = await fetch('/api/points/rewards/my');
+                const data = await response.json();
+                var loading = document.getElementById('myRewardsLoading');
+                var content = document.getElementById('myRewardsContent');
+                var empty = document.getElementById('myRewardsEmpty');
+                var list = document.getElementById('myRewardsList');
+                if (loading) loading.style.display = 'none';
+                if (data.success && data.rewards && data.rewards.length > 0) {
+                    if (content) content.style.display = 'block';
+                    if (list) {
+                        var html = '';
+                        data.rewards.forEach(function(reward) {
+                            var stMap = {pending:{text:'待审核',color:'#ffb020',icon:'⏳'},approved:{text:'已审核',color:'#00d4ff',icon:'✅'},distributed:{text:'已发放',color:'#3ecf8e',icon:'💰'}};
+                            var st = stMap[reward.status] || {text:reward.status,color:'#8892b0',icon:'❓'};
+                            var dateStr = reward.created_at ? reward.created_at.split('T')[0] : '-';
+                            var dAt = reward.distributed_at ? reward.distributed_at.split('T')[0] : '';
+                            html += '<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:20px;margin-bottom:15px;border:1px solid #1e3a5f;">';
+                            html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><div><span style="font-size:1.3rem;font-weight:bold;color:#00d4ff;">🏆 第 ' + reward.rank + ' 名</span><span style="color:#8892b0;margin-left:10px;font-size:0.9rem;">' + dateStr + '</span></div><span style="background:' + st.color + '20;color:' + st.color + ';padding:4px 12px;border-radius:20px;font-size:0.85rem;font-weight:bold;">' + st.icon + ' ' + st.text + '</span></div>';
+                            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;"><div><div style="color:#8892b0;font-size:0.85rem;">积分</div><div style="color:#e0e6ed;font-size:1.1rem;font-weight:bold;">' + reward.points.toLocaleString() + '</div></div><div><div style="color:#8892b0;font-size:0.85rem;">奖励金额</div><div style="color:#3ecf8e;font-size:1.1rem;font-weight:bold;">' + reward.reward_amount + ' USDT</div></div></div>';
+                            if (reward.txhash) {
+                                var sh = reward.txhash.substring(0,10) + '...' + reward.txhash.substring(reward.txhash.length-8);
+                                html += '<div style="border-top:1px solid #1e3a5f;padding-top:12px;"><div style="color:#8892b0;font-size:0.85rem;margin-bottom:5px;">交易记录</div><a href="https://etherscan.io/tx/' + reward.txhash + '" target="_blank" style="color:#00d4ff;text-decoration:none;font-family:monospace;font-size:0.9rem;">📜 ' + sh + '</a>';
+                                if (dAt) html += '<div style="color:#8892b0;font-size:0.8rem;margin-top:5px;">发放时间: ' + dAt + '</div>';
+                                html += '</div>';
+                            }
+                            html += '</div>';
+                        });
+                        list.innerHTML = html;
+                    }
+                } else {
+                    if (empty) empty.style.display = 'block';
+                }
+            } catch (e) {
+                console.error('我的奖励加载失败:', e);
+                var ld = document.getElementById('myRewardsLoading');
+                var em = document.getElementById('myRewardsEmpty');
+                if (ld) ld.style.display = 'none';
+                if (em) { em.style.display = 'block'; em.textContent = '加载失败'; }
+            }
+        }
+
+        async function loadWithdrawalAddress() {
+            try {
+                const response = await fetch('/api/points/withdrawal_address');
+                const data = await response.json();
+                withdrawalInfoCache = data;
+                var ruleCh = document.getElementById('cooldownHoursRule');
+                if (ruleCh && data.cooldown_hours != null) ruleCh.textContent = data.cooldown_hours;
+                var currentDiv = document.getElementById('currentWithdrawalAddress');
+                var formDiv = document.getElementById('bindWithdrawalAddressForm');
+                var display = document.getElementById('withdrawalAddressDisplay');
+                var cooldownMsg = document.getElementById('withdrawalCooldownMsg');
+                var ch = document.getElementById('cooldownHours');
+                if (ch && data.cooldown_hours != null) ch.textContent = data.cooldown_hours;
+                if (data.success && data.withdrawal_address) {
+                    if (currentDiv) currentDiv.style.display = 'block';
+                    if (formDiv) formDiv.style.display = 'none';
+                    if (display) display.textContent = data.withdrawal_address;
+                    if (cooldownMsg) {
+                        if (!data.can_change) {
+                            var h = Math.ceil((data.cooldown_remaining_seconds || 0) / 3600);
+                            cooldownMsg.style.display = 'block';
+                            cooldownMsg.textContent = '地址修改冷却中，约 ' + h + ' 小时后可再次修改';
+                        } else {
+                            cooldownMsg.style.display = 'none';
+                        }
+                    }
+                } else {
+                    if (currentDiv) currentDiv.style.display = 'none';
+                    if (formDiv) formDiv.style.display = 'block';
+                    if (cooldownMsg) cooldownMsg.style.display = 'none';
+                }
+            } catch (e) { console.error('提币地址加载失败:', e); }
+        }
+
+        async function loadMyRedemptions() {
+            var box = document.getElementById('myRedemptionsList');
+            if (!box) return;
+            try {
+                var res = await fetch('/api/points/redemptions/mine');
+                var data = await res.json();
+                if (!res.ok) { box.innerHTML = ''; return; }
+                if (!data.requests || !data.requests.length) {
+                    box.innerHTML = '<p style="color:#8892b0">暂无兑换申请</p>';
+                    return;
+                }
+                box.innerHTML = data.requests.map(function(r) {
+                    var st = {pending:'待审核',approved:'已通过',paid:'已打款',rejected:'已拒绝'}[r.status] || r.status;
+                    return '<div style="padding:8px;border-bottom:1px solid #1e3a5f">' + r.points_amount + ' 积分 → ' + r.usdt_amount + ' USDT · ' + st + '</div>';
+                }).join('');
+            } catch (e) { box.innerHTML = ''; }
+        }
+
+        async function submitRedemption() {
+            var input = document.getElementById('redeemPointsInput');
+            var amount = parseInt(input.value, 10);
+            if (!amount || amount < 1) { alert('请输入有效积分数量'); return; }
+            try {
+                var res = await fetch('/api/points/redemptions', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({points_amount: amount})
+                });
+                var data = await res.json();
+                alert(data.message || data.error || (data.success ? '已提交' : '失败'));
+                if (data.success) {
+                    checkLoginStatus();
+                    loadMyRedemptions();
+                }
+            } catch (e) { alert('提交失败'); }
+        }
+
+        window.bindWithdrawalAddress = async function() {
+            var input = document.getElementById('withdrawalAddressInput');
+            var address = input ? input.value.trim() : '';
+            if (!address) { alert('请输入提币地址'); return; }
+            var isERC20 = address.startsWith('0x') && address.length === 42;
+            var isTRC20 = address.startsWith('T') && address.length === 34;
+            if (!isERC20 && !isTRC20) { alert('请输入有效的提币地址：\n• ERC20 地址：0x 开头，42位\n• TRC20 地址：T 开头，34位'); return; }
+            try {
+                var response = await fetch('/api/points/withdrawal_address', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({withdrawal_address:address})});
+                var data = await response.json();
+                if (data.success) { alert('绑定成功！'); loadWithdrawalAddress(); }
+                else { alert(data.error || '绑定失败'); }
+            } catch (e) { alert('绑定失败: ' + e.message); }
+        };
+        var withdrawalInfoCache = null;
+        window.changeWithdrawalAddress = function() {
+            if (withdrawalInfoCache && withdrawalInfoCache.withdrawal_address && !withdrawalInfoCache.can_change) {
+                var h = Math.ceil((withdrawalInfoCache.cooldown_remaining_seconds || 0) / 3600);
+                alert('地址修改冷却中，约 ' + h + ' 小时后再试');
+                return;
+            }
+            document.getElementById('currentWithdrawalAddress').style.display = 'none';
+            document.getElementById('bindWithdrawalAddressForm').style.display = 'block';
+        };
+        window.cancelBindAddress = function() { loadWithdrawalAddress(); };
+
+        async function loadInviteStats() {
+            try {
+                const response = await fetch('/api/points/invite_stats');
+                const data = await response.json();
+                var loading = document.getElementById('inviteStatsLoading');
+                var content = document.getElementById('inviteStatsContent');
+                if (loading) loading.style.display = 'none';
+                if (content) content.style.display = 'block';
+                var countEl = document.getElementById('inviteCount');
+                var pointsEl = document.getElementById('invitePoints');
+                if (countEl) countEl.textContent = data.invite_count || 0;
+                if (pointsEl) pointsEl.textContent = data.invite_points || 0;
+            } catch (e) { console.error('邀请统计加载失败:', e); }
+        }
+
+        // ==================== 页面初始化 ====================
+
+        // 公开数据（不需要登录）
+        loadExchangeRules();
+        loadAllRewards();
+
+        checkLoginStatus();
+    </script>
+
+<script>
+(function () {
+  async function doTestLogin() {
+    const btns = Array.from(document.querySelectorAll('button, a'));
+    const testBtns = btns.filter(el => (el.textContent || '').includes('测试登录') || (el.textContent || '').includes('无需钱包'));
+    testBtns.forEach(el => {
+      el.disabled = true;
+      el.dataset.oldText = el.textContent;
+      el.textContent = '登录中...';
+    });
+
+    try {
+      const res = await fetch('/api/points/test_login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({})
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || data.message || '测试登录失败');
+      }
+
+      window.location.reload();
+    } catch (err) {
+      alert(err.message || '测试登录失败');
+      testBtns.forEach(el => {
+        el.disabled = false;
+        el.textContent = el.dataset.oldText || '测试登录（无需钱包）';
+      });
+    }
+  }
+
+  window.testLogin = doTestLogin;
+  window.testWalletLogin = doTestLogin;
+
+  document.addEventListener('click', function (e) {
+    const el = e.target.closest('button, a');
+    if (!el) return;
+
+    const text = el.textContent || '';
+    if (text.includes('测试登录') || text.includes('无需钱包')) {
+      e.preventDefault();
+      doTestLogin();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

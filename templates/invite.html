@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邀请好友 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <style>
+        body { background: #0a0e27; color: #e0e6ed; font-family: sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #00d4ff; text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { text-align: center; color: #8892b0; margin-bottom: 30px; }
+        .card { background: #10192e; border: 1px solid #1e3a5f; border-radius: 12px; padding: 30px; margin: 20px 0; }
+        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+        
+        .invite-code-box { 
+            background: rgba(0,212,255,0.05); 
+            border: 2px dashed #00d4ff; 
+            border-radius: 12px; 
+            padding: 30px; 
+            text-align: center; 
+            margin: 20px 0;
+        }
+        .invite-code { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            color: #00d4ff; 
+            font-family: monospace; 
+            letter-spacing: 3px;
+            margin: 15px 0;
+        }
+        .invite-link { 
+            background: rgba(0,0,0,0.3); 
+            padding: 12px; 
+            border-radius: 8px; 
+            font-family: monospace; 
+            font-size: 0.9rem; 
+            word-break: break-all;
+            margin: 15px 0;
+        }
+        
+        .btn { 
+            background: #00d4ff; 
+            color: #042; 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem;
+            margin: 5px;
+        }
+        .btn:hover { opacity: 0.9; }
+        
+        .stats { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 20px; 
+            margin: 20px 0; 
+        }
+        .stat { 
+            text-align: center; 
+            padding: 20px; 
+            background: rgba(0,212,255,0.05); 
+            border-radius: 10px; 
+        }
+        .stat-value { font-size: 2rem; color: #00d4ff; font-weight: bold; }
+        .stat-label { color: #8892b0; font-size: 0.9rem; margin-top: 5px; }
+        
+        .reward-list { margin: 20px 0; }
+        .reward-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px; 
+            background: rgba(0,212,255,0.03); 
+            border-radius: 8px; 
+            margin: 10px 0;
+        }
+        .reward-icon { font-size: 2rem; margin-right: 15px; }
+        .reward-text { flex: 1; }
+        .reward-points { color: #3ecf8e; font-weight: bold; font-size: 1.2rem; }
+        
+        .login-prompt { text-align: center; padding: 40px; color: #8892b0; }
+        @media (max-width: 720px) {
+            body { padding: 12px; }
+            h1 { font-size: 1.8rem; }
+            .card { padding: 16px; }
+            .invite-code-box { padding: 18px; }
+            .invite-code { font-size: 1.35rem; letter-spacing: 1px; word-break: break-all; }
+            .btn { width: 100%; margin: 6px 0; }
+            .reward-item { align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/points" class="back-link">← 返回积分系统</a>
+        
+        <h1>👥 邀请好友</h1>
+        <p class="subtitle">邀请好友注册，双方各得 100 积分</p>
+
+        <div id="loginPrompt" class="card login-prompt" style="display:none;">
+            请先<a href="/points" style="color:#00d4ff;">登录</a>查看邀请信息
+        </div>
+
+        <div id="inviteContent" style="display:none;">
+            <div class="card">
+                <h2 style="color:#00d4ff;text-align:center;margin-bottom:20px;">我的邀请码</h2>
+                <div class="invite-code-box">
+                    <div style="color:#8892b0;margin-bottom:10px;">您的专属邀请码</div>
+                    <div class="invite-code" id="inviteCode">-</div>
+                    <div style="color:#8892b0;margin:15px 0;">邀请链接</div>
+                    <div class="invite-link" id="inviteLink">-</div>
+                    <div style="margin-top:20px;">
+                        <button class="btn" onclick="copyCode()">📋 复制邀请码</button>
+                        <button class="btn" onclick="copyLink()">🔗 复制链接</button>
+                        <button class="btn" onclick="shareToX()">🐦 分享到 X</button>
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="inviteCount">0</div>
+                        <div class="stat-label">已邀请人数</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="invitePoints">0</div>
+                        <div class="stat-label">邀请获得积分</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="color:#00d4ff;margin-bottom:20px;">邀请奖励</h2>
+                <div class="reward-list">
+                    <div class="reward-item">
+                        <div class="reward-icon">🎁</div>
+                        <div class="reward-text">
+                            <div style="font-weight:bold;">邀请新用户注册</div>
+                            <div style="font-size:0.9rem;color:#8892b0;">好友使用您的邀请码注册</div>
+                        </div>
+                        <div class="reward-points">+100</div>
+                    </div>
+                    <div class="reward-item">
+                        <div class="reward-icon">🎉</div>
+                        <div class="reward-text">
+                            <div style="font-weight:bold;">新用户奖励</div>
+                            <div style="font-size:0.9rem;color:#8892b0;">您的好友也会获得</div>
+                        </div>
+                        <div class="reward-points">+100</div>
+                    </div>
+                    <div class="reward-item">
+                        <div class="reward-icon">🏆</div>
+                        <div class="reward-text">
+                            <div style="font-weight:bold;">无上限</div>
+                            <div style="font-size:0.9rem;color:#8892b0;">邀请越多，积分越多</div>
+                        </div>
+                        <div class="reward-points">∞</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="color:#00d4ff;margin-bottom:15px;">如何邀请？</h2>
+                <ol style="color:#8892b0;line-height:2;">
+                    <li>复制您的邀请码或邀请链接</li>
+                    <li>分享给您的朋友</li>
+                    <li>朋友使用邀请码注册或通过链接注册</li>
+                    <li>双方各获得 100 积分奖励</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userData = null;
+        
+        async function loadInviteInfo() {
+            try {
+                const res = await fetch('/api/points/user');
+                if (!res.ok) {
+                    document.getElementById('loginPrompt').style.display = 'block';
+                    return;
+                }
+                
+                userData = await res.json();
+                document.getElementById('inviteContent').style.display = 'block';
+                
+                // 显示邀请码
+                document.getElementById('inviteCode').textContent = userData.invite_code || '-';
+                
+                // 生成邀请链接
+                const inviteLink = window.location.origin + '/points?invite=' + userData.invite_code;
+                document.getElementById('inviteLink').textContent = inviteLink;
+                
+                // TODO: 从后端获取邀请统计
+                // 暂时显示 0
+                fetch('/api/points/invite_stats').then(r => r.json()).then(d => { document.getElementById('inviteCount').textContent = d.invite_count; document.getElementById('invitePoints').textContent = d.invite_points; });
+                
+                
+            } catch (err) {
+                console.error('加载邀请信息失败:', err);
+            }
+        }
+        
+        function copyCode() {
+            const code = document.getElementById('inviteCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('✅ 邀请码已复制：' + code);
+            });
+        }
+        
+        function copyLink() {
+            const link = document.getElementById('inviteLink').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('✅ 邀请链接已复制');
+            });
+        }
+        
+        function shareToX() {
+            const code = document.getElementById('inviteCode').textContent;
+            const text = `🔍 发现了一个超强的爆仓检测工具 Wick Detector！
+\n使用我的邀请码注册，我们都能获得 100 积分奖励：${code}
+
+立即体验：${window.location.origin}/points`;
+            const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
+        
+        loadInviteInfo();
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交爆仓案例 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <style>
+        body { background:#0a0e27; color:#e0e6ed; font-family:sans-serif; margin:0; padding:20px; }
+        .container { max-width:800px; margin:0 auto; }
+        h1 { color:#00d4ff; text-align:center; }
+        .card { background:#10192e; border:1px solid #1e3a5f; border-radius:12px; padding:24px; margin:20px 0; }
+        label { display:block; margin:12px 0 6px; color:#8892b0; }
+        input, select, textarea { width:100%; box-sizing:border-box; background:#0a1020; border:1px solid #1e3a5f; color:#e0e6ed; border-radius:8px; padding:10px; }
+        textarea { min-height:120px; }
+        .btn { background:#00d4ff; color:#042; border:none; border-radius:8px; padding:12px 24px; font-weight:bold; cursor:pointer; margin-top:16px; }
+        .back-link { color:#00d4ff; text-decoration:none; }
+        .case-item { border:1px solid #1e3a5f; border-radius:8px; padding:12px; margin:10px 0; }
+        .tag { padding:2px 8px; border-radius:12px; font-size:.8rem; }
+        .pending { background:rgba(255,176,32,.15); color:#ffb020; }
+        .approved { background:rgba(62,207,142,.15); color:#3ecf8e; }
+        .rejected { background:rgba(255,92,92,.15); color:#ff9b9b; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/tasks" class="back-link">← 返回每日任务</a>
+    <h1>📝 提交爆仓案例</h1>
+    <p style="text-align:center;color:#8892b0;">提交真实案例 +50 积分，审核通过再 +100 积分（每日最多提交 2 次）</p>
+
+    <div class="card">
+        <form id="caseForm" onsubmit="submitCase(event)">
+            <label>交易所 *</label>
+            <input name="exchange" required placeholder="如 binance, okx">
+
+            <label>交易对 *</label>
+            <input name="symbol" required placeholder="如 BTC/USDT:USDT">
+
+            <label>周期</label>
+            <select name="timeframe">
+                <option value="1m">1m</option>
+                <option value="5m">5m</option>
+                <option value="15m" selected>15m</option>
+                <option value="1h">1h</option>
+            </select>
+
+            <label>爆仓方向 *</label>
+            <select name="direction" required>
+                <option value="long">做多爆仓（价格下跌）</option>
+                <option value="short">做空爆仓（价格上涨）</option>
+            </select>
+
+            <label>大致发生时间</label>
+            <input name="event_time" type="datetime-local">
+
+            <label>爆仓价格（可选）</label>
+            <input name="price" type="number" step="any" placeholder="如 65000">
+
+            <label>亏损金额 USDT（可选）</label>
+            <input name="loss_amount" type="number" step="any">
+
+            <label>案例描述 *（至少 20 字）</label>
+            <textarea name="description" required placeholder="描述行情背景、仓位、爆仓过程…"></textarea>
+
+            <label>证据链接（可选，逗号分隔）</label>
+            <input name="evidence_urls" placeholder="截图、交易记录链接">
+
+            <button type="submit" class="btn" id="submitBtn">提交案例</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2 style="color:#00d4ff;">我的提交记录</h2>
+        <div id="myCases">加载中...</div>
+    </div>
+</div>
+<script>
+async function loadMyCases() {
+    const box = document.getElementById('myCases');
+    try {
+        const res = await fetch('/api/points/cases/mine');
+        const data = await res.json();
+        if (!res.ok) { box.innerHTML = '请先<a href="/points" style="color:#00d4ff">登录</a>'; return; }
+        if (!data.cases || !data.cases.length) { box.innerHTML = '<p style="color:#8892b0">暂无记录</p>'; return; }
+        box.innerHTML = data.cases.map(function(c) {
+            var st = {pending:'待审核',approved:'已通过',rejected:'已拒绝'}[c.status] || c.status;
+            return '<div class="case-item"><div><strong>' + c.exchange + ' ' + c.symbol + '</strong> <span class="tag ' + c.status + '">' + st + '</span></div>' +
+                '<div style="color:#8892b0;font-size:.9rem;margin-top:6px">' + c.description.substring(0,80) + '...</div>' +
+                '<div style="font-size:.8rem;color:#8892b0;margin-top:4px">' + c.created_at + '</div></div>';
+        }).join('');
+    } catch (e) { box.textContent = '加载失败'; }
+}
+
+async function submitCase(e) {
+    e.preventDefault();
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    var fd = new FormData(e.target);
+    var body = {};
+    fd.forEach(function(v, k) { body[k] = v; });
+    if (body.price) body.price = parseFloat(body.price);
+    if (body.loss_amount) body.loss_amount = parseFloat(body.loss_amount);
+    try {
+        var res = await fetch('/api/points/cases', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(body)
+        });
+        var data = await res.json();
+        alert(data.message || data.error || (data.success ? '提交成功' : '提交失败'));
+        if (data.success) { e.target.reset(); loadMyCases(); }
+    } catch (err) { alert('提交失败'); }
+    btn.disabled = false;
+}
+
+loadMyCases();
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@
 
 | **功能** | **链接** |
 | :--- | :--- |
-| **在线演示** | [https://wickdetector.com/landing](https://wickdetector.com/landing) |
+| **在线演示** | [https://wickdetector.com](https://wickdetector.com) |
 | **最新版 v4.2.0** | [查看 Release](https://github.com/ycxjj/liquidation-wick-detector/releases/latest) |
 | **技术文档** | 见下方 README 完整文档 |
 
@@ -29,6 +29,31 @@
 | **误报数** | **0** |
 | **命中事件** | **97+** (LAB专项) |
 | **支持交易所** | 币安 / 欧易 / Gate.io (677+ 合约) |
+
+---
+
+## 项目结构
+
+liquidation-wick-detector/
+├── app.py                      # Flask 主程序
+├── points_system.py            # 积分系统
+├── daily_scan.py               # 日报扫描
+├── wick_detector_v4.py         # 检测引擎
+├── requirements.txt            # Python 依赖
+├── start.sh                    # 启动脚本
+├── stop.sh                     # 停止脚本
+├── templates/                  # HTML 模板
+├── data/                       # 数据库
+└── .env.example                # 环境变量模板
+
+---
+
+## 功能特性
+- 🔍 每日热门合约插针检测
+- 📊 自选合约实时检测
+- 🎯 积分系统和兑换规则管理
+- 📈 排行榜和奖励系统
+- 🔐 Web3 钱包登录
 
 ---
 

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>兑换规则管理 - Wick Detector</title>
+    <style>
+        body { background:#0a0e27; color:#e0e6ed; font-family:sans-serif; margin:0; padding:24px; }
+        .container { max-width:900px; margin:0 auto; }
+        .back-link { color:#00d4ff; text-decoration:none; }
+        h1, h2 { color:#00d4ff; }
+        .card { background:#10192e; border:1px solid #1e3a5f; border-radius:12px; padding:24px; margin:18px 0; }
+        label { display:block; color:#8892b0; margin:10px 0 4px; font-size:.9rem; }
+        input { width:100%; box-sizing:border-box; background:#0a1020; border:1px solid #1e3a5f; color:#e0e6ed; border-radius:8px; padding:10px; }
+        button { background:#00d4ff; color:#042; border:none; border-radius:8px; padding:10px 16px; font-weight:bold; cursor:pointer; margin-top:16px; }
+        .muted { color:#8892b0; font-size:.9rem; }
+        .alert { padding:12px; border-radius:8px; margin:12px 0; display:none; }
+        .alert.ok { background:rgba(62,207,142,.1); border:1px solid #3ecf8e; color:#3ecf8e; }
+        .alert.err { background:rgba(255,92,92,.1); border:1px solid #ff5c5c; color:#ff9b9b; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/admin/points" class="back-link">← 积分管理首页</a>
+    <h1>兑换规则管理</h1>
+    <div id="alert" class="alert"></div>
+
+    <div class="card">
+        <h2>当前规则</h2>
+        <div id="currentRule" class="muted">加载中...</div>
+    </div>
+
+    <div class="card">
+        <h2>发布新规则</h2>
+        <p class="muted">新规则将自动归档旧规则。兑换比例：多少积分 = 1 USDT。</p>
+        <label>兑换比例（积分/USDT）</label>
+        <input id="exchange_rate" type="number" step="0.01" value="100">
+        <label>最低兑换积分</label>
+        <input id="min_amount" type="number" value="1000">
+        <label>单次最高积分</label>
+        <input id="max_amount" type="number" value="100000">
+        <label>每日限额（积分）</label>
+        <input id="daily_limit" type="number" value="10000">
+        <label>每周限额（积分）</label>
+        <input id="weekly_limit" type="number" value="50000">
+        <label>到账天数（T+N）</label>
+        <input id="settlement_days" type="number" value="1">
+        <label>备注</label>
+        <input id="notes" type="text" placeholder="可选">
+        <button onclick="saveRule()">保存新规则</button>
+    </div>
+</div>
+<script>
+function showAlert(msg, ok) {
+    var el = document.getElementById('alert');
+    el.textContent = msg;
+    el.className = 'alert ' + (ok ? 'ok' : 'err');
+    el.style.display = 'block';
+}
+async function loadRule() {
+    var box = document.getElementById('currentRule');
+    try {
+        var res = await fetch('/api/points/exchange_rules');
+        var data = await res.json();
+        if (!res.ok || !data.rule) { box.textContent = '暂无规则'; return; }
+        var r = data.rule;
+        box.innerHTML = '<p>版本 v' + r.version + ' · ' + r.exchange_rate + ' 积分 = 1 USDT</p>' +
+            '<p>范围 ' + r.min_amount + ' ~ ' + r.max_amount + ' · 日限 ' + r.daily_limit + ' · T+' + r.settlement_days + '</p>';
+        document.getElementById('exchange_rate').value = r.exchange_rate;
+        document.getElementById('min_amount').value = r.min_amount;
+        document.getElementById('max_amount').value = r.max_amount;
+        document.getElementById('daily_limit').value = r.daily_limit;
+        document.getElementById('weekly_limit').value = r.weekly_limit;
+        document.getElementById('settlement_days').value = r.settlement_days;
+    } catch (e) { box.textContent = '加载失败'; }
+}
+async function saveRule() {
+    var body = {
+        exchange_rate: parseFloat(document.getElementById('exchange_rate').value),
+        min_amount: parseInt(document.getElementById('min_amount').value, 10),
+        max_amount: parseInt(document.getElementById('max_amount').value, 10),
+        daily_limit: parseInt(document.getElementById('daily_limit').value, 10),
+        weekly_limit: parseInt(document.getElementById('weekly_limit').value, 10),
+        settlement_days: parseInt(document.getElementById('settlement_days').value, 10),
+        require_kyc: false,
+        notes: document.getElementById('notes').value
+    };
+    try {
+        var res = await fetch('/api/points/exchange_rules', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        });
+        var data = await res.json();
+        if (!res.ok) throw new Error(data.error || '保存失败');
+        showAlert(data.message || '规则已更新', true);
+        loadRule();
+    } catch (e) { showAlert(e.message, false); }
+}
+loadRule();
+</script>
+</body>
+</html>

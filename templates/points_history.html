@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分历史 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=4">
+    <style>
+:root{--bg:#070b1a;--card:#10192e;--border:#1e3a5f;--accent:#00d4ff;--muted:#8892b0;--text:#e8edf7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.back{color:var(--accent);text-decoration:none;display:inline-block;margin-bottom:20px}
+h1{color:var(--accent);margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
+.history-item{padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.history-item:last-child{border-bottom:none}
+.action{color:var(--text)}
+.points{color:var(--accent);font-weight:700}
+.points.negative{color:#f44}
+.time{color:var(--muted);font-size:.85rem}
+.loading{text-align:center;padding:40px;color:var(--muted)}
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/points" class="back">← 返回积分系统</a>
+    <h1>📜 积分历史</h1>
+    <div class="card">
+        <div id="historyList" class="loading">加载中...</div>
+    </div>
+</div>
+<script>
+// 动作类型中文映射
+const actionNames = {
+    'daily_checkin': '每日签到',
+    'invite_user': '邀请用户',
+    'first_detection': '首次检测',
+    'share_report': '分享报告',
+    'advanced_detection': '高级检测',
+    'nft_badge': '兑换 NFT 徽章',
+    'vip_week': '兑换 VIP 周卡',
+    'lottery': '兑换抽奖券',
+    'penalty': '违规扣分',
+    'admin_adjust': '管理员调整'
+};
+
+async function loadHistory() {
+    try {
+        const res = await fetch('/api/points/history?limit=100');
+        const data = await res.json();
+        
+        const list = document.getElementById('historyList');
+        if (!data.history || data.history.length === 0) {
+            list.innerHTML = '<div style="text-align:center;color:var(--muted);">暂无记录</div>';
+            return;
+        }
+        
+        list.innerHTML = data.history.map(item => {
+            const actionName = actionNames[item.action_type] || item.action_type;
+            return `
+                <div class="history-item">
+                    <div>
+                        <div class="action">${actionName}</div>
+                        <div class="time">${item.created_at}</div>
+                    </div>
+                    <div class="points ${item.points_change < 0 ? 'negative' : ''}">${item.points_change > 0 ? '+' : ''}${item.points_change}</div>
+                </div>
+            `;
+        }).join('');
+    } catch (err) {
+        document.getElementById('historyList').innerHTML = '<div style="color:#f44;">加载失败</div>';
+    }
+}
+loadHistory();
+</script>
+</body>
+</html>

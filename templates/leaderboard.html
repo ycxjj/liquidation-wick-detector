@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排行榜 - Wick Detector</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=4">
+    <style>
+:root{--bg:#070b1a;--card:#10192e;--border:#1e3a5f;--accent:#00d4ff;--muted:#8892b0;--text:#e8edf7;--green:#3ecf8e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.back{color:var(--accent);text-decoration:none;display:inline-block;margin-bottom:20px}
+h1{color:var(--accent);margin-bottom:8px;text-align:center}
+.subtitle{text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:20px}
+.reward-box{background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(62,207,142,.06));border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px}
+.reward-box h2{font-size:1.05rem;color:var(--accent);margin-bottom:10px}
+.reward-box p{color:var(--muted);font-size:.85rem;line-height:1.65;margin-bottom:12px}
+.reward-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-bottom:10px}
+.reward-table th,.reward-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.reward-table th{color:var(--muted);font-weight:600}
+.reward-table td.usdt{color:var(--green);font-weight:700}
+.reward-note{font-size:.8rem;color:var(--muted);line-height:1.5}
+.reward-link{display:inline-block;margin-top:8px;color:var(--accent);font-size:.85rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card h2{font-size:1rem;color:var(--accent);margin-bottom:14px}
+.rank-item{display:flex;align-items:center;padding:15px;border-bottom:1px solid var(--border);gap:10px}
+.rank-item:last-child{border-bottom:none}
+.rank{width:40px;font-size:1.2rem;font-weight:700;color:var(--accent);flex-shrink:0}
+.rank.top1{color:#ffd700}.rank.top2{color:#c0c0c0}.rank.top3{color:#cd7f32}
+.wallet{flex:1;font-family:monospace;color:var(--text);font-size:.88rem;word-break:break-all}
+.col-right{text-align:right;flex-shrink:0}
+.points{color:var(--accent);font-weight:700}
+.reward-badge{display:block;font-size:.75rem;color:var(--green);margin-top:4px;font-weight:600}
+.champion-badge{display:inline-block;font-size:.72rem;color:#ffd700;background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.35);padding:2px 8px;border-radius:6px;margin-top:4px;font-weight:700}
+.badge-row{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;margin-top:4px}
+.loading{text-align:center;padding:40px;color:var(--muted)}
+@media (max-width:720px){
+  .rank-item{flex-wrap:wrap}
+  .col-right{width:100%;text-align:left;margin-top:6px}
+  .badge-row{justify-content:flex-start}
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/points" class="back">← 返回积分系统</a>
+    <h1>🏆 积分排行榜</h1>
+    <p class="subtitle">按累计积分排序 · 每周前十名可获得 USDT 奖励</p>
+
+    <div class="reward-box">
+        <h2>💰 每周排名奖励详情</h2>
+        <p>每周由管理员创建<strong>排行榜快照</strong>后，按当周名次向<strong>前十名</strong>发放 USDT；<strong>第 1 名</strong>额外获得站内专属 <strong>🏆 周冠军</strong> 徽章（永久展示）。</p>
+        <table class="reward-table">
+            <thead><tr><th>名次</th><th>USDT 奖励</th><th>说明</th></tr></thead>
+            <tbody id="rewardRulesBody"><tr><td colspan="3">加载中...</td></tr></tbody>
+        </table>
+        <p class="reward-note">※ 第4–10 名各 3 USDT · 需登录并绑定提币地址 · 作弊取消资格</p>
+        <a href="/leaderboard/rewards" class="reward-link">查看结算时间与发放记录 →</a>
+    </div>
+
+    <div class="card">
+        <h2>当前实时排名</h2>
+        <div id="leaderboard" class="loading">加载中...</div>
+    </div>
+</div>
+<script>
+function rewardUsdt(rank, rules) {
+    if (rank < 1 || rank > 10) return null;
+    if (rules && rules.length) {
+        for (var i = 0; i < rules.length; i++) {
+            if (rules[i].rank === rank) return rules[i].usdt;
+        }
+    }
+    return ({1:20,2:10,3:5})[rank] || 3;
+}
+
+function renderRewardRules(rules) {
+    var tbody = document.getElementById('rewardRulesBody');
+    var rows = [
+        {rank:'第1名', usdt:'20', note:'冠军'},
+        {rank:'第2名', usdt:'10', note:'亚军'},
+        {rank:'第3名', usdt:'5', note:'季军'},
+        {rank:'第4-10名', usdt:'各 3', note:'前十名'}
+    ];
+    if (rules && rules.length) {
+        rows = [];
+        var seen410 = false;
+        rules.forEach(function(r) {
+            if (r.rank <= 3) {
+                var note = r.rank === 1 ? '冠军' : (r.rank === 2 ? '亚军' : '季军');
+                rows.push({rank: r.rank_label, usdt: String(r.usdt), note: note});
+            } else if (!seen410) {
+                seen410 = true;
+                rows.push({rank: '第4-10名', usdt: '各 3', note: '前十名'});
+            }
+        });
+    }
+    tbody.innerHTML = rows.map(function(row) {
+        return '<tr><td>' + row.rank + '</td><td class="usdt">' + row.usdt + ' USDT</td><td style="color:var(--muted)">' + row.note + '</td></tr>';
+    }).join('');
+}
+
+function shortAddr(addr) {
+    if (!addr || addr.length < 14) return addr || '';
+    return addr.slice(0, 8) + '...' + addr.slice(-6);
+}
+
+function championBadgeHtml(item) {
+    var n = item.weekly_champion_count || 0;
+    if (n < 1) return '';
+    var tip = n === 1 ? '曾获得周榜冠军' : '曾获得 ' + n + ' 次周榜冠军';
+    return '<span class="champion-badge" title="' + tip + '">🏆 周冠军' + (n > 1 ? ' ×' + n : '') + '</span>';
+}
+
+async function loadLeaderboard() {
+    try {
+        var res = await fetch('/api/points/leaderboard?limit=100');
+        var data = await res.json();
+        var rules = data.weekly_rewards || [];
+        renderRewardRules(rules);
+
+        var list = document.getElementById('leaderboard');
+        if (!data.leaderboard || !data.leaderboard.length) {
+            list.innerHTML = '<div style="text-align:center;color:var(--muted)">暂无数据</div>';
+            list.className = '';
+            return;
+        }
+        list.className = '';
+        list.innerHTML = data.leaderboard.map(function(item, idx) {
+            var rank = idx + 1;
+            var rankClass = idx === 0 ? 'top1' : (idx === 1 ? 'top2' : (idx === 2 ? 'top3' : ''));
+            var usdt = rewardUsdt(rank, rules);
+            var usdtBadge = usdt ? '<span class="reward-badge">周奖 ' + usdt + ' USDT</span>' : '';
+            var badges = '<div class="badge-row">' + championBadgeHtml(item) + usdtBadge + '</div>';
+            return '<div class="rank-item">' +
+                '<div class="rank ' + rankClass + '">#' + rank + '</div>' +
+                '<div class="wallet" title="' + item.wallet_address + '">' + shortAddr(item.wallet_address) + '</div>' +
+                '<div class="col-right"><div class="points">' + item.total_points + ' 积分</div>' + badges + '</div>' +
+                '</div>';
+        }).join('');
+    } catch (e) {
+        document.getElementById('leaderboard').innerHTML = '<div style="color:#f44">加载失败</div>';
+    }
+}
+loadLeaderboard();
+</script>
+</body>
+</html>

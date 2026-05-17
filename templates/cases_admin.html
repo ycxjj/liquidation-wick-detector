@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爆仓案例审核 - Wick Detector</title>
+    <style>
+        body { background:#0a0e27; color:#e0e6ed; font-family:sans-serif; margin:0; padding:24px; }
+        .container { max-width:1100px; margin:0 auto; }
+        .back-link { color:#00d4ff; text-decoration:none; }
+        h1 { color:#00d4ff; }
+        .card { background:#10192e; border:1px solid #1e3a5f; border-radius:12px; padding:20px; margin:16px 0; }
+        button { background:#00d4ff; color:#042; border:none; border-radius:8px; padding:8px 14px; font-weight:bold; cursor:pointer; margin-right:8px; }
+        button.reject { background:#ff5c5c; color:#fff; }
+        textarea { width:100%; background:#0a1020; border:1px solid #1e3a5f; color:#e0e6ed; border-radius:8px; padding:8px; margin:8px 0; box-sizing:border-box; }
+        .muted { color:#8892b0; font-size:.9rem; }
+        .mono { font-family:monospace; word-break:break-all; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/admin/points" class="back-link">← 积分管理首页</a>
+    <h1>爆仓案例审核</h1>
+    <p class="muted">通过：额外发放 case_verified +100 积分；拒绝：仅保留提交奖励。</p>
+    <button onclick="loadCases()">刷新</button>
+    <div id="list" class="muted" style="margin-top:16px;">加载中...</div>
+</div>
+<script>
+async function loadCases() {
+    var box = document.getElementById('list');
+    try {
+        var res = await fetch('/api/points/cases/pending');
+        var data = await res.json();
+        if (!res.ok) throw new Error(data.error || '加载失败');
+        if (!data.cases.length) { box.innerHTML = '暂无待审核案例'; return; }
+        box.innerHTML = data.cases.map(function(c) {
+            return '<div class="card"><div><strong>#' + c.id + '</strong> ' + c.exchange + ' ' + c.symbol + ' · ' + c.direction + '</div>' +
+                '<div class="mono muted">' + c.wallet_address + '</div><p>' + c.description + '</p>' +
+                '<textarea id="notes-' + c.id + '" placeholder="审核备注"></textarea>' +
+                '<button onclick="review(' + c.id + ',true)">通过</button>' +
+                '<button class="reject" onclick="review(' + c.id + ',false)">拒绝</button></div>';
+        }).join('');
+    } catch (e) { box.textContent = e.message; }
+}
+async function review(id, approve) {
+    var notes = document.getElementById('notes-' + id).value;
+    var res = await fetch('/api/points/cases/' + id + '/review', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({approve: approve, review_notes: notes})
+    });
+    var data = await res.json();
+    alert(data.error || (approve ? '已通过' : '已拒绝'));
+    if (res.ok) loadCases();
+}
+loadCases();
+</script>
+</body>
+</html>
