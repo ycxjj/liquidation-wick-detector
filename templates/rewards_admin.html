@@ -15,6 +15,7 @@
         button { background:#00d4ff; color:#042; border:none; border-radius:8px; padding:10px 16px; font-weight:bold; cursor:pointer; }
         button.secondary { background:#1e3a5f; color:#e0e6ed; }
         button:disabled { opacity:.5; cursor:not-allowed; }
+        button.danger { background:#c0392b; color:#fff; }
         table { width:100%; border-collapse:collapse; margin-top:16px; font-size:.9rem; }
         th, td { padding:10px 12px; border-bottom:1px solid #1e3a5f; text-align:left; vertical-align:top; }
         th { color:#00d4ff; }
@@ -59,6 +60,15 @@
             <label>开始日期 <input id="weekStart" type="date"></label>
             <label>结束日期 <input id="weekEnd" type="date"></label>
             <button onclick="createSnapshot()">创建快照</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>数据清理</h2>
+        <p class="muted">若「我的奖励」出现多条相同名次，多为同一周期被重复创建快照所致。修复后可用下方按钮清空周榜数据（含刚创建的快照），再按正确周期重新创建。</p>
+        <div class="row" style="margin-top:12px;">
+            <button class="secondary" onclick="cleanupTestData()">清理测试快照</button>
+            <button class="danger" onclick="cleanupAllWeeklyData()">清空全部周榜与奖励</button>
         </div>
     </div>
 
@@ -299,6 +309,34 @@ async function markDistributed(id) {
         if (!res.ok || !data.success) throw new Error(data.error || '记录失败');
         showAlert('已标记发放', true);
         loadSnapshotDetail();
+    } catch (e) { showAlert(e.message, false); }
+}
+
+async function cleanupTestData() {
+    if (!confirm('确定清理 health_check / 2099 测试快照与测试账号？')) return;
+    try {
+        var res = await fetch('/api/points/admin/cleanup-test-data', { method: 'POST' });
+        var data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || '清理失败');
+        showAlert('测试数据已清理: ' + JSON.stringify(data.stats || {}), true);
+        loadSnapshots();
+    } catch (e) { showAlert(e.message, false); }
+}
+
+async function cleanupAllWeeklyData() {
+    if (!confirm('将删除全部周榜快照、奖励记录与周冠军徽章（含刚创建的快照），用户积分不受影响。确定继续？')) return;
+    try {
+        var res = await fetch('/api/points/admin/cleanup-all-weekly-data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ confirm: true })
+        });
+        var data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || '清空失败');
+        showAlert('已清空: ' + JSON.stringify(data.stats || {}), true);
+        document.getElementById('snapshotId').value = '';
+        document.getElementById('snapshotDetailBox').style.display = 'none';
+        loadSnapshots();
     } catch (e) { showAlert(e.message, false); }
 }
 

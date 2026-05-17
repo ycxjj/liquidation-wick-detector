@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
+import subprocess
 import threading
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -387,74 +388,127 @@ def _write_daily_json_file(
     return path
 
 
-def _git_auto_commit(report_date: date) -> None:
-    """自动提交数据到 GitHub"""
+def _git_log_path() -> str:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    log_dir = os.path.join(base_dir, "data", "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    return os.path.join(log_dir, "git_auto_commit.log")
+
+
+def _git_append_log(line: str) -> None:
+    ts = datetime.now(_tz()).strftime("%Y-%m-%d %H:%M:%S")
+    msg = f"[{ts}] {line}\n"
+    print(f"[git] {line}", flush=True)
     try:
-        import subprocess
-        
+        with open(_git_log_path(), "a", encoding="utf-8") as f:
+            f.write(msg)
+    except OSError:
+        pass
+
+
+def _git_run(cmd: list, cwd: str, timeout: int = 120):
+    env = os.environ.copy()
+    name = env.get("GIT_AUTHOR_NAME", "wickdetector-bot")
+    email = env.get("GIT_AUTHOR_EMAIL", "bot@wickdetector.com")
+    env.setdefault("GIT_AUTHOR_NAME", name)
+    env.setdefault("GIT_AUTHOR_EMAIL", email)
+    env.setdefault("GIT_COMMITTER_NAME", name)
+    env.setdefault("GIT_COMMITTER_EMAIL", email)
+    return subprocess.run(
+        cmd,
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        env=env,
+    )
+
+
+def _git_auto_commit(report_date: date) -> None:
+    """自动提交日报数据并推送到远程（失败详情见 data/logs/git_auto_commit.log）"""
+    if os.environ.get("DISABLE_GIT_AUTO_PUSH", "").lower() in ("1", "true", "yes"):
+        _git_append_log("已禁用 (DISABLE_GIT_AUTO_PUSH=1)")
+        return
+
+    try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         date_str = report_date.strftime("%Y-%m-%d")
-        
-        # 检查是否是 git 仓库
-        result = subprocess.run(
-            ["git", "rev-parse", "--git-dir"],
-            cwd=base_dir,
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
+        remote = os.environ.get("GIT_PUSH_REMOTE", "origin")
+        branch = os.environ.get("GIT_PUSH_BRANCH", "").strip()
+
+        result = _git_run(["git", "rev-parse", "--git-dir"], base_dir, timeout=15)
         if result.returncode != 0:
-            print(f"[git] 不是 Git 仓库，跳过自动提交")
+            _git_append_log("不是 Git 仓库，跳过")
             return
-        
-        # 添加数据文件
-        subprocess.run(
-            ["git", "add", "data/reports/", "data/wick_daily.db"],
-            cwd=base_dir,
-            capture_output=True,
-            timeout=30
-        )
-        
-        # 检查是否有变更
-        result = subprocess.run(
-            ["git", "diff", "--cached", "--quiet"],
-            cwd=base_dir,
-            capture_output=True,
-            timeout=10
-        )
-        
-        if result.returncode == 0:
-            print(f"[git] 没有数据变更，跳过提交")
+
+        if not branch:
+            br = _git_run(["git", "rev-parse", "--abbrev-ref", "HEAD"], base_dir, timeout=15)
+            branch = (br.stdout or "").strip() or "main"
+
+        paths_to_add = []
+        for rel in ("data/reports", "data/wick_daily.db"):
+            full = os.path.join(base_dir, rel)
+            if os.path.exists(full):
+                paths_to_add.append(rel)
+        if not paths_to_add:
+            _git_append_log("无 data/reports 或 data/wick_daily.db，跳过")
             return
-        
-        # 提交
+
+        add = _git_run(["git", "add", "--"] + paths_to_add, base_dir, timeout=60)
+        if add.returncode != 0:
+            _git_append_log(f"git add 失败: {(add.stderr or add.stdout or '').strip()}")
+            return
+
+        diff = _git_run(["git", "diff", "--cached", "--quiet"], base_dir, timeout=15)
+        if diff.returncode == 0:
+            _git_append_log(f"没有数据变更，跳过提交 ({date_str})")
+            return
+
         commit_msg = f"chore: update daily reports for {date_str}"
-        subprocess.run(
-            ["git", "commit", "-m", commit_msg],
-            cwd=base_dir,
-            capture_output=True,
-            text=True,
-            timeout=30
+        commit = _git_run(
+            [
+                "git",
+                "-c",
+                f"user.name={os.environ.get('GIT_AUTHOR_NAME', 'wickdetector-bot')}",
+                "-c",
+                f"user.email={os.environ.get('GIT_AUTHOR_EMAIL', 'bot@wickdetector.com')}",
+                "commit",
+                "-m",
+                commit_msg,
+            ],
+            base_dir,
+            timeout=60,
         )
-        
-        # 推送到远程
-        result = subprocess.run(
-            ["git", "push"],
-            cwd=base_dir,
-            capture_output=True,
-            text=True,
-            timeout=60
+        if commit.returncode != 0:
+            err = (commit.stderr or commit.stdout or "").strip()
+            _git_append_log(f"git commit 失败: {err}")
+            return
+
+        pull = _git_run(
+            ["git", "pull", "--rebase", "--autostash", remote, branch],
+            base_dir,
+            timeout=120,
         )
-        
-        if result.returncode == 0:
-            print(f"[git] ✅ 成功提交并推送数据: {date_str}")
+        if pull.returncode != 0:
+            err = (pull.stderr or pull.stdout or "").strip()
+            _git_append_log(f"git pull --rebase 失败（请先手动解决冲突）: {err}")
+            return
+
+        push = _git_run(["git", "push", remote, branch], base_dir, timeout=120)
+        if push.returncode == 0:
+            _git_append_log(f"成功提交并推送 {date_str} -> {remote}/{branch}")
         else:
-            print(f"[git] ⚠️ 推送失败: {result.stderr}")
-            
+            err = (push.stderr or push.stdout or "").strip()
+            _git_append_log(f"git push 失败: {err}")
+            _git_append_log(
+                "提示: 在服务器执行 git config user.name/user.email；"
+                "SSH 用 ssh -T git@github.com 测试；HTTPS 需配置 token"
+            )
+
     except subprocess.TimeoutExpired:
-        print(f"[git] ⚠️ Git 操作超时")
+        _git_append_log("Git 操作超时")
     except Exception as e:
-        print(f"[git] ⚠️ Git 自动提交失败: {e}")
+        _git_append_log(f"异常: {e}")
 
 
 def job_worker(report_date: Optional[date] = None) -> None:

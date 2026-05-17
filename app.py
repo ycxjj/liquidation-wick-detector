@@ -12,7 +12,7 @@ import time
 import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from flask import Flask, jsonify, render_template_string, render_template, request, session
+from flask import Flask, jsonify, redirect, render_template_string, render_template, request, session
 
 import daily_scan
 import points_system
@@ -192,7 +192,7 @@ HTML = r'''
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wick Detector - 插针检测引擎</title>
+    <title>Wick Detector - {% if page == 'daily' %}每日日报{% else %}自选检测{% endif %}</title>
     <link rel="icon" type="image/png" href="/logo.png?v=4">
     <style>
 :root{--bg:#070b1a;--card:#10192e;--border:#1e3a5f;--accent:#00d4ff;--muted:#8892b0;--text:#e8edf7;--danger:#f44;--ok:#3ecf8e}
@@ -202,28 +202,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 .hero{text-align:center;margin-bottom:28px}
 .hero h1{font-size:1.85rem;color:var(--accent);letter-spacing:-.02em}
 .hero p{color:var(--muted);font-size:.95rem;margin-top:8px}
-.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
-.tab{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 22px;border-radius:10px;cursor:pointer;font-weight:600;font-size:.92rem}
-.tab.on{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 1px rgba(0,212,255,.15)}
-.panel{display:none}
-.panel.show{display:block}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;margin-bottom:18px}
 .card h2{font-size:1.05rem;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .badge{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:999px;background:#1a3050;color:var(--accent)}
 .badge.run{background:#2a1a10;color:#ffb020}
 .meta{color:var(--muted);font-size:.82rem;margin-bottom:14px;line-height:1.6}
 .toolbar{margin-bottom:14px;display:flex;flex-direction:column;gap:10px}
-.toolbar-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.toolbar-filter{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.88rem;padding:11px 14px;background:#0a1020;border:1px solid var(--border);border-radius:9px;width:100%;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.toolbar-filter input{width:20px;height:20px;margin:0;flex-shrink:0;accent-color:var(--accent)}
-.btn{background:var(--accent);color:#042;font-weight:700;border:none;padding:9px 16px;border-radius:9px;cursor:pointer;font-size:.88rem}
+.toolbar-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.toolbar-chip{box-sizing:border-box;height:38px;min-height:38px;padding:0 16px;margin:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-size:.88rem;font-weight:600;line-height:1;white-space:nowrap;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent;vertical-align:middle}
+.toolbar-chip:hover{border-color:var(--accent);color:var(--accent)}
+.toolbar-chip input[type=checkbox]{width:16px;height:16px;min-width:16px;min-height:16px;margin:0;padding:0;flex-shrink:0;accent-color:var(--accent);cursor:pointer}
+.btn{background:var(--accent);color:#042;font-weight:700;border:none;padding:9px 16px;border-radius:9px;cursor:pointer;font-size:.88rem;box-sizing:border-box}
 .btn:disabled{opacity:.45;cursor:not-allowed;background:#3a4a5f;color:#8892b0}
 .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
 .btn-wait-hint{color:var(--muted);font-size:.8rem;text-align:center;margin-top:8px;display:none}
 .date-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px;padding:12px 14px;background:#0a1020;border-radius:10px;border:1px solid var(--border)}
-.date-bar .form-group{margin-bottom:0;min-width:160px}
-.date-bar label{font-size:.8rem}
-.date-bar input[type=date],.date-bar select{padding:8px 10px;font-size:.88rem}
+.date-bar .form-group{margin-bottom:0;min-width:160px;flex:1}
+.date-bar label{font-size:.8rem;display:block;margin-bottom:5px}
+.date-bar select,.date-bar input[type=date]{box-sizing:border-box;width:100%;height:38px;min-height:38px;padding:0 12px;font-size:.88rem;line-height:1;border-radius:9px;border:1px solid var(--border);background:#0a1020;color:var(--text)}
+.date-bar #btnQueryDate{height:38px;min-height:38px;align-self:flex-end;flex-shrink:0}
 .view-hint{font-size:.82rem;color:var(--muted);margin-top:8px}
 .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:.86rem}
@@ -302,13 +299,10 @@ details.hit-detail{margin-top:6px}
   .hero p{font-size:.82rem}
   .top-nav{gap:8px;margin-bottom:14px}
   .top-link{font-size:.82rem;padding:7px 10px}
-  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-  .tab{padding:10px 8px;font-size:.82rem}
   .card{padding:16px 12px;border-radius:12px}
   .toolbar{align-items:center}
-  .toolbar-actions{display:flex;flex-direction:column;align-items:center;width:100%;gap:10px}
-  .toolbar-actions .btn{width:100%;max-width:320px;margin:0 auto!important;text-align:center}
-  .toolbar-filter{width:100%;max-width:320px;justify-content:center;margin:0 auto}
+  .toolbar-actions{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:stretch;width:100%;gap:8px}
+  .toolbar-chip{width:auto;max-width:100%}
   .daily-table-desk{display:none!important}
   .daily-cards{display:block!important}
   .hit-event-cards{display:block!important}
@@ -316,6 +310,7 @@ details.hit-detail{margin-top:6px}
   .result-card table{min-width:0;width:100%}
   .date-bar{display:grid;grid-template-columns:1fr;padding:10px;gap:8px}
   .date-bar .form-group{min-width:0;width:100%}
+  .date-bar select,.date-bar input[type=date],.date-bar #btnQueryDate{height:38px;min-height:38px;padding:0 12px;font-size:16px}
   .ex-tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
   .ex-tab{padding:9px 6px;font-size:.8rem}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -336,7 +331,6 @@ details.hit-detail{margin-top:6px}
 @media (max-width: 420px){
   .form-row{grid-template-columns:1fr}
   .form-group:nth-child(2){grid-column:auto}
-  .tabs{grid-template-columns:1fr}
   .result-stats{grid-template-columns:1fr}
 }
     </style>
@@ -358,35 +352,41 @@ details.hit-detail{margin-top:6px}
 <div class="wrap">
   <div class="top-nav">
     <a href="/" class="top-link">← 返回首页</a>
-    <a href="/points" class="top-link" id="backPointsLink">← 返回积分系统</a>
+    {% if page == 'daily' %}
+    <a href="/detect" class="top-link">自选合约检测 →</a>
+    {% else %}
+    <a href="/daily" class="top-link">📅 每日日报 →</a>
+    {% endif %}
+    <a href="/points" class="top-link">积分系统 →</a>
   </div>
   <div class="hero">
-    <h1>Wick Detector</h1>
-    <p>每日热门合约插针日报 · 自选永续合约检测</p>
+    {% if page == 'daily' %}
+    <h1>📅 每日热门日报</h1>
+    <p>昨日 Top100 插针概览 · 六所永续市场</p>
+    {% else %}
+    <h1>自选合约检测</h1>
+    <p>输入合约与时间范围，追溯是否遭遇插针</p>
+    {% endif %}
   </div>
-  <div class="tabs">
-    <button type="button" class="tab on" id="tabP1" data-p="p1">📅 昨日热门 Top100 日报</button>
-    <button type="button" class="tab" id="tabP2" data-p="p2">自选合约检测</button>
-  </div>
-
-  <div id="p1" class="panel show">
+  {% if page == 'daily' %}
+  <div id="p1">
     <div class="card">
       <h2>热门榜插针概览 <span class="badge" id="jobBadge">—</span></h2>
       <p class="meta">每日 <strong>08:00（Asia/Shanghai）</strong> 依次对 <strong>币安 / 欧易 / Gate / Bybit / MEXC / Bitget</strong> 六家 USDT 永续市场分别取 <strong>24h 成交额 Top100</strong>，
-      对<strong>前一自然日</strong>整日 K 线做插针扫描（规则与下方自选一致）。下方分 Tab 查看各所数据；首次可手动触发生成。</p>
+      对<strong>前一自然日</strong>整日 K 线做插针扫描（规则与自选检测一致）。下方切换交易所查看；首次可手动触发生成。</p>
       <div class="toolbar">
         <div class="toolbar-actions">
-          <button type="button" class="btn ghost" id="btnRefreshDaily">刷新数据</button>
+          <button type="button" class="toolbar-chip" id="btnRefreshDaily">刷新数据</button>
+          <label class="toolbar-chip"><input type="checkbox" id="onlyHits"><span>仅显示有插针命中</span></label>
           {% if is_admin %}<button type="button" class="btn" id="btnRunDaily">后台生成昨日日报（六所）</button>{% endif %}
         </div>
-        <label class="toolbar-filter"><input type="checkbox" id="onlyHits"> 仅显示有插针命中</label>
       </div>
       <div class="date-bar">
         <div class="form-group"><label for="dailyDatePick">按已有存档选日期</label>
           <select id="dailyDatePick"><option value="">最新（各所各自最近一条）</option></select></div>
         <div class="form-group"><label for="dailyDateManual">或指定日历日</label>
           <input type="date" id="dailyDateManual" title="查询该数据日的三所日报"></div>
-        <button type="button" class="btn ghost" id="btnQueryDate">查询</button>
+        <button type="button" class="toolbar-chip" id="btnQueryDate">查询</button>
       </div>
       <p id="dailyViewHint" class="view-hint"></p>
       <p id="jobStatusHint" class="meta" style="display:none;color:#ffb020;font-weight:600"></p>
@@ -402,8 +402,10 @@ details.hit-detail{margin-top:6px}
       <div id="dailyBody"><div class="empty">加载中…</div></div>
     </div>
   </div>
+  {% endif %}
 
-  <div id="p2" class="panel">
+  {% if page == 'detect' %}
+  <div id="p2">
     <div class="card">
       <h2>自选合约检测</h2>
       <form id="f" autocomplete="off">
@@ -428,12 +430,17 @@ details.hit-detail{margin-top:6px}
       <div id="res"></div>
     </div>
   </div>
+  {% endif %}
 
   <p class="disclaimer">仅供教育、科研和技术演示目的使用</p>
 </div>
 <script>
 (function(){
-var sym=document.getElementById('sym'),dd=document.getElementById('dd'),ex=document.getElementById('ex'),btn=document.getElementById('btn'),res=document.getElementById('res');
+var PAGE='{{ page }}';
+var sym=null,dd=null,ex=null,btn=null,res=null;
+{% if page == 'detect' %}
+sym=document.getElementById('sym');dd=document.getElementById('dd');ex=document.getElementById('ex');btn=document.getElementById('btn');res=document.getElementById('res');
+{% endif %}
 var all=[],loading=false,symReady=false,pollT=null,prevJobRunning=false;
 var EX_NAMES={binanceusdm:'币安 USDM',okx:'欧易',gate:'Gate.io',bybit:'Bybit',mexc:'MEXC',bitget:'Bitget'};
 var __reports=null,__dailyRows=[],currentDailyEx='binanceusdm';
@@ -467,6 +474,7 @@ function showHitModal(symbol,hits){
   document.getElementById('hitModalMask').classList.add('show');
 }
 function setDetectBtnReady(ready,hint){
+  if(!btn)return;
   symReady=!!ready;
   btn.disabled=!symReady;
   var wh=document.getElementById('btnWaitHint');
@@ -478,21 +486,9 @@ function setDetectBtnReady(ready,hint){
     if(wh){wh.style.display='block';wh.textContent=hint||'正在加载默认交易对…';}
   }
 }
+{% if page == 'detect' %}
 setDetectBtnReady(false,'正在加载默认交易对，请稍候…');
-
-function tab(id){
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-p')===id);});
-  document.getElementById('p1').classList.toggle('show',id==='p1');
-  document.getElementById('p2').classList.toggle('show',id==='p2');
-  if(id==='p1'){fillDatePick();loadDaily();startPoll();}else{stopPoll();}
-}
-document.getElementById('tabP1').onclick=function(){tab('p1');};
-document.getElementById('tabP2').onclick=function(){tab('p2');};
-
-// 初始化：检查 URL 参数决定显示哪个 Tab
-var urlParams=new URLSearchParams(window.location.search);
-var initialTab=urlParams.get('tab')||'p2'; // 默认显示自选检测
-tab(initialTab);
+{% endif %}
 
 function stopPoll(){if(pollT){clearTimeout(pollT);pollT=null;}}
 function startPoll(){
@@ -527,7 +523,7 @@ function startPoll(){
         }
       }
     }).catch(function(){}).finally(function(){
-      if(document.getElementById('p1').classList.contains('show'))
+      if(PAGE==='daily')
         pollT=setTimeout(tick,4000);
     });
   }
@@ -658,6 +654,7 @@ function loadDaily(){
     document.getElementById('dailyBody').innerHTML='<div class="empty">加载失败</div>';
   });
 }
+{% if page == 'daily' %}
 document.getElementById('btnRefreshDaily').onclick=function(){
   var b=document.getElementById('btnRefreshDaily');
   var orig=b.textContent;
@@ -712,6 +709,8 @@ document.getElementById('btnRunDaily').onclick=function(){
   }).finally(function(){b.disabled=false;});
 };
 {% endif %}
+{% endif %}
+{% if page == 'detect' %}
 
 async function loadSym(){
   if(loading)return;
@@ -905,9 +904,12 @@ if(!(await pollStatus())){
 }
 finally{if(!taskSubmitted)finishDetection();}});
 
+{% endif %}
+{% if page == 'daily' %}
 fillDatePick();
 loadDaily();
 startPoll();
+{% endif %}
 })();
 </script>
 </body>
@@ -916,23 +918,40 @@ startPoll();
 
 
 @app.route("/")
+@app.route("/landing")
+@app.route("/landing/")
 def landing():
-    """官网首页"""
+    """官网首页（/ 与 /landing 内容一致）"""
     return render_template("landing.html")
 
 
 
 
-@app.route("/detect")
-def index():
+@app.route("/daily")
+def daily_page():
+    """昨日热门 Top100 日报（独立页面）"""
     session["is_admin"] = False
-    return render_template_string(HTML, is_admin=False)
+    return render_template_string(HTML, is_admin=False, page="daily")
+
+
+@app.route("/detect")
+def detect_page():
+    """自选合约检测（独立页面）"""
+    if request.args.get("tab") in ("p1", "daily"):
+        return redirect("/daily", code=302)
+    session["is_admin"] = False
+    return render_template_string(HTML, is_admin=False, page="detect")
+
+
+@app.route("/detect/", methods=["GET"])
+def detect_page_slash():
+    return redirect("/detect", code=301)
 
 
 @app.route(ADMIN_PATH)
 def admin_index():
     session["is_admin"] = True
-    return render_template_string(HTML, is_admin=True)
+    return render_template_string(HTML, is_admin=True, page="daily")
 
 
 @app.route("/api/health")
@@ -1968,6 +1987,16 @@ def api_get_snapshot_detail(snapshot_id):
     return jsonify({"success": True, "snapshot": detail})
 
 
+@app.route("/api/points/admin/cleanup-test-data", methods=["POST"])
+def api_cleanup_test_data():
+    """删除 health_check / 2099 测试快照、徽章及测试账号（管理员）"""
+    if not is_points_admin():
+        return jsonify({"error": "需要管理员权限"}), 403
+    stats = points_system.cleanup_automation_test_data()
+    admin_audit("cleanup_test_data", detail=stats)
+    return jsonify({"success": True, "message": "测试快照与测试数据已清理", "stats": stats})
+
+
 @app.route("/api/points/snapshots", methods=["POST"])
 def api_create_snapshot():
     """创建周排名快照（管理员）"""
@@ -1988,8 +2017,27 @@ def api_create_snapshot():
             "success": True,
             "snapshot": snapshot
         })
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 409
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/points/admin/cleanup-all-weekly-data", methods=["POST"])
+def api_cleanup_all_weekly_data():
+    """删除全部周榜快照、奖励与周冠军徽章（管理员，需 confirm=true）"""
+    if not is_points_admin():
+        return jsonify({"error": "需要管理员权限"}), 403
+    body = request.get_json(silent=True) or {}
+    if body.get("confirm") is not True:
+        return jsonify({"error": "请在请求体中传 confirm: true 以确认清空"}), 400
+    stats = points_system.cleanup_all_weekly_rewards_data()
+    admin_audit("cleanup_all_weekly_data", detail=stats)
+    return jsonify({
+        "success": True,
+        "message": "已清空全部周榜快照与奖励数据",
+        "stats": stats,
+    })
 
 
 # ==================== 奖励发放 API ====================

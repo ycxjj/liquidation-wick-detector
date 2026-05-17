@@ -344,6 +344,27 @@ def _today():
     return datetime.now(TZ).date().isoformat()
 
 
+# 自动化自检 / 开发用钱包（不应出现在公开排行榜）
+_SYSTEM_TEST_WALLET_PREFIXES = (
+    "0xfunctionaltest",
+    "0xhealthcheck",
+)
+
+
+def is_system_test_wallet(wallet_address: str) -> bool:
+    w = (wallet_address or "").lower().strip()
+    return any(w.startswith(p) for p in _SYSTEM_TEST_WALLET_PREFIXES)
+
+
+def should_hide_from_leaderboard(wallet_address: str, metadata: Optional[dict] = None) -> bool:
+    """测试登录账号、自检脚本账号均不进入公开榜。"""
+    if is_system_test_wallet(wallet_address):
+        return True
+    if metadata is not None:
+        return bool(metadata.get("is_test_user"))
+    return is_test_user(wallet_address)
+
+
 def get_level_info(total_points: int) -> dict:
     for level in LEVELS:
         if level["min_points"] <= total_points <= level["max_points"]:
@@ -728,7 +749,7 @@ def get_leaderboard(limit: int = 100) -> List[dict]:
                 metadata = json.loads(user_dict.get("metadata") or "{}")
             except Exception:
                 metadata = {}
-            if metadata.get("is_test_user"):
+            if should_hide_from_leaderboard(user_dict["wallet_address"], metadata):
                 continue
             user_dict.pop("metadata", None)
             user_dict["rank"] = len(result) + 1
@@ -1011,8 +1032,20 @@ def attach_badges_to_users(users: List[dict]) -> List[dict]:
     return users
 
 
+def _is_test_badge(badge: dict) -> bool:
+    if is_system_test_wallet(badge.get("wallet_address", "")):
+        return True
+    week_start = (badge.get("week_start") or "").strip()
+    if week_start.startswith("2099"):
+        return True
+    if (badge.get("label") or "").find("2099") >= 0:
+        return True
+    return False
+
+
 def get_recent_weekly_champions(limit: int = 10) -> List[dict]:
     _ensure_db()
+    fetch_limit = max(limit * 5, limit)
     with _connect() as conn:
         conn.row_factory = sqlite3.Row
         rows = conn.execute(
@@ -1022,19 +1055,37 @@ def get_recent_weekly_champions(limit: int = 10) -> List[dict]:
             ORDER BY created_at DESC
             LIMIT ?
             """,
-            (BADGE_WEEKLY_CHAMPION, limit),
+            (BADGE_WEEKLY_CHAMPION, fetch_limit),
         ).fetchall()
-        return [_format_badge_row(dict(r)) for r in rows]
+        result = []
+        for row in rows:
+            badge = _format_badge_row(dict(row))
+            if _is_test_badge(badge):
+                continue
+            result.append(badge)
+            if len(result) >= limit:
+                break
+        return result
 
 
 # ==================== 周排名快照系统 ====================
 
 def create_weekly_snapshot(week_start: str, week_end: str, created_by: str = "system") -> dict:
-    """创建周排名快照"""
+    """创建周排名快照（同一 week_start + week_end 仅允许一条）"""
     _ensure_db()
     
     with _connect() as conn:
         conn.row_factory = sqlite3.Row
+
+        existing = conn.execute(
+            """
+            SELECT id FROM weekly_snapshots
+            WHERE week_start = ? AND week_end = ?
+            """,
+            (week_start, week_end),
+        ).fetchone()
+        if existing:
+            raise ValueError(f"该统计周期已存在周榜快照 (id={existing[0]})")
         
         # 获取排行榜数据
         leaderboard = get_leaderboard(limit=100)
@@ -1082,19 +1133,122 @@ def create_weekly_snapshot(week_start: str, week_end: str, created_by: str = "sy
         return result
 
 
+def _is_test_weekly_snapshot(row: dict) -> bool:
+    created_by = (row.get("created_by") or "").lower()
+    if created_by in ("health_check", "health-check", "test"):
+        return True
+    week_start = (row.get("week_start") or "")[:4]
+    try:
+        if int(week_start) >= 2099:
+            return True
+    except ValueError:
+        pass
+    return False
+
+
 def get_weekly_snapshots(limit: int = 10) -> List[dict]:
-    """获取历史快照"""
+    """获取历史快照（排除自检/测试周期）"""
     _ensure_db()
-    
+    fetch_limit = max(limit * 3, limit)
+
     with _connect() as conn:
         conn.row_factory = sqlite3.Row
         rows = conn.execute("""
             SELECT * FROM weekly_snapshots
             ORDER BY created_at DESC
             LIMIT ?
-        """, (limit,)).fetchall()
-        
-        return [dict(row) for row in rows]
+        """, (fetch_limit,)).fetchall()
+
+        result = []
+        for row in rows:
+            item = dict(row)
+            if _is_test_weekly_snapshot(item):
+                continue
+            result.append(item)
+            if len(result) >= limit:
+                break
+        return result
+
+
+def cleanup_automation_test_data() -> dict:
+    """清理 health_check / functionaltest 误入生产库的数据。"""
+    _ensure_db()
+    stats = {
+        "users": 0,
+        "badges": 0,
+        "snapshots": 0,
+        "rewards": 0,
+        "points_history": 0,
+    }
+    with _connect() as conn:
+        snap_rows = conn.execute(
+            """
+            SELECT id FROM weekly_snapshots
+            WHERE created_by = 'health_check'
+               OR week_start >= '2099-01-01'
+            """
+        ).fetchall()
+        snap_ids = [r[0] for r in snap_rows]
+        if snap_ids:
+            placeholders = ",".join("?" * len(snap_ids))
+            stats["badges"] = conn.execute(
+                f"DELETE FROM user_badges WHERE snapshot_id IN ({placeholders})",
+                snap_ids,
+            ).rowcount
+            stats["rewards"] = conn.execute(
+                f"DELETE FROM reward_distributions WHERE snapshot_id IN ({placeholders})",
+                snap_ids,
+            ).rowcount
+            stats["snapshots"] = conn.execute(
+                f"DELETE FROM weekly_snapshots WHERE id IN ({placeholders})",
+                snap_ids,
+            ).rowcount
+
+        stats["badges"] += conn.execute(
+            """
+            DELETE FROM user_badges
+            WHERE week_start >= '2099-01-01'
+               OR week_start LIKE '2099-%'
+            """
+        ).rowcount
+
+        for prefix in _SYSTEM_TEST_WALLET_PREFIXES:
+            stats["badges"] += conn.execute(
+                "DELETE FROM user_badges WHERE wallet_address LIKE ?",
+                (prefix + "%",),
+            ).rowcount
+            stats["points_history"] += conn.execute(
+                "DELETE FROM points_history WHERE wallet_address LIKE ?",
+                (prefix + "%",),
+            ).rowcount
+            stats["rewards"] += conn.execute(
+                "DELETE FROM reward_distributions WHERE wallet_address LIKE ?",
+                (prefix + "%",),
+            ).rowcount
+            stats["users"] += conn.execute(
+                "DELETE FROM users WHERE wallet_address LIKE ?",
+                (prefix + "%",),
+            ).rowcount
+        conn.commit()
+    return stats
+
+
+def cleanup_all_weekly_rewards_data() -> dict:
+    """删除全部周榜快照、奖励记录及关联周冠军徽章（不删用户积分）。"""
+    _ensure_db()
+    stats = {"snapshots": 0, "rewards": 0, "badges": 0}
+    with _connect() as conn:
+        stats["badges"] = conn.execute(
+            """
+            DELETE FROM user_badges
+            WHERE snapshot_id IS NOT NULL OR badge_type = ?
+            """,
+            (BADGE_WEEKLY_CHAMPION,),
+        ).rowcount
+        stats["rewards"] = conn.execute("DELETE FROM reward_distributions").rowcount
+        stats["snapshots"] = conn.execute("DELETE FROM weekly_snapshots").rowcount
+        conn.commit()
+    return stats
 
 
 def get_snapshot_rewards(snapshot_id: int, status: Optional[str] = None) -> List[dict]:
@@ -1232,19 +1386,33 @@ def record_reward_txhash(reward_id: int, txhash: str, distributed_by: str) -> di
 
 
 def get_user_rewards(wallet_address: str) -> List[dict]:
-    """获取用户的奖励记录"""
+    """获取用户的奖励记录（排除测试/自检周榜快照产生的记录）"""
     _ensure_db()
     wallet_address = wallet_address.lower()
     
     with _connect() as conn:
         conn.row_factory = sqlite3.Row
         rows = conn.execute("""
-            SELECT * FROM reward_distributions
-            WHERE wallet_address = ?
-            ORDER BY created_at DESC
+            SELECT rd.*, ws.week_start, ws.week_end, ws.created_by AS snapshot_created_by
+            FROM reward_distributions rd
+            LEFT JOIN weekly_snapshots ws ON rd.snapshot_id = ws.id
+            WHERE rd.wallet_address = ?
+            ORDER BY rd.created_at DESC
         """, (wallet_address,)).fetchall()
-        
-        return [dict(row) for row in rows]
+
+        result = []
+        for row in rows:
+            item = dict(row)
+            snap_meta = {
+                "week_start": item.get("week_start"),
+                "week_end": item.get("week_end"),
+                "created_by": item.get("snapshot_created_by"),
+            }
+            if item.get("snapshot_id") and _is_test_weekly_snapshot(snap_meta):
+                continue
+            item.pop("snapshot_created_by", None)
+            result.append(item)
+        return result
 
 
 def get_all_distributed_rewards(limit: int = 50) -> List[dict]:

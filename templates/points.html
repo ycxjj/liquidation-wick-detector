@@ -44,6 +44,28 @@
         .wallet-option { display: flex; align-items: center; padding: 15px; background: rgba(0,212,255,0.05); border-radius: 8px; margin: 10px 0; cursor: pointer; transition: all 0.2s; }
         .wallet-option:hover { background: rgba(0,212,255,0.1); }
         .wallet-icon { width: 40px; height: 40px; margin-right: 15px; }
+        .reward-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #1e3a5f;
+            min-height: 120px;
+            box-sizing: border-box;
+        }
+        .reward-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            min-height: 36px;
+        }
+        .reward-card-rank {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #00d4ff;
+            line-height: 1.3;
+        }
         @media (max-width: 720px) {
             body { padding: 12px; }
             .container { max-width: 100%; }
@@ -626,10 +648,12 @@
                         data.rewards.forEach(function(reward) {
                             var stMap = {pending:{text:'待审核',color:'#ffb020',icon:'⏳'},approved:{text:'已审核',color:'#00d4ff',icon:'✅'},distributed:{text:'已发放',color:'#3ecf8e',icon:'💰'}};
                             var st = stMap[reward.status] || {text:reward.status,color:'#8892b0',icon:'❓'};
-                            var dateStr = reward.created_at ? reward.created_at.split('T')[0] : '-';
+                            var periodStr = (reward.week_start && reward.week_end)
+                                ? (reward.week_start + ' ~ ' + reward.week_end)
+                                : (reward.created_at ? reward.created_at.split('T')[0] : '-');
                             var dAt = reward.distributed_at ? reward.distributed_at.split('T')[0] : '';
-                            html += '<div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:20px;margin-bottom:15px;border:1px solid #1e3a5f;">';
-                            html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><div><span style="font-size:1.3rem;font-weight:bold;color:#00d4ff;">🏆 第 ' + reward.rank + ' 名</span><span style="color:#8892b0;margin-left:10px;font-size:0.9rem;">' + dateStr + '</span></div><span style="background:' + st.color + '20;color:' + st.color + ';padding:4px 12px;border-radius:20px;font-size:0.85rem;font-weight:bold;">' + st.icon + ' ' + st.text + '</span></div>';
+                            html += '<div class="reward-card">';
+                            html += '<div class="reward-card-head"><div><span class="reward-card-rank">🏆 第 ' + reward.rank + ' 名</span><span style="color:#8892b0;margin-left:10px;font-size:0.9rem;">' + periodStr + '</span></div><span style="background:' + st.color + '20;color:' + st.color + ';padding:4px 12px;border-radius:20px;font-size:0.85rem;font-weight:bold;">' + st.icon + ' ' + st.text + '</span></div>';
                             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;"><div><div style="color:#8892b0;font-size:0.85rem;">积分</div><div style="color:#e0e6ed;font-size:1.1rem;font-weight:bold;">' + reward.points.toLocaleString() + '</div></div><div><div style="color:#8892b0;font-size:0.85rem;">奖励金额</div><div style="color:#3ecf8e;font-size:1.1rem;font-weight:bold;">' + reward.reward_amount + ' USDT</div></div></div>';
                             if (reward.txhash) {
                                 var sh = reward.txhash.substring(0,10) + '...' + reward.txhash.substring(reward.txhash.length-8);

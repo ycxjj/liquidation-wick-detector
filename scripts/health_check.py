@@ -143,6 +143,7 @@ def main() -> int:
     section("公开页面与 API")
     public_routes = [
         ("/", "首页/检测入口"),
+        ("/daily", "日报页"),
         ("/detect", "检测页"),
         ("/points", "积分中心"),
         ("/leaderboard", "排行榜页"),
@@ -213,6 +214,7 @@ def main() -> int:
 
     hc_wallet = "0xhealthcheck00000000000000000000000001"
     ps.create_or_get_user(hc_wallet)
+    ps.set_user_metadata(hc_wallet, {"is_test_user": True, "source": "health_check"})
     with client.session_transaction() as sess:
         sess["wallet_address"] = hc_wallet
         sess["logged_in"] = True
@@ -317,30 +319,18 @@ def main() -> int:
             fail(f"管理 API 应拒绝 {path}", f"HTTP {r.status_code}")
 
     section("周榜快照与冠军徽章（集成）")
-    w_top = "0xfunctionaltest000000000000000000000001"
-    w2 = "0xfunctionaltest000000000000000000000002"
-    ps.create_or_get_user(w_top)
-    ps.create_or_get_user(w2)
-    with ps._connect() as conn:
-        conn.execute("UPDATE users SET total_points = ? WHERE wallet_address = ?", (9000, w_top))
-        conn.execute("UPDATE users SET total_points = ? WHERE wallet_address = ?", (100, w2))
-        conn.commit()
-    snap = ps.create_weekly_snapshot("2099-06-01", "2099-06-07", created_by="health_check")
-    if snap.get("id"):
-        ok("create_weekly_snapshot", f"id={snap['id']}")
+    if os.environ.get("ENABLE_HEALTH_CHECK_DB_TEST", "0").lower() not in (
+        "1",
+        "true",
+        "yes",
+    ):
+        ok(
+            "周榜快照写入测试",
+            "已跳过（避免污染生产库；仅 API 自检）。"
+            " 本地需测快照请设 ENABLE_HEALTH_CHECK_DB_TEST=1",
+        )
     else:
-        fail("周快照", str(snap))
-    badges = ps.get_user_badges(w_top, limit=5)
-    champ = [b for b in badges if b.get("badge_type") == ps.BADGE_WEEKLY_CHAMPION]
-    if champ:
-        ok("周冠军徽章已授予榜首", champ[0].get("label", "")[:50])
-    else:
-        fail("周冠军徽章", f"榜首 {w_top} 无徽章")
-    r = client.get("/api/points/badges/champions?limit=5")
-    if r.status_code == 200 and (r.get_json() or {}).get("success"):
-        ok("champions 公开 API")
-    else:
-        fail("champions API", str(r.status_code))
+        _run_weekly_snapshot_integration_test(client, ps)
 
     section("模板 HTML 基本检查")
     templates = ROOT / "templates"
@@ -364,6 +354,44 @@ def main() -> int:
     else:
         ok("模板无 motion-div 残留")
 
+    return _finish_health_check_summary()
+
+
+def _run_weekly_snapshot_integration_test(client, ps) -> None:
+    w_top = "0xfunctionaltest000000000000000000000001"
+    w2 = "0xfunctionaltest000000000000000000000002"
+    ps.create_or_get_user(w_top)
+    ps.create_or_get_user(w2)
+    ps.set_user_metadata(w_top, {"is_test_user": True, "source": "health_check"})
+    ps.set_user_metadata(w2, {"is_test_user": True, "source": "health_check"})
+    with ps._connect() as conn:
+        conn.execute("UPDATE users SET total_points = ? WHERE wallet_address = ?", (9000, w_top))
+        conn.execute("UPDATE users SET total_points = ? WHERE wallet_address = ?", (100, w2))
+        conn.commit()
+    ps.cleanup_automation_test_data()
+    try:
+        snap = ps.create_weekly_snapshot("2099-06-01", "2099-06-07", created_by="health_check")
+    except ValueError as exc:
+        fail("周快照", str(exc))
+        return
+    if snap.get("id"):
+        ok("create_weekly_snapshot", f"id={snap['id']}")
+    else:
+        fail("周快照", str(snap))
+    badges = ps.get_user_badges(w_top, limit=5)
+    champ = [b for b in badges if b.get("badge_type") == ps.BADGE_WEEKLY_CHAMPION]
+    if champ:
+        ok("周冠军徽章已授予榜首", champ[0].get("label", "")[:50])
+    else:
+        fail("周冠军徽章", f"榜首 {w_top} 无徽章")
+    r = client.get("/api/points/badges/champions?limit=5")
+    if r.status_code == 200 and (r.get_json() or {}).get("success"):
+        ok("champions 公开 API")
+    else:
+        fail("champions API", str(r.status_code))
+
+
+def _finish_health_check_summary() -> int:
     section("汇总")
     print(f"\n通过 {PASS} | 警告 {WARN} | 失败 {FAIL}")
     if ISSUES:
