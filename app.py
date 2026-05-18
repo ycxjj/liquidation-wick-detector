@@ -18,6 +18,26 @@ import daily_scan
 import points_system
 import redis_rate_limit
 
+
+def _load_dotenv() -> None:
+    """Load project .env into os.environ (does not override existing vars)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if not os.path.isfile(path):
+        return
+    with open(path, encoding="utf-8") as fh:
+        for raw in fh:
+            line = raw.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, value = line.partition("=")
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+_load_dotenv()
+
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "wick-detector-dev-secret-change-me")
 app.config['PERMANENT_SESSION_LIFETIME'] = 86400 * 30  # 30天
@@ -1361,8 +1381,35 @@ def api_daily_trigger():
     return jsonify({"started": False, "message": "已有任务在运行"})
 
 
+_scheduler_lock_fd = None
+
+
+def _acquire_scheduler_lock() -> bool:
+    """仅一个 gunicorn worker 注册定时任务，避免 8:00 重复跑日报。"""
+    global _scheduler_lock_fd
+    lock_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "data", ".daily_scheduler.lock"
+    )
+    os.makedirs(os.path.dirname(lock_path), exist_ok=True)
+    try:
+        import fcntl
+    except ImportError:
+        return True
+    fd = open(lock_path, "a+")
+    try:
+        fcntl.flock(fd.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        fd.close()
+        return False
+    _scheduler_lock_fd = fd
+    return True
+
+
 def _start_scheduler():
     if os.environ.get("DISABLE_DAILY_SCHEDULER") == "1":
+        return
+    if not _acquire_scheduler_lock():
+        print("[scheduler] 已在其他 worker 启动，跳过")
         return
     try:
         from apscheduler.schedulers.background import BackgroundScheduler

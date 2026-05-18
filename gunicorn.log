@@ -214,3 +214,43 @@ nohup: ignoring input
 [2026-05-17 20:22:35 +0000] [9906] [INFO] Booting worker with pid: 9906
 [2026-05-17 20:22:36 +0000] [9907] [INFO] Booting worker with pid: 9907
 [2026-05-17 20:22:36 +0000] [9897] [INFO] Control socket listening at /run/user/0/gunicorn.ctl
+[2026-05-17 22:46:00 +0000] [9897] [INFO] Handling signal: hup
+[2026-05-17 22:46:00 +0000] [9897] [INFO] Hang up: Master
+[2026-05-17 22:46:00 +0000] [11389] [INFO] Booting worker with pid: 11389
+[2026-05-17 22:46:00 +0000] [9897] [INFO] Control socket listening at /run/user/0/gunicorn.ctl
+[2026-05-17 22:46:02 +0000] [11395] [INFO] Booting worker with pid: 11395
+[2026-05-17 22:46:02 +0000] [9897] [INFO] Control socket listening at /run/user/0/gunicorn.ctl
+[2026-05-17 22:46:04 +0000] [11400] [INFO] Booting worker with pid: 11400
+[2026-05-17 22:46:04 +0000] [9897] [INFO] Control socket listening at /run/user/0/gunicorn.ctl
+[2026-05-17 22:46:06 +0000] [11407] [INFO] Booting worker with pid: 11407
+[2026-05-17 22:46:06 +0000] [9897] [WARNING] Worker (pid:9904) was sent SIGHUP!
+[2026-05-17 22:46:06 +0000] [9897] [WARNING] Worker (pid:9905) was sent SIGHUP!
+[2026-05-17 22:46:06 +0000] [9897] [WARNING] Worker (pid:9906) was sent SIGHUP!
+[2026-05-17 22:46:06 +0000] [9897] [WARNING] Worker (pid:9907) was sent SIGHUP!
+[2026-05-17 22:46:06 +0000] [9897] [INFO] Control socket listening at /run/user/0/gunicorn.ctl
+[2026-05-17 23:48:29 +0000] [9897] [INFO] Handling signal: term
+[2026-05-17 23:48:29 +0000] [11407] [INFO] Worker exiting (pid: 11407)
+[scheduler] 每日日报已调度: Asia/Shanghai 08:00 (DISABLE_DAILY_SCHEDULER=1 可关闭)
+[2026-05-17 23:48:29 +0000] [11389] [INFO] Worker exiting (pid: 11389)
+[scheduler] 每日日报已调度: Asia/Shanghai 08:00 (DISABLE_DAILY_SCHEDULER=1 可关闭)
+[2026-05-17 23:48:29 +0000] [11400] [INFO] Worker exiting (pid: 11400)
+[scheduler] 每日日报已调度: Asia/Shanghai 08:00 (DISABLE_DAILY_SCHEDULER=1 可关闭)
+[2026-05-17 23:48:29 +0000] [11395] [INFO] Worker exiting (pid: 11395)
+[scheduler] 每日日报已调度: Asia/Shanghai 08:00 (DISABLE_DAILY_SCHEDULER=1 可关闭)
+[2026-05-17 23:48:30 +0000] [9897] [INFO] Shutting down: Master
+nohup: ignoring input
+nohup: ignoring input
+
+Error: 'gunicorn.conf.py' doesn't exist
+
+Error: 'gunicorn.conf.py' doesn't exist
+nohup: ignoring input
+
+Error: 'gunicorn.conf.py' doesn't exist
+nohup: ignoring input
+[2026-05-18 00:45:44 +0000] [14336] [INFO] Starting gunicorn 26.0.0
+[2026-05-18 00:45:44 +0000] [14336] [INFO] Listening at: http://0.0.0.0:5000 (14336)
+[2026-05-18 00:45:44 +0000] [14336] [INFO] Using worker: gthread
+[2026-05-18 00:45:44 +0000] [14338] [INFO] Booting worker with pid: 14338
+[2026-05-18 00:45:44 +0000] [14339] [INFO] Booting worker with pid: 14339
+[2026-05-18 00:45:44 +0000] [14336] [INFO] Control socket listening at /run/user/0/gunicorn.ctl

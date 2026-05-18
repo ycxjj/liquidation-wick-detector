@@ -46,6 +46,7 @@ EXCHANGE_LABELS = {
 }
 
 _job_lock = threading.Lock()
+_daily_scan_lock_fd = None
 JOB_STATE: dict[str, Any] = {
     "running": False,
     "started_at": None,
@@ -58,6 +59,39 @@ JOB_STATE: dict[str, Any] = {
 
 def _tz() -> ZoneInfo:
     return ZoneInfo(TZ_NAME)
+
+
+def _acquire_daily_scan_lock() -> bool:
+    """跨 gunicorn worker 的日报任务排他锁（Linux fcntl）。"""
+    global _daily_scan_lock_fd
+    path = os.path.join(BASE_DIR, "data", ".daily_scan.lock")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    try:
+        import fcntl
+    except ImportError:
+        return True
+    fd = open(path, "a+")
+    try:
+        fcntl.flock(fd.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        fd.close()
+        return False
+    _daily_scan_lock_fd = fd
+    return True
+
+
+def _release_daily_scan_lock() -> None:
+    global _daily_scan_lock_fd
+    if _daily_scan_lock_fd is None:
+        return
+    try:
+        import fcntl
+
+        fcntl.flock(_daily_scan_lock_fd.fileno(), fcntl.LOCK_UN)
+        _daily_scan_lock_fd.close()
+    except OSError:
+        pass
+    _daily_scan_lock_fd = None
 
 
 def _ensure_db() -> None:
@@ -408,6 +442,9 @@ def _git_append_log(line: str) -> None:
 
 def _git_run(cmd: list, cwd: str, timeout: int = 120):
     env = os.environ.copy()
+    # systemd 下 gunicorn 子进程可能没有 HOME，导致 git/ssh 读不到 ~/.ssh
+    if not env.get("HOME"):
+        env["HOME"] = os.path.expanduser("~") or "/root"
     name = env.get("GIT_AUTHOR_NAME", "wickdetector-bot")
     email = env.get("GIT_AUTHOR_EMAIL", "bot@wickdetector.com")
     env.setdefault("GIT_AUTHOR_NAME", name)
@@ -541,6 +578,7 @@ def job_worker(report_date: Optional[date] = None) -> None:
     except Exception:
         JOB_STATE["last_error"] = traceback.format_exc()
     finally:
+        _release_daily_scan_lock()
         with _job_lock:
             JOB_STATE["running"] = False
             JOB_STATE["phase_exchange"] = None
@@ -550,8 +588,11 @@ def job_worker(report_date: Optional[date] = None) -> None:
 
 def start_daily_job_async(report_date: Optional[date] = None) -> bool:
     """若当前无任务在跑则启动后台线程。返回是否已启动。"""
+    if not _acquire_daily_scan_lock():
+        return False
     with _job_lock:
         if JOB_STATE["running"]:
+            _release_daily_scan_lock()
             return False
     t = threading.Thread(target=job_worker, args=(report_date,), daemon=True)
     t.start()

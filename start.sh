@@ -10,7 +10,13 @@ sleep 3
 
 # 2. 启动 Gunicorn
 echo "启动 Gunicorn..."
-nohup gunicorn --bind 0.0.0.0:5000 --workers 4 --threads 2 --timeout 600 --graceful-timeout 60 app:app > gunicorn.log 2>&1 &
+# 2GB 内存 VPS：默认 2 workers；仍紧张可 export GUNICORN_WORKERS=1
+if [ -f gunicorn.conf.py ]; then
+    nohup gunicorn -c gunicorn.conf.py app:app >> gunicorn.log 2>&1 &
+else
+    nohup gunicorn --bind 0.0.0.0:5000 --workers "${GUNICORN_WORKERS:-2}" --threads 2 \
+        --timeout 600 --graceful-timeout 60 --max-requests 500 app:app >> gunicorn.log 2>&1 &
+fi
 
 # 3. 等待启动
 sleep 2

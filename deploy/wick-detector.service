@@ -1,0 +1,36 @@
+[Unit]
+Description=Wick Detector (Gunicorn)
+Documentation=file:///root/liquidation-wick-detector/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/liquidation-wick-detector
+
+# 可选：项目根目录 .env（ENABLE_TEST_LOGIN、FLASK_SECRET_KEY 等）
+EnvironmentFile=-/root/liquidation-wick-detector/.env
+
+Environment=HOME=/root
+Environment=GUNICORN_WORKERS=2
+Environment=GUNICORN_THREADS=2
+Environment=GUNICORN_BIND=127.0.0.1:5000
+# 日报扫描完成后自动 git push（在 .env 里设 DISABLE_GIT_AUTO_PUSH=1 可关闭）
+
+# 使用 python3 -m gunicorn，避免路径因安装方式不同而失效
+ExecStart=/usr/bin/python3 -m gunicorn -c gunicorn.conf.py app:app
+
+Restart=on-failure
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=60
+
+# 日志进 journal，同时可 tail gunicorn.log（若应用有写文件日志）
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wick-detector
+
+[Install]
+WantedBy=multi-user.target
