@@ -1,64 +1,64 @@
 {
   "report_date": "2026-05-10",
   "exchange": "gate",
-  "generated_at": "2026-05-15T14:40:54+08:00",
-  "symbol_count": 100,
-  "with_hits_count": 3,
+  "generated_at": "2026-05-18T22:55:36+08:00",
+  "symbol_count": 200,
+  "with_hits_count": 0,
   "rows": [
     {
       "rank_vol": 1,
       "symbol": "BTC/USDT",
-      "quote_volume": 7078230503.0,
-      "total_klines": 288,
+      "quote_volume": 6177522189.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.2836,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 2,
       "symbol": "ETH/USDT",
-      "quote_volume": 5933074042.0,
-      "total_klines": 288,
+      "quote_volume": 5365685013.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.4548,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 3,
       "symbol": "SOL/USDT",
-      "quote_volume": 615476056.0,
-      "total_klines": 288,
+      "quote_volume": 457296681.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.7973,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 4,
-      "symbol": "XRP/USDT",
-      "quote_volume": 250546406.0,
-      "total_klines": 288,
+      "symbol": "XAU/USDT",
+      "quote_volume": 211712760.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.4237,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadSymbol: gate does not have market symbol XAU/USDT"
     },
     {
       "rank_vol": 5,
       "symbol": "DOGE/USDT",
-      "quote_volume": 245255913.0,
-      "total_klines": 288,
+      "quote_volume": 176843487.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.5619,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 6,
       "symbol": "XAG/USDT",
-      "quote_volume": 197759359.0,
+      "quote_volume": 167532801.0,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
@@ -67,624 +67,58 @@
     },
     {
       "rank_vol": 7,
-      "symbol": "XAU/USDT",
-      "quote_volume": 192499527.0,
+      "symbol": "XRP/USDT",
+      "quote_volume": 148954389.0,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
       "hits": [],
-      "error": "BadSymbol: gate does not have market symbol XAU/USDT"
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 8,
-      "symbol": "LAB/USDT",
-      "quote_volume": 123321618.0,
-      "total_klines": 288,
+      "symbol": "ZEC/USDT",
+      "quote_volume": 56625678.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 7.5396,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 9,
-      "symbol": "ZEC/USDT",
-      "quote_volume": 42419327.0,
-      "total_klines": 288,
+      "symbol": "HYPE/USDT",
+      "quote_volume": 54557678.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 1.2344,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 10,
-      "symbol": "PEPE/USDT",
-      "quote_volume": 37348493.0,
-      "total_klines": 288,
+      "symbol": "XAUT/USDT",
+      "quote_volume": 42539410.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.5678,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 11,
-      "symbol": "ADA/USDT",
-      "quote_volume": 37074461.0,
-      "total_klines": 288,
+      "symbol": "LAB/USDT",
+      "quote_volume": 41778975.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 1.912,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
       "rank_vol": 12,
-      "symbol": "HYPE/USDT",
-      "quote_volume": 36610886.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.6041,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 13,
-      "symbol": "BNB/USDT",
-      "quote_volume": 36219463.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.277,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 14,
-      "symbol": "SKYAI/USDT",
-      "quote_volume": 34084795.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 5.6242,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 15,
-      "symbol": "SIREN/USDT",
-      "quote_volume": 33598554.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 4.0231,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 16,
-      "symbol": "SUI/USDT",
-      "quote_volume": 31618154.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.3279,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 17,
-      "symbol": "XAUT/USDT",
-      "quote_volume": 31082360.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.0742,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 18,
-      "symbol": "AIGENSYN/USDT",
-      "quote_volume": 28027958.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 19,
-      "symbol": "BILL/USDT",
-      "quote_volume": 19715878.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol BILL/USDT"
-    },
-    {
-      "rank_vol": 20,
-      "symbol": "B/USDT",
-      "quote_volume": 18773668.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 6.4988,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 21,
-      "symbol": "UB/USDT",
-      "quote_volume": 18230845.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.6301,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 22,
-      "symbol": "LINK/USDT",
-      "quote_volume": 15212708.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.5407,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 23,
-      "symbol": "ONDO/USDT",
-      "quote_volume": 12999357.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.7967,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 24,
-      "symbol": "TON/USDT",
-      "quote_volume": 12985496.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.5243,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 25,
-      "symbol": "SAGA/USDT",
-      "quote_volume": 12798216.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 3.7687,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 26,
-      "symbol": "INJ/USDT",
-      "quote_volume": 12036002.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.938,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 27,
-      "symbol": "LTC/USDT",
-      "quote_volume": 11136381.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.4285,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 28,
-      "symbol": "AVAX/USDT",
-      "quote_volume": 10967016.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.6649,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 29,
-      "symbol": "CFX/USDT",
-      "quote_volume": 9787996.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.6576,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 30,
-      "symbol": "FARTCOIN/USDT",
-      "quote_volume": 9442874.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.2509,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 31,
-      "symbol": "NVDAX/USDT",
-      "quote_volume": 9168826.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.199,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 32,
-      "symbol": "TRUTH/USDT",
-      "quote_volume": 8063708.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol TRUTH/USDT"
-    },
-    {
-      "rank_vol": 33,
-      "symbol": "Q/USDT",
-      "quote_volume": 8019425.0,
-      "total_klines": 288,
-      "hit_count": 3,
-      "max_amplitude": 8.6126,
-      "hits": [
-        {
-          "timestamp": "2026-05-10 14:10:00",
-          "direction": "上插针 🔺",
-          "amplitude": 3.2
-        },
-        {
-          "timestamp": "2026-05-10 12:10:00",
-          "direction": "上插针 🔺",
-          "amplitude": 2.94
-        },
-        {
-          "timestamp": "2026-05-10 07:45:00",
-          "direction": "上插针 🔺",
-          "amplitude": 2.68
-        }
-      ],
-      "error": null
-    },
-    {
-      "rank_vol": 34,
-      "symbol": "MU/USDT",
-      "quote_volume": 7975171.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol MU/USDT"
-    },
-    {
-      "rank_vol": 35,
-      "symbol": "CRCLX/USDT",
-      "quote_volume": 7969645.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.4248,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 36,
-      "symbol": "ENA/USDT",
-      "quote_volume": 7521932.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.079,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 37,
-      "symbol": "TSLAX/USDT",
-      "quote_volume": 6814415.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.3572,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 38,
-      "symbol": "SNDK/USDT",
-      "quote_volume": 6690154.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol SNDK/USDT"
-    },
-    {
-      "rank_vol": 39,
-      "symbol": "BLEND/USDT",
-      "quote_volume": 6555085.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 6.1834,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 40,
-      "symbol": "FIL/USDT",
-      "quote_volume": 6509236.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.003,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 41,
-      "symbol": "PIEVERSE/USDT",
-      "quote_volume": 5962245.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 3.5587,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 42,
-      "symbol": "VVV/USDT",
-      "quote_volume": 5795177.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.4536,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 43,
-      "symbol": "RIVER/USDT",
-      "quote_volume": 5078475.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol RIVER/USDT"
-    },
-    {
-      "rank_vol": 44,
-      "symbol": "PAXG/USDT",
-      "quote_volume": 5044043.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.055,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 45,
-      "symbol": "ICP/USDT",
-      "quote_volume": 4878576.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.4213,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 46,
-      "symbol": "SWARMS/USDT",
-      "quote_volume": 4797364.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 4.8847,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 47,
-      "symbol": "TRUMP/USDT",
-      "quote_volume": 4758725.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.5319,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 48,
-      "symbol": "PLAY/USDT",
-      "quote_volume": 4753839.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol PLAY/USDT"
-    },
-    {
-      "rank_vol": 49,
-      "symbol": "XBR/USDT",
-      "quote_volume": 4746352.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol XBR/USDT"
-    },
-    {
-      "rank_vol": 50,
-      "symbol": "TAO/USDT",
-      "quote_volume": 4739575.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 3.817,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 51,
-      "symbol": "AI/USDT",
-      "quote_volume": 4050425.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.1978,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 52,
-      "symbol": "CL/USDT",
-      "quote_volume": 3993763.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol CL/USDT"
-    },
-    {
-      "rank_vol": 53,
-      "symbol": "ARB/USDT",
-      "quote_volume": 3741359.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.0795,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 54,
-      "symbol": "AAVE/USDT",
-      "quote_volume": 3707408.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.959,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 55,
-      "symbol": "STAR/USDT",
-      "quote_volume": 3561280.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol STAR/USDT"
-    },
-    {
-      "rank_vol": 56,
-      "symbol": "WLFI/USDT",
-      "quote_volume": 3438492.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 3.3295,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 57,
-      "symbol": "DEGEN/USDT",
-      "quote_volume": 3390552.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.765,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 58,
-      "symbol": "INTC/USDT",
-      "quote_volume": 3360242.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol INTC/USDT"
-    },
-    {
-      "rank_vol": 59,
-      "symbol": "BCH/USDT",
-      "quote_volume": 3354487.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.4735,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 60,
-      "symbol": "XTI/USDT",
-      "quote_volume": 3279352.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol XTI/USDT"
-    },
-    {
-      "rank_vol": 61,
-      "symbol": "UP/USDT",
-      "quote_volume": 3246649.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.9153,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 62,
-      "symbol": "DOT/USDT",
-      "quote_volume": 3137090.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.4428,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 63,
-      "symbol": "UNI/USDT",
-      "quote_volume": 3108008.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.0605,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 64,
-      "symbol": "VIRTUAL/USDT",
-      "quote_volume": 3028650.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.3982,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 65,
-      "symbol": "NEAR/USDT",
-      "quote_volume": 2902948.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.7269,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 66,
-      "symbol": "IRYS/USDT",
-      "quote_volume": 2871083.0,
-      "total_klines": 0,
-      "hit_count": 0,
-      "max_amplitude": 0.0,
-      "hits": [],
-      "error": "BadSymbol: gate does not have market symbol IRYS/USDT"
-    },
-    {
-      "rank_vol": 67,
       "symbol": "BSB/USDT",
-      "quote_volume": 2780815.0,
+      "quote_volume": 35796267.0,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
@@ -692,266 +126,399 @@
       "error": "BadSymbol: gate does not have market symbol BSB/USDT"
     },
     {
-      "rank_vol": 68,
-      "symbol": "PI/USDT",
-      "quote_volume": 2741620.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.9877,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 69,
-      "symbol": "WIF/USDT",
-      "quote_volume": 2706489.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.7117,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 70,
-      "symbol": "BIO/USDT",
-      "quote_volume": 2567422.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.7708,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 71,
-      "symbol": "H/USDT",
-      "quote_volume": 2395606.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 3.2863,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 72,
-      "symbol": "GALA/USDT",
-      "quote_volume": 2379423.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.9559,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 73,
-      "symbol": "SAHARA/USDT",
-      "quote_volume": 2341256.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 5.3906,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 74,
-      "symbol": "SHIB/USDT",
-      "quote_volume": 2283700.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.6456,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 75,
-      "symbol": "WLD/USDT",
-      "quote_volume": 2189533.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.7072,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 76,
-      "symbol": "XLM/USDT",
-      "quote_volume": 2154976.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.5364,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 77,
-      "symbol": "ORDI/USDT",
-      "quote_volume": 2151124.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.2266,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 78,
-      "symbol": "DOGS/USDT",
-      "quote_volume": 2019872.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 3.7823,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 79,
-      "symbol": "QQQX/USDT",
-      "quote_volume": 2015941.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.5785,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 80,
-      "symbol": "PENGU/USDT",
-      "quote_volume": 2010896.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.7783,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 81,
-      "symbol": "NAORIS/USDT",
-      "quote_volume": 1943846.0,
-      "total_klines": 288,
-      "hit_count": 1,
-      "max_amplitude": 10.7246,
-      "hits": [
-        {
-          "timestamp": "2026-05-10 14:10:00",
-          "direction": "下插针 🔻",
-          "amplitude": 6.26
-        }
-      ],
-      "error": null
-    },
-    {
-      "rank_vol": 82,
-      "symbol": "CHIP/USDT",
-      "quote_volume": 1901040.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 4.1386,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 83,
-      "symbol": "AZTEC/USDT",
-      "quote_volume": 1899602.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.7348,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 84,
-      "symbol": "XPL/USDT",
-      "quote_volume": 1897356.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.4206,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 85,
-      "symbol": "CRV/USDT",
-      "quote_volume": 1857856.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.5562,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 86,
-      "symbol": "ASTER/USDT",
-      "quote_volume": 1748944.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 1.0532,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 87,
-      "symbol": "TIA/USDT",
-      "quote_volume": 1620882.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.9772,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 88,
-      "symbol": "PUMP/USDT",
-      "quote_volume": 1593188.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.9897,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 89,
-      "symbol": "PHB/USDT",
-      "quote_volume": 1578362.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.9137,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 90,
-      "symbol": "BASED/USDT",
-      "quote_volume": 1561463.0,
+      "rank_vol": 13,
+      "symbol": "BCH/USDT",
+      "quote_volume": 34519800.0,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
       "hits": [],
-      "error": "BadSymbol: gate does not have market symbol BASED/USDT"
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
-      "rank_vol": 91,
+      "rank_vol": 14,
+      "symbol": "EDEN/USDT",
+      "quote_volume": 32644884.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 15,
+      "symbol": "PEPE/USDT",
+      "quote_volume": 32246675.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 16,
+      "symbol": "BNB/USDT",
+      "quote_volume": 29991899.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 17,
+      "symbol": "ADA/USDT",
+      "quote_volume": 26438029.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 18,
+      "symbol": "SUI/USDT",
+      "quote_volume": 25353050.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 19,
+      "symbol": "AIA/USDT",
+      "quote_volume": 24095018.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 20,
+      "symbol": "BILL/USDT",
+      "quote_volume": 19327327.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol BILL/USDT"
+    },
+    {
+      "rank_vol": 21,
+      "symbol": "TON/USDT",
+      "quote_volume": 18752152.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 22,
+      "symbol": "UB/USDT",
+      "quote_volume": 16370600.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 23,
+      "symbol": "LINK/USDT",
+      "quote_volume": 14576248.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 24,
+      "symbol": "LTC/USDT",
+      "quote_volume": 13784428.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 25,
+      "symbol": "CL/USDT",
+      "quote_volume": 13187708.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol CL/USDT"
+    },
+    {
+      "rank_vol": 26,
+      "symbol": "AVAX/USDT",
+      "quote_volume": 10058200.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 27,
+      "symbol": "FARTCOIN/USDT",
+      "quote_volume": 9411128.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 28,
+      "symbol": "FIDA/USDT",
+      "quote_volume": 8632485.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 29,
+      "symbol": "SKYAI/USDT",
+      "quote_volume": 8530878.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 30,
+      "symbol": "ENA/USDT",
+      "quote_volume": 8448259.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 31,
+      "symbol": "AIGENSYN/USDT",
+      "quote_volume": 7968122.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 32,
+      "symbol": "SNDK/USDT",
+      "quote_volume": 7048757.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol SNDK/USDT"
+    },
+    {
+      "rank_vol": 33,
+      "symbol": "ONDO/USDT",
+      "quote_volume": 6852223.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 34,
+      "symbol": "PAXG/USDT",
+      "quote_volume": 6111021.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 35,
+      "symbol": "MU/USDT",
+      "quote_volume": 5978746.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol MU/USDT"
+    },
+    {
+      "rank_vol": 36,
+      "symbol": "VVV/USDT",
+      "quote_volume": 5821538.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 37,
+      "symbol": "TRUMP/USDT",
+      "quote_volume": 5732090.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 38,
+      "symbol": "PI/USDT",
+      "quote_volume": 5625242.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 39,
+      "symbol": "TAO/USDT",
+      "quote_volume": 5386448.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 40,
+      "symbol": "FIL/USDT",
+      "quote_volume": 4933614.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 41,
+      "symbol": "UNI/USDT",
+      "quote_volume": 4780875.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 42,
+      "symbol": "B/USDT",
+      "quote_volume": 4690005.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 43,
+      "symbol": "ICP/USDT",
+      "quote_volume": 4175760.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 44,
       "symbol": "RAVE/USDT",
-      "quote_volume": 1556387.0,
-      "total_klines": 288,
-      "hit_count": 2,
-      "max_amplitude": 15.4691,
-      "hits": [
-        {
-          "timestamp": "2026-05-10 10:00:00",
-          "direction": "下插针 🔻",
-          "amplitude": 3.23
-        },
-        {
-          "timestamp": "2026-05-10 06:05:00",
-          "direction": "上插针 🔺",
-          "amplitude": 2.61
-        }
-      ],
-      "error": null
+      "quote_volume": 4105793.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
-      "rank_vol": 92,
+      "rank_vol": 45,
+      "symbol": "NVDAX/USDT",
+      "quote_volume": 4104952.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 46,
+      "symbol": "SWARMS/USDT",
+      "quote_volume": 4081830.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 47,
+      "symbol": "AAVE/USDT",
+      "quote_volume": 3913505.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 48,
+      "symbol": "FHE/USDT",
+      "quote_volume": 3882238.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 49,
+      "symbol": "IRYS/USDT",
+      "quote_volume": 3811427.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol IRYS/USDT"
+    },
+    {
+      "rank_vol": 50,
+      "symbol": "NEAR/USDT",
+      "quote_volume": 3744269.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 51,
+      "symbol": "ARB/USDT",
+      "quote_volume": 3657385.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 52,
       "symbol": "BZ/USDT",
-      "quote_volume": 1492433.0,
+      "quote_volume": 3397336.0,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
@@ -959,84 +526,1484 @@
       "error": "BadSymbol: gate does not have market symbol BZ/USDT"
     },
     {
-      "rank_vol": 93,
-      "symbol": "CHZ/USDT",
-      "quote_volume": 1460364.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 0.7522,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 94,
-      "symbol": "GWEI/USDT",
-      "quote_volume": 1455420.0,
-      "total_klines": 288,
-      "hit_count": 0,
-      "max_amplitude": 2.7384,
-      "hits": [],
-      "error": null
-    },
-    {
-      "rank_vol": 95,
-      "symbol": "COLLECT/USDT",
-      "quote_volume": 1441046.0,
+      "rank_vol": 53,
+      "symbol": "CRCLX/USDT",
+      "quote_volume": 3352484.0,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
       "hits": [],
-      "error": "BadSymbol: gate does not have market symbol COLLECT/USDT"
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
-      "rank_vol": 96,
-      "symbol": "STABLE/USDT",
-      "quote_volume": 1427000.0,
-      "total_klines": 288,
+      "rank_vol": 54,
+      "symbol": "SIREN/USDT",
+      "quote_volume": 3315175.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 0.8787,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
-      "rank_vol": 97,
-      "symbol": "DASH/USDT",
-      "quote_volume": 1407474.0,
-      "total_klines": 288,
+      "rank_vol": 55,
+      "symbol": "WLFI/USDT",
+      "quote_volume": 3265988.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 1.169,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
-      "rank_vol": 98,
-      "symbol": "LUNC/USDT",
-      "quote_volume": 1400542.0,
-      "total_klines": 288,
+      "rank_vol": 56,
+      "symbol": "OPEN/USDT",
+      "quote_volume": 3039125.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 2.5264,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
-      "rank_vol": 99,
-      "symbol": "PNUT/USDT",
-      "quote_volume": 1367690.0,
-      "total_klines": 288,
+      "rank_vol": 57,
+      "symbol": "SHIB/USDT",
+      "quote_volume": 3013122.0,
+      "total_klines": 0,
       "hit_count": 0,
-      "max_amplitude": 1.4049,
+      "max_amplitude": 0.0,
       "hits": [],
-      "error": null
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
     },
     {
-      "rank_vol": 100,
+      "rank_vol": 58,
+      "symbol": "CHZ/USDT",
+      "quote_volume": 2987962.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 59,
+      "symbol": "ORDI/USDT",
+      "quote_volume": 2793269.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 60,
+      "symbol": "PENGU/USDT",
+      "quote_volume": 2782505.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 61,
+      "symbol": "CFX/USDT",
+      "quote_volume": 2762038.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 62,
+      "symbol": "DOT/USDT",
+      "quote_volume": 2707472.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 63,
+      "symbol": "VIRTUAL/USDT",
+      "quote_volume": 2693795.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 64,
+      "symbol": "BIO/USDT",
+      "quote_volume": 2685874.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 65,
+      "symbol": "INTC/USDT",
+      "quote_volume": 2633740.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol INTC/USDT"
+    },
+    {
+      "rank_vol": 66,
+      "symbol": "TSLAX/USDT",
+      "quote_volume": 2616188.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 67,
+      "symbol": "CHIP/USDT",
+      "quote_volume": 2516287.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 68,
       "symbol": "ASTEROID/USDT",
-      "quote_volume": 1332015.0,
+      "quote_volume": 2503511.0,
       "total_klines": 0,
       "hit_count": 0,
       "max_amplitude": 0.0,
       "hits": [],
       "error": "BadSymbol: gate does not have market symbol ASTEROID/USDT"
+    },
+    {
+      "rank_vol": 69,
+      "symbol": "ARC/USDT",
+      "quote_volume": 2482407.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 70,
+      "symbol": "WIF/USDT",
+      "quote_volume": 2445299.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 71,
+      "symbol": "APE/USDT",
+      "quote_volume": 2368950.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 72,
+      "symbol": "KAIA/USDT",
+      "quote_volume": 2315306.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 73,
+      "symbol": "SAGA/USDT",
+      "quote_volume": 2261843.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 74,
+      "symbol": "RIVER/USDT",
+      "quote_volume": 2144191.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol RIVER/USDT"
+    },
+    {
+      "rank_vol": 75,
+      "symbol": "SPACE/USDT",
+      "quote_volume": 2092865.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol SPACE/USDT"
+    },
+    {
+      "rank_vol": 76,
+      "symbol": "DYM/USDT",
+      "quote_volume": 2034727.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 77,
+      "symbol": "XPL/USDT",
+      "quote_volume": 2031512.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 78,
+      "symbol": "QQQX/USDT",
+      "quote_volume": 1968529.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 79,
+      "symbol": "WLD/USDT",
+      "quote_volume": 1945521.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 80,
+      "symbol": "INJ/USDT",
+      "quote_volume": 1860702.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 81,
+      "symbol": "PUMP/USDT",
+      "quote_volume": 1822175.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 82,
+      "symbol": "GALA/USDT",
+      "quote_volume": 1749945.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 83,
+      "symbol": "CBRS/USDT",
+      "quote_volume": 1708801.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol CBRS/USDT"
+    },
+    {
+      "rank_vol": 84,
+      "symbol": "EWY/USDT",
+      "quote_volume": 1693285.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol EWY/USDT"
+    },
+    {
+      "rank_vol": 85,
+      "symbol": "ASTER/USDT",
+      "quote_volume": 1633177.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 86,
+      "symbol": "BEAT/USDT",
+      "quote_volume": 1590155.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 87,
+      "symbol": "TRUTH/USDT",
+      "quote_volume": 1515144.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol TRUTH/USDT"
+    },
+    {
+      "rank_vol": 88,
+      "symbol": "HYPER/USDT",
+      "quote_volume": 1489644.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 89,
+      "symbol": "LUNC/USDT",
+      "quote_volume": 1489440.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 90,
+      "symbol": "FET/USDT",
+      "quote_volume": 1482186.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 91,
+      "symbol": "KAITO/USDT",
+      "quote_volume": 1403838.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 92,
+      "symbol": "TRX/USDT",
+      "quote_volume": 1378175.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 93,
+      "symbol": "APT/USDT",
+      "quote_volume": 1366401.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 94,
+      "symbol": "PHB/USDT",
+      "quote_volume": 1357113.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 95,
+      "symbol": "UP/USDT",
+      "quote_volume": 1356738.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 96,
+      "symbol": "STORJ/USDT",
+      "quote_volume": 1354193.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 97,
+      "symbol": "APR/USDT",
+      "quote_volume": 1279887.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol APR/USDT"
+    },
+    {
+      "rank_vol": 98,
+      "symbol": "PROM/USDT",
+      "quote_volume": 1273698.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 99,
+      "symbol": "MYX/USDT",
+      "quote_volume": 1247160.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 100,
+      "symbol": "币安人生/USDT",
+      "quote_volume": 1217909.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol 币安人生/USDT"
+    },
+    {
+      "rank_vol": 101,
+      "symbol": "NAORIS/USDT",
+      "quote_volume": 1199538.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 102,
+      "symbol": "TIA/USDT",
+      "quote_volume": 1189964.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 103,
+      "symbol": "HANA/USDT",
+      "quote_volume": 1179140.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 104,
+      "symbol": "SPACEX/USDT",
+      "quote_volume": 1166151.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol SPACEX/USDT"
+    },
+    {
+      "rank_vol": 105,
+      "symbol": "BAS/USDT",
+      "quote_volume": 1139928.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 106,
+      "symbol": "H/USDT",
+      "quote_volume": 1104154.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 107,
+      "symbol": "CRV/USDT",
+      "quote_volume": 1096820.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 108,
+      "symbol": "KITE/USDT",
+      "quote_volume": 1088879.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 109,
+      "symbol": "ATOM/USDT",
+      "quote_volume": 1086216.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 110,
+      "symbol": "LITE/USDT",
+      "quote_volume": 1082513.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol LITE/USDT"
+    },
+    {
+      "rank_vol": 111,
+      "symbol": "MON/USDT",
+      "quote_volume": 1076549.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 112,
+      "symbol": "MEGA/USDT",
+      "quote_volume": 1070671.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 113,
+      "symbol": "MSTRX/USDT",
+      "quote_volume": 1057674.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 114,
+      "symbol": "XLM/USDT",
+      "quote_volume": 1048944.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 115,
+      "symbol": "PENDLE/USDT",
+      "quote_volume": 1048238.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 116,
+      "symbol": "TRB/USDT",
+      "quote_volume": 1045859.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 117,
+      "symbol": "GIGGLE/USDT",
+      "quote_volume": 1043025.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 118,
+      "symbol": "NAS100/USDT",
+      "quote_volume": 1038145.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol NAS100/USDT"
+    },
+    {
+      "rank_vol": 119,
+      "symbol": "PIEVERSE/USDT",
+      "quote_volume": 1013609.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 120,
+      "symbol": "PIPPIN/USDT",
+      "quote_volume": 1009395.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 121,
+      "symbol": "STAR/USDT",
+      "quote_volume": 1007946.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol STAR/USDT"
+    },
+    {
+      "rank_vol": 122,
+      "symbol": "IP/USDT",
+      "quote_volume": 1000391.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 123,
+      "symbol": "GOOGLX/USDT",
+      "quote_volume": 997065.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 124,
+      "symbol": "DOGS/USDT",
+      "quote_volume": 988687.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 125,
+      "symbol": "RUNE/USDT",
+      "quote_volume": 980745.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 126,
+      "symbol": "PROS/USDT",
+      "quote_volume": 971477.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol PROS/USDT"
+    },
+    {
+      "rank_vol": 127,
+      "symbol": "AI/USDT",
+      "quote_volume": 942666.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 128,
+      "symbol": "SAHARA/USDT",
+      "quote_volume": 928339.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 129,
+      "symbol": "DASH/USDT",
+      "quote_volume": 902776.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 130,
+      "symbol": "LYN/USDT",
+      "quote_volume": 892407.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol LYN/USDT"
+    },
+    {
+      "rank_vol": 131,
+      "symbol": "BONK/USDT",
+      "quote_volume": 864310.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 132,
+      "symbol": "BOME/USDT",
+      "quote_volume": 862993.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 133,
+      "symbol": "CGPT/USDT",
+      "quote_volume": 810065.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 134,
+      "symbol": "INX/USDT",
+      "quote_volume": 808723.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 135,
+      "symbol": "MOODENG/USDT",
+      "quote_volume": 785264.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 136,
+      "symbol": "COOKIE/USDT",
+      "quote_volume": 783230.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 137,
+      "symbol": "Q/USDT",
+      "quote_volume": 781427.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 138,
+      "symbol": "OP/USDT",
+      "quote_volume": 751415.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 139,
+      "symbol": "NEWT/USDT",
+      "quote_volume": 743410.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 140,
+      "symbol": "SEI/USDT",
+      "quote_volume": 733327.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 141,
+      "symbol": "BABY/USDT",
+      "quote_volume": 725820.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 142,
+      "symbol": "PNUT/USDT",
+      "quote_volume": 725587.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 143,
+      "symbol": "BGSC/USDT",
+      "quote_volume": 715123.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 144,
+      "symbol": "KAS/USDT",
+      "quote_volume": 704816.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 145,
+      "symbol": "MRVL/USDT",
+      "quote_volume": 702844.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol MRVL/USDT"
+    },
+    {
+      "rank_vol": 146,
+      "symbol": "TSTBSC/USDT",
+      "quote_volume": 701383.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 147,
+      "symbol": "ETC/USDT",
+      "quote_volume": 698636.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 148,
+      "symbol": "GUA/USDT",
+      "quote_volume": 689747.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 149,
+      "symbol": "LDO/USDT",
+      "quote_volume": 686074.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 150,
+      "symbol": "ORCA/USDT",
+      "quote_volume": 683804.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 151,
+      "symbol": "FLOKI/USDT",
+      "quote_volume": 680383.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 152,
+      "symbol": "EGLD/USDT",
+      "quote_volume": 678214.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 153,
+      "symbol": "TRADOOR/USDT",
+      "quote_volume": 665552.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 154,
+      "symbol": "OPG/USDT",
+      "quote_volume": 659089.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 155,
+      "symbol": "SPK/USDT",
+      "quote_volume": 654810.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 156,
+      "symbol": "BASED/USDT",
+      "quote_volume": 653263.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol BASED/USDT"
+    },
+    {
+      "rank_vol": 157,
+      "symbol": "POL/USDT",
+      "quote_volume": 647473.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 158,
+      "symbol": "BERA/USDT",
+      "quote_volume": 628976.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 159,
+      "symbol": "FF/USDT",
+      "quote_volume": 625530.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 160,
+      "symbol": "BLESS/USDT",
+      "quote_volume": 612313.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 161,
+      "symbol": "AZTEC/USDT",
+      "quote_volume": 607894.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 162,
+      "symbol": "ROBO/USDT",
+      "quote_volume": 603856.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 163,
+      "symbol": "COAI/USDT",
+      "quote_volume": 601896.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 164,
+      "symbol": "SPX/USDT",
+      "quote_volume": 599180.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 165,
+      "symbol": "AXS/USDT",
+      "quote_volume": 595142.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 166,
+      "symbol": "GOAT/USDT",
+      "quote_volume": 579701.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 167,
+      "symbol": "ZBT/USDT",
+      "quote_volume": 573161.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 168,
+      "symbol": "TQQQX/USDT",
+      "quote_volume": 560914.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 169,
+      "symbol": "PLAY/USDT",
+      "quote_volume": 560098.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol PLAY/USDT"
+    },
+    {
+      "rank_vol": 170,
+      "symbol": "TOWNS/USDT",
+      "quote_volume": 559799.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 171,
+      "symbol": "KAT/USDT",
+      "quote_volume": 556347.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 172,
+      "symbol": "4/USDT",
+      "quote_volume": 554410.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol 4/USDT"
+    },
+    {
+      "rank_vol": 173,
+      "symbol": "STABLE/USDT",
+      "quote_volume": 553905.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 174,
+      "symbol": "IO/USDT",
+      "quote_volume": 552112.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 175,
+      "symbol": "RKLB/USDT",
+      "quote_volume": 551149.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol RKLB/USDT"
+    },
+    {
+      "rank_vol": 176,
+      "symbol": "ETHFI/USDT",
+      "quote_volume": 545557.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 177,
+      "symbol": "MANTRA/USDT",
+      "quote_volume": 530313.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 178,
+      "symbol": "HBAR/USDT",
+      "quote_volume": 524899.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 179,
+      "symbol": "STX/USDT",
+      "quote_volume": 518834.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 180,
+      "symbol": "ESPORTS/USDT",
+      "quote_volume": 497170.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 181,
+      "symbol": "QCOM/USDT",
+      "quote_volume": 490688.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol QCOM/USDT"
+    },
+    {
+      "rank_vol": 182,
+      "symbol": "USELESS/USDT",
+      "quote_volume": 489927.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 183,
+      "symbol": "JELLYJELLY/USDT",
+      "quote_volume": 481623.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 184,
+      "symbol": "CYBER/USDT",
+      "quote_volume": 473548.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 185,
+      "symbol": "MAGMA/USDT",
+      "quote_volume": 470668.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 186,
+      "symbol": "BSV/USDT",
+      "quote_volume": 468760.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 187,
+      "symbol": "RECALL/USDT",
+      "quote_volume": 467648.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 188,
+      "symbol": "FOLKS/USDT",
+      "quote_volume": 465325.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol FOLKS/USDT"
+    },
+    {
+      "rank_vol": 189,
+      "symbol": "FORM/USDT",
+      "quote_volume": 461649.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 190,
+      "symbol": "TA/USDT",
+      "quote_volume": 461075.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 191,
+      "symbol": "EVAA/USDT",
+      "quote_volume": 457437.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 192,
+      "symbol": "POLYX/USDT",
+      "quote_volume": 446668.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 193,
+      "symbol": "GWEI/USDT",
+      "quote_volume": 438668.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 194,
+      "symbol": "NOT/USDT",
+      "quote_volume": 422336.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 195,
+      "symbol": "SPYX/USDT",
+      "quote_volume": 415746.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 196,
+      "symbol": "LAYER/USDT",
+      "quote_volume": 415084.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 197,
+      "symbol": "W/USDT",
+      "quote_volume": 410768.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 198,
+      "symbol": "POPCAT/USDT",
+      "quote_volume": 406192.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 199,
+      "symbol": "AIXBT/USDT",
+      "quote_volume": 405313.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadRequest: gate {\"label\":\"INVALID_PARAM_VALUE\",\"message\":\"Candlestick too long ago. Maximum 10000 points ago are allowed\"}"
+    },
+    {
+      "rank_vol": 200,
+      "symbol": "XMR/USDT",
+      "quote_volume": 404389.0,
+      "total_klines": 0,
+      "hit_count": 0,
+      "max_amplitude": 0.0,
+      "hits": [],
+      "error": "BadSymbol: gate does not have market symbol XMR/USDT"
     }
   ]
 }
