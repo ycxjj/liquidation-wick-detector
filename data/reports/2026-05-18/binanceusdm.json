@@ -1,0 +1,7133 @@
+{
+  "report_date": "2026-05-18",
+  "exchange": "binanceusdm",
+  "generated_at": "2026-05-19T08:04:05+08:00",
+  "timeframe": "1m",
+  "symbol_count": 619,
+  "with_hits_count": 44,
+  "rows": [
+    {
+      "rank_vol": 1,
+      "symbol": "BTC/USDT",
+      "quote_volume": 13719286712.56,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.7293,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 2,
+      "symbol": "ETH/USDT",
+      "quote_volume": 10825073528.47,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5229,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 3,
+      "symbol": "BTC/USDC",
+      "quote_volume": 4192144805.2,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.8469,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 4,
+      "symbol": "ETH/USDC",
+      "quote_volume": 3581628574.85,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5476,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 5,
+      "symbol": "SOL/USDT",
+      "quote_volume": 1777881687.4219,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.603,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 6,
+      "symbol": "XAG/USDT",
+      "quote_volume": 1509987022.6449,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.8802,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 7,
+      "symbol": "XAU/USDT",
+      "quote_volume": 1361000958.55,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.4192,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 8,
+      "symbol": "ZEC/USDT",
+      "quote_volume": 1216881958.17,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5138,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 9,
+      "symbol": "HYPE/USDT",
+      "quote_volume": 1176649972.14693,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6813,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 10,
+      "symbol": "CL/USDT",
+      "quote_volume": 1145733278.3808,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.2516,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 11,
+      "symbol": "DOGE/USDT",
+      "quote_volume": 790413582.42464,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.056,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 12,
+      "symbol": "XRP/USDT",
+      "quote_volume": 771101158.4059,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.142,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 13,
+      "symbol": "BILL/USDT",
+      "quote_volume": 613555296.75809,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 5.5592,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 09:13:00",
+          "direction": "上插针 🔺",
+          "amplitude": 2.69
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 14,
+      "symbol": "FIDA/USDT",
+      "quote_volume": 464839869.84544,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 7.6437,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:44:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.61
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 15,
+      "symbol": "BCH/USDT",
+      "quote_volume": 431222006.42,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3866,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 16,
+      "symbol": "BZ/USDT",
+      "quote_volume": 422081091.1584,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.9269,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 17,
+      "symbol": "BNB/USDT",
+      "quote_volume": 344321412.349,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.9964,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 18,
+      "symbol": "SOL/USDC",
+      "quote_volume": 324034137.5884,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7586,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 19,
+      "symbol": "SNDK/USDT",
+      "quote_volume": 313632124.8854,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1322,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 20,
+      "symbol": "BSB/USDT",
+      "quote_volume": 306984716.22848,
+      "total_klines": 1440,
+      "hit_count": 4,
+      "max_amplitude": 11.0412,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 05:15:00",
+          "direction": "上插针 🔺",
+          "amplitude": 4.49
+        },
+        {
+          "timestamp": "2026-05-18 12:01:00",
+          "direction": "上插针 🔺",
+          "amplitude": 4.09
+        },
+        {
+          "timestamp": "2026-05-18 06:09:00",
+          "direction": "上插针 🔺",
+          "amplitude": 3.7
+        },
+        {
+          "timestamp": "2026-05-18 00:17:00",
+          "direction": "上插针 🔺",
+          "amplitude": 3.28
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 21,
+      "symbol": "TON/USDT",
+      "quote_volume": 283892290.47499,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.211,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 22,
+      "symbol": "LAB/USDT",
+      "quote_volume": 276698806.62136,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9934,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 23,
+      "symbol": "SUI/USDT",
+      "quote_volume": 252647343.08305,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7457,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 24,
+      "symbol": "1000PEPE/USDT",
+      "quote_volume": 244700108.1073437,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1685,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 25,
+      "symbol": "MU/USDT",
+      "quote_volume": 244258860.972,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5525,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 26,
+      "symbol": "EDEN/USDT",
+      "quote_volume": 243763173.1374,
+      "total_klines": 1440,
+      "hit_count": 2,
+      "max_amplitude": 6.9623,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 17:12:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.78
+        },
+        {
+          "timestamp": "2026-05-17 18:05:00",
+          "direction": "上插针 🔺",
+          "amplitude": 2.53
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 27,
+      "symbol": "AIGENSYN/USDT",
+      "quote_volume": 230275124.26324,
+      "total_klines": 1440,
+      "hit_count": 4,
+      "max_amplitude": 17.5853,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 03:06:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.21
+        },
+        {
+          "timestamp": "2026-05-18 02:35:00",
+          "direction": "上插针 🔺",
+          "amplitude": 3.09
+        },
+        {
+          "timestamp": "2026-05-18 04:00:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.71
+        },
+        {
+          "timestamp": "2026-05-18 03:09:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.69
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 28,
+      "symbol": "RONIN/USDT",
+      "quote_volume": 182546325.95172,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6651,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 29,
+      "symbol": "ADA/USDT",
+      "quote_volume": 177175026.6935,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.883,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 30,
+      "symbol": "XRP/USDC",
+      "quote_volume": 167819437.8162,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.3072,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 31,
+      "symbol": "CRCL/USDT",
+      "quote_volume": 143149491.7682,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6784,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 32,
+      "symbol": "ONDO/USDT",
+      "quote_volume": 139534086.90625,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1656,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 33,
+      "symbol": "NEAR/USDT",
+      "quote_volume": 134798053.428,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9009,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 34,
+      "symbol": "TAO/USDT",
+      "quote_volume": 130189691.76,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3513,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 35,
+      "symbol": "LINK/USDT",
+      "quote_volume": 126406837.011,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8824,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 36,
+      "symbol": "INTC/USDT",
+      "quote_volume": 121571535.9422,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7213,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 37,
+      "symbol": "AVAX/USDT",
+      "quote_volume": 118601150.292,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.589,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 38,
+      "symbol": "APR/USDT",
+      "quote_volume": 113636410.28403,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 9.8302,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 03:04:00",
+          "direction": "上插针 🔺",
+          "amplitude": 2.52
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 39,
+      "symbol": "PAXG/USDT",
+      "quote_volume": 112501167.4868,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.3931,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 40,
+      "symbol": "EWY/USDT",
+      "quote_volume": 109564668.1278,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.2913,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 41,
+      "symbol": "OPEN/USDT",
+      "quote_volume": 92305191.7945,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7542,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 42,
+      "symbol": "MSTR/USDT",
+      "quote_volume": 87726853.3319,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4114,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 43,
+      "symbol": "ENA/USDT",
+      "quote_volume": 83451210.16848,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7188,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 44,
+      "symbol": "LTC/USDT",
+      "quote_volume": 82656333.75,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.1562,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 45,
+      "symbol": "FIL/USDT",
+      "quote_volume": 81190957.208,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0983,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 46,
+      "symbol": "UB/USDT",
+      "quote_volume": 79229895.86634,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.5882,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 47,
+      "symbol": "WLD/USDT",
+      "quote_volume": 78807159.9939,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5028,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 48,
+      "symbol": "DOGE/USDC",
+      "quote_volume": 73769101.18521,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5856,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 49,
+      "symbol": "INJ/USDT",
+      "quote_volume": 73557065.0743,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9581,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 50,
+      "symbol": "AIA/USDT",
+      "quote_volume": 73444745.87485,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 12.7208,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 51,
+      "symbol": "ZEC/USDC",
+      "quote_volume": 72586073.85,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4772,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 52,
+      "symbol": "VVV/USDT",
+      "quote_volume": 71080755.18061,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2494,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 53,
+      "symbol": "NVDA/USDT",
+      "quote_volume": 70695682.122,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.6642,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 54,
+      "symbol": "AAVE/USDT",
+      "quote_volume": 70208984.875,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3224,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 55,
+      "symbol": "RIVER/USDT",
+      "quote_volume": 69403636.6993,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2487,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 56,
+      "symbol": "TRX/USDT",
+      "quote_volume": 68158907.82628,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.2714,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 57,
+      "symbol": "UNI/USDT",
+      "quote_volume": 66836088.756,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4291,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 58,
+      "symbol": "BCH/USDC",
+      "quote_volume": 62061059.53,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.11,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 59,
+      "symbol": "CHZ/USDT",
+      "quote_volume": 61032990.73598,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7802,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 60,
+      "symbol": "BNB/USDC",
+      "quote_volume": 57855346.966,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.9923,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 61,
+      "symbol": "DOT/USDT",
+      "quote_volume": 57599190.819,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0161,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 62,
+      "symbol": "TRUMP/USDT",
+      "quote_volume": 55595795.10078,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5272,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 63,
+      "symbol": "PENGU/USDT",
+      "quote_volume": 55263850.111198,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.284,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 64,
+      "symbol": "DASH/USDT",
+      "quote_volume": 54836283.48,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2125,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 65,
+      "symbol": "HYPER/USDT",
+      "quote_volume": 53028383.13414,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 4.6051,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 4.61
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 66,
+      "symbol": "KITE/USDT",
+      "quote_volume": 51302313.33082,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3719,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 67,
+      "symbol": "PROM/USDT",
+      "quote_volume": 50923337.8786,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.4595,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 68,
+      "symbol": "NATGAS/USDT",
+      "quote_volume": 47717645.965,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.7876,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 69,
+      "symbol": "币安人生/USDT",
+      "quote_volume": 45130062.35162,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2525,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 70,
+      "symbol": "1000SHIB/USDT",
+      "quote_volume": 42442166.630374,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9863,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 71,
+      "symbol": "AT/USDT",
+      "quote_volume": 42104165.6137,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.3247,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 72,
+      "symbol": "XLM/USDT",
+      "quote_volume": 41211072.37948,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8765,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 73,
+      "symbol": "TSLA/USDT",
+      "quote_volume": 40593362.2495,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.6305,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 74,
+      "symbol": "ASTER/USDT",
+      "quote_volume": 40399437.3163,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0456,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 75,
+      "symbol": "FARTCOIN/USDT",
+      "quote_volume": 39977223.31148,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.7696,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 76,
+      "symbol": "BIO/USDT",
+      "quote_volume": 39923941.38377,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5089,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 77,
+      "symbol": "SKYAI/USDT",
+      "quote_volume": 38801918.15136,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.2411,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 78,
+      "symbol": "ATOM/USDT",
+      "quote_volume": 37717552.085,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7068,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 79,
+      "symbol": "APT/USDT",
+      "quote_volume": 37577321.32728,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9808,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 80,
+      "symbol": "PUMP/USDT",
+      "quote_volume": 36701401.543179,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0139,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 81,
+      "symbol": "IRYS/USDT",
+      "quote_volume": 35741028.12177,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 3.917,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 01:16:00",
+          "direction": "上插针 🔺",
+          "amplitude": 2.52
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 82,
+      "symbol": "ARB/USDT",
+      "quote_volume": 33042269.41426,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5952,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 83,
+      "symbol": "XMR/USDT",
+      "quote_volume": 32890246.94,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.6929,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 84,
+      "symbol": "CHIP/USDT",
+      "quote_volume": 32366909.75063,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3186,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 85,
+      "symbol": "RAVE/USDT",
+      "quote_volume": 32235881.53919,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 8.6012,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 86,
+      "symbol": "B/USDT",
+      "quote_volume": 32175641.3154,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.5168,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 87,
+      "symbol": "DYM/USDT",
+      "quote_volume": 31908210.301668,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3316,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 88,
+      "symbol": "1000LUNC/USDT",
+      "quote_volume": 31378404.76716,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.154,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 89,
+      "symbol": "VIRTUAL/USDT",
+      "quote_volume": 31167185.77281,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.856,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 90,
+      "symbol": "WLFI/USDT",
+      "quote_volume": 31097066.1096,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.226,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 91,
+      "symbol": "TIA/USDT",
+      "quote_volume": 30783872.7348,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4145,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 92,
+      "symbol": "ICP/USDT",
+      "quote_volume": 30611835.241,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1327,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 93,
+      "symbol": "KAIA/USDT",
+      "quote_volume": 30415408.44913,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0319,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 94,
+      "symbol": "TRUTH/USDT",
+      "quote_volume": 29388171.918902,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6025,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 95,
+      "symbol": "SAHARA/USDT",
+      "quote_volume": 29373772.66251,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.003,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 96,
+      "symbol": "SPACE/USDT",
+      "quote_volume": 29089677.959271,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8899,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 97,
+      "symbol": "XAUT/USDT",
+      "quote_volume": 27870283.65,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.4289,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 98,
+      "symbol": "FET/USDT",
+      "quote_volume": 27759975.0704,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9698,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 99,
+      "symbol": "ETC/USDT",
+      "quote_volume": 27568409.314,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9975,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 100,
+      "symbol": "COOKIE/USDT",
+      "quote_volume": 27503405.3294,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.1284,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 101,
+      "symbol": "TOWNS/USDT",
+      "quote_volume": 27171857.752847,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.9755,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 102,
+      "symbol": "1000BONK/USDT",
+      "quote_volume": 27083508.648992,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7537,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 103,
+      "symbol": "AXS/USDT",
+      "quote_volume": 25891241.495,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5824,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 104,
+      "symbol": "QQQ/USDT",
+      "quote_volume": 24994902.4404,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.3349,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 105,
+      "symbol": "CFG/USDT",
+      "quote_volume": 24899360.6082,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.498,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 106,
+      "symbol": "PENDLE/USDT",
+      "quote_volume": 24865360.7359,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.431,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 107,
+      "symbol": "FF/USDT",
+      "quote_volume": 24378576.24822,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1548,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 108,
+      "symbol": "MAGMA/USDT",
+      "quote_volume": 24093716.24573,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.8506,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 109,
+      "symbol": "HBAR/USDT",
+      "quote_volume": 23752916.39992,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4478,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 110,
+      "symbol": "COIN/USDT",
+      "quote_volume": 23659407.5128,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.1722,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 111,
+      "symbol": "ALICE/USDT",
+      "quote_volume": 23362070.716466,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.898,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 112,
+      "symbol": "XPL/USDT",
+      "quote_volume": 23314077.4186,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7126,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 113,
+      "symbol": "ORDI/USDT",
+      "quote_volume": 23154322.4229,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.8033,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 114,
+      "symbol": "WIF/USDT",
+      "quote_volume": 23147394.94325,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5722,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 115,
+      "symbol": "SOXL/USDT",
+      "quote_volume": 23006824.269,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5003,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 116,
+      "symbol": "SAGA/USDT",
+      "quote_volume": 22636518.869752,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.0627,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 117,
+      "symbol": "BAS/USDT",
+      "quote_volume": 22585607.048464,
+      "total_klines": 1440,
+      "hit_count": 2,
+      "max_amplitude": 7.2242,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 01:30:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.93
+        },
+        {
+          "timestamp": "2026-05-18 00:19:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.81
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 118,
+      "symbol": "ESPORTS/USDT",
+      "quote_volume": 21831479.0154,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.5418,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 119,
+      "symbol": "GUA/USDT",
+      "quote_volume": 21191016.57491,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1898,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 120,
+      "symbol": "SUI/USDC",
+      "quote_volume": 20951007.40527,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6696,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 121,
+      "symbol": "OP/USDT",
+      "quote_volume": 20614196.11841,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0636,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 122,
+      "symbol": "PLAY/USDT",
+      "quote_volume": 20334756.49193,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.487,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 123,
+      "symbol": "LIT/USDT",
+      "quote_volume": 20052011.01893,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1726,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 124,
+      "symbol": "DUSK/USDT",
+      "quote_volume": 20022240.18761,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.6367,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 125,
+      "symbol": "RENDER/USDT",
+      "quote_volume": 19913104.1862,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3569,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 126,
+      "symbol": "TA/USDT",
+      "quote_volume": 19607670.66976,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6714,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 127,
+      "symbol": "BABY/USDT",
+      "quote_volume": 18896212.65517,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.1111,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 128,
+      "symbol": "MLN/USDT",
+      "quote_volume": 18711889.8434,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 13.3953,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 129,
+      "symbol": "MON/USDT",
+      "quote_volume": 18358117.18016,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.4069,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 130,
+      "symbol": "Q/USDT",
+      "quote_volume": 18314078.752678,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4469,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 131,
+      "symbol": "DOGS/USDT",
+      "quote_volume": 18180908.67922533,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6833,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 132,
+      "symbol": "H/USDT",
+      "quote_volume": 17986496.25476,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.0628,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 133,
+      "symbol": "CGPT/USDT",
+      "quote_volume": 17654816.35764,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8322,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 134,
+      "symbol": "HANA/USDT",
+      "quote_volume": 17553354.11228,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 6.366,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 05:56:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.13
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 135,
+      "symbol": "SEI/USDT",
+      "quote_volume": 17498700.39019,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0286,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 136,
+      "symbol": "AMD/USDT",
+      "quote_volume": 17317633.2029,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.3916,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 137,
+      "symbol": "GOOGL/USDT",
+      "quote_volume": 17154180.7133,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.5827,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 138,
+      "symbol": "GIGGLE/USDT",
+      "quote_volume": 17136352.0296,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7869,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 139,
+      "symbol": "ORCA/USDT",
+      "quote_volume": 17011896.4971,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8689,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 140,
+      "symbol": "MEGA/USDT",
+      "quote_volume": 17000362.59905,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3011,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 141,
+      "symbol": "PHAROS/USDT",
+      "quote_volume": 16989148.8672,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2937,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 142,
+      "symbol": "1000PEPE/USDC",
+      "quote_volume": 16849421.2751551,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9776,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 143,
+      "symbol": "BERA/USDT",
+      "quote_volume": 16712078.54931,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.645,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 144,
+      "symbol": "LYN/USDT",
+      "quote_volume": 16122488.60511,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7666,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 145,
+      "symbol": "BEAT/USDT",
+      "quote_volume": 16045989.2271,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8853,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 146,
+      "symbol": "CRV/USDT",
+      "quote_volume": 15808825.28663,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5316,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 147,
+      "symbol": "RECALL/USDT",
+      "quote_volume": 15696373.42492,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8879,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 148,
+      "symbol": "EDGE/USDT",
+      "quote_volume": 15678848.5837,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3217,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 149,
+      "symbol": "FHE/USDT",
+      "quote_volume": 14855109.75778,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.2267,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 150,
+      "symbol": "TRIA/USDT",
+      "quote_volume": 14800914.36366,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8595,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 151,
+      "symbol": "LDO/USDT",
+      "quote_volume": 14464164.8958,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3718,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 152,
+      "symbol": "STAR/USDT",
+      "quote_volume": 13983173.54578,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 8.2954,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 8.3
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 153,
+      "symbol": "ADA/USDC",
+      "quote_volume": 13940308.96793,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7621,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 154,
+      "symbol": "ZBT/USDT",
+      "quote_volume": 13760579.45365,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5264,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 155,
+      "symbol": "TST/USDT",
+      "quote_volume": 13693808.154136,
+      "total_klines": 1440,
+      "hit_count": 2,
+      "max_amplitude": 8.9715,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 8.48
+        },
+        {
+          "timestamp": "2026-05-18 13:14:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.03
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 156,
+      "symbol": "BOME/USDT",
+      "quote_volume": 13600521.5993394,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4053,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 157,
+      "symbol": "ALGO/USDT",
+      "quote_volume": 13539808.0805,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0853,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 158,
+      "symbol": "ROBO/USDT",
+      "quote_volume": 13536732.43819,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4749,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 159,
+      "symbol": "SIREN/USDT",
+      "quote_volume": 13501571.23792,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.4032,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 160,
+      "symbol": "KAITO/USDT",
+      "quote_volume": 12864205.51483,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4303,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 161,
+      "symbol": "HOOD/USDT",
+      "quote_volume": 12580487.6018,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.2617,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 162,
+      "symbol": "STORJ/USDT",
+      "quote_volume": 12439686.7348,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.0,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 163,
+      "symbol": "APE/USDT",
+      "quote_volume": 12439209.6977,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5018,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 164,
+      "symbol": "SAND/USDT",
+      "quote_volume": 12396947.02459,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3409,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 165,
+      "symbol": "POL/USDT",
+      "quote_volume": 12360841.78352,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1055,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 166,
+      "symbol": "NAORIS/USDT",
+      "quote_volume": 12302627.67101,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 9.5178,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 167,
+      "symbol": "STABLE/USDT",
+      "quote_volume": 12247553.537329,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8144,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 168,
+      "symbol": "DEXE/USDT",
+      "quote_volume": 12168790.73625,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 12.1761,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 169,
+      "symbol": "OPG/USDT",
+      "quote_volume": 11715406.0255,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.0172,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 170,
+      "symbol": "BASED/USDT",
+      "quote_volume": 11641920.76938,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 7.6945,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 171,
+      "symbol": "PIEVERSE/USDT",
+      "quote_volume": 11477312.084,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.042,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 172,
+      "symbol": "RUNE/USDT",
+      "quote_volume": 11038527.7259,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.213,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 173,
+      "symbol": "LTC/USDC",
+      "quote_volume": 10898587.49,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.1929,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 174,
+      "symbol": "ZEN/USDT",
+      "quote_volume": 10880597.017,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7607,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 175,
+      "symbol": "STRK/USDT",
+      "quote_volume": 10875238.407644,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8471,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 176,
+      "symbol": "PHB/USDT",
+      "quote_volume": 10851480.8754,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 5.3455,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 5.35
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 177,
+      "symbol": "LINK/USDC",
+      "quote_volume": 10757928.832,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8834,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 178,
+      "symbol": "CFX/USDT",
+      "quote_volume": 10608155.99779,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 7.4684,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 7.47
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 179,
+      "symbol": "JUP/USDT",
+      "quote_volume": 10606763.3737,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9038,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 180,
+      "symbol": "SPY/USDT",
+      "quote_volume": 10423346.3727,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.2104,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 181,
+      "symbol": "NMR/USDT",
+      "quote_volume": 10207487.8206,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1604,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 182,
+      "symbol": "GWEI/USDT",
+      "quote_volume": 9942757.601237,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8524,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 183,
+      "symbol": "ZRO/USDT",
+      "quote_volume": 9933654.17173,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6388,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 184,
+      "symbol": "MORPHO/USDT",
+      "quote_volume": 9913297.45825,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0622,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 185,
+      "symbol": "JTO/USDT",
+      "quote_volume": 9790493.2149,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6505,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 186,
+      "symbol": "ETHFI/USDT",
+      "quote_volume": 9764865.47506,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9096,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 187,
+      "symbol": "FLOCK/USDT",
+      "quote_volume": 9612496.00601,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9266,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 188,
+      "symbol": "ENJ/USDT",
+      "quote_volume": 9602170.65832,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2921,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 189,
+      "symbol": "EDU/USDT",
+      "quote_volume": 9542127.81277,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8562,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 190,
+      "symbol": "IP/USDT",
+      "quote_volume": 9421730.06247,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.8765,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 191,
+      "symbol": "AERO/USDT",
+      "quote_volume": 9134401.54094,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6844,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 192,
+      "symbol": "BANANAS31/USDT",
+      "quote_volume": 9037414.544893,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6648,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 193,
+      "symbol": "NEAR/USDC",
+      "quote_volume": 8980548.47,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6315,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 194,
+      "symbol": "PNUT/USDT",
+      "quote_volume": 8923877.19579,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1538,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 195,
+      "symbol": "GALA/USDT",
+      "quote_volume": 8883591.901344,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9447,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 196,
+      "symbol": "ARC/USDT",
+      "quote_volume": 8835678.23878,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1398,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 197,
+      "symbol": "ORDI/USDC",
+      "quote_volume": 8509897.7678,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 7.6378,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 198,
+      "symbol": "LAYER/USDT",
+      "quote_volume": 8503562.179416,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8628,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 199,
+      "symbol": "EIGEN/USDT",
+      "quote_volume": 8502863.63876,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1029,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 200,
+      "symbol": "AKT/USDT",
+      "quote_volume": 8437262.81746,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6917,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 201,
+      "symbol": "AVAX/USDC",
+      "quote_volume": 8437173.85333,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5572,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 202,
+      "symbol": "XPT/USDT",
+      "quote_volume": 8235380.2431,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.6539,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 203,
+      "symbol": "PHA/USDT",
+      "quote_volume": 8032434.65527,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1841,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 204,
+      "symbol": "BLUAI/USDT",
+      "quote_volume": 7899218.291987,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1511,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 205,
+      "symbol": "ALT/USDT",
+      "quote_volume": 7859179.27678,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5726,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 206,
+      "symbol": "PIPPIN/USDT",
+      "quote_volume": 7852712.37387,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5714,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 207,
+      "symbol": "SWARMS/USDT",
+      "quote_volume": 7778539.392462,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.8784,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 208,
+      "symbol": "CAKE/USDT",
+      "quote_volume": 7748823.556,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0273,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 209,
+      "symbol": "1000FLOKI/USDT",
+      "quote_volume": 7542874.44523,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3246,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 210,
+      "symbol": "AIXBT/USDT",
+      "quote_volume": 7441483.009,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3169,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 211,
+      "symbol": "USELESS/USDT",
+      "quote_volume": 7352282.3944,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.1141,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 212,
+      "symbol": "NEIRO/USDT",
+      "quote_volume": 7307631.39100356,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7338,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 213,
+      "symbol": "UAI/USDT",
+      "quote_volume": 7026912.6582,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3639,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 214,
+      "symbol": "QNT/USDT",
+      "quote_volume": 7025649.688,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5417,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 215,
+      "symbol": "SPX/USDT",
+      "quote_volume": 6960113.1084,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.235,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 216,
+      "symbol": "BTCDOM/USDT",
+      "quote_volume": 6959472.3,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.8442,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 217,
+      "symbol": "COPPER/USDT",
+      "quote_volume": 6952633.8571,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.4939,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 218,
+      "symbol": "SENT/USDT",
+      "quote_volume": 6898470.78786,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2312,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 219,
+      "symbol": "OPN/USDT",
+      "quote_volume": 6848325.1152,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.4386,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 220,
+      "symbol": "SPK/USDT",
+      "quote_volume": 6754227.18915,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1531,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 221,
+      "symbol": "ENS/USDT",
+      "quote_volume": 6677964.809,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.341,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 222,
+      "symbol": "COLLECT/USDT",
+      "quote_volume": 6606935.61032,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.3639,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 223,
+      "symbol": "BARD/USDT",
+      "quote_volume": 6517058.5537,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.7499,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 224,
+      "symbol": "MYX/USDT",
+      "quote_volume": 6431320.9499,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 17.5125,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 225,
+      "symbol": "PLTR/USDT",
+      "quote_volume": 6409000.339,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.8998,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 226,
+      "symbol": "ENA/USDC",
+      "quote_volume": 6398100.67457,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6611,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 227,
+      "symbol": "INX/USDT",
+      "quote_volume": 6389530.66569,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9116,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 228,
+      "symbol": "W/USDT",
+      "quote_volume": 6353668.815293,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4538,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 229,
+      "symbol": "CYS/USDT",
+      "quote_volume": 6342061.8309,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7027,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 230,
+      "symbol": "ZEREBRO/USDT",
+      "quote_volume": 6304067.6238,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 4.2273,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.95
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 231,
+      "symbol": "ATA/USDT",
+      "quote_volume": 6207562.3371793,
+      "total_klines": 1440,
+      "hit_count": 2,
+      "max_amplitude": 6.968,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 04:46:00",
+          "direction": "下插针 🔻",
+          "amplitude": 5.31
+        },
+        {
+          "timestamp": "2026-05-18 02:44:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.69
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 232,
+      "symbol": "SPORTFUN/USDT",
+      "quote_volume": 5729592.58949,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.4014,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 233,
+      "symbol": "DYDX/USDT",
+      "quote_volume": 5615314.61236,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8761,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 234,
+      "symbol": "MRVL/USDT",
+      "quote_volume": 5598133.7701,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4454,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 235,
+      "symbol": "CC/USDT",
+      "quote_volume": 5580863.46278,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.0834,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 236,
+      "symbol": "PYTH/USDT",
+      "quote_volume": 5559961.01575,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9932,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 237,
+      "symbol": "TURBO/USDT",
+      "quote_volume": 5526677.5086227,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 6.4752,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 6.48
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 238,
+      "symbol": "HUMA/USDT",
+      "quote_volume": 5523540.205165,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7591,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 239,
+      "symbol": "MSFT/USDT",
+      "quote_volume": 5480573.2805,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.7457,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 240,
+      "symbol": "STX/USDT",
+      "quote_volume": 5438896.1961,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0061,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 241,
+      "symbol": "MANTRA/USDT",
+      "quote_volume": 5437828.1555,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 11.0876,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 242,
+      "symbol": "LITE/USDT",
+      "quote_volume": 5437744.0523,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0283,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 243,
+      "symbol": "PARTI/USDT",
+      "quote_volume": 5256319.64698,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9115,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 244,
+      "symbol": "ZK/USDT",
+      "quote_volume": 5234891.12623,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.842,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 245,
+      "symbol": "AR/USDT",
+      "quote_volume": 5229676.108,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2057,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 246,
+      "symbol": "STO/USDT",
+      "quote_volume": 5224691.20565,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 8.8772,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 247,
+      "symbol": "ARB/USDC",
+      "quote_volume": 5209235.47946,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5108,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 248,
+      "symbol": "PIXEL/USDT",
+      "quote_volume": 5150097.085403,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6461,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 249,
+      "symbol": "ROSE/USDT",
+      "quote_volume": 5145915.61826,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.7511,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 250,
+      "symbol": "SOPH/USDT",
+      "quote_volume": 5116003.004654,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3386,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 251,
+      "symbol": "THETA/USDT",
+      "quote_volume": 5089039.7844,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0953,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 252,
+      "symbol": "AIOT/USDT",
+      "quote_volume": 5029366.11823,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9284,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 253,
+      "symbol": "BABA/USDT",
+      "quote_volume": 5009232.1918,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.104,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 254,
+      "symbol": "VIC/USDT",
+      "quote_volume": 4996981.34914,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 2.8075,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.81
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 255,
+      "symbol": "CLO/USDT",
+      "quote_volume": 4953811.14286,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 7.9182,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 256,
+      "symbol": "POLYX/USDT",
+      "quote_volume": 4939004.85456,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2492,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 257,
+      "symbol": "AAVE/USDC",
+      "quote_volume": 4924301.375,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1652,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 258,
+      "symbol": "ZAMA/USDT",
+      "quote_volume": 4875299.78424,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6467,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 259,
+      "symbol": "KAT/USDT",
+      "quote_volume": 4863956.39042,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.0868,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 260,
+      "symbol": "TSM/USDT",
+      "quote_volume": 4850061.2605,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.862,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 261,
+      "symbol": "HOLO/USDT",
+      "quote_volume": 4831968.851,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 3.0009,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.0
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 262,
+      "symbol": "TRB/USDT",
+      "quote_volume": 4819425.825,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3378,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 263,
+      "symbol": "TRADOOR/USDT",
+      "quote_volume": 4814709.9346,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 7.945,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 264,
+      "symbol": "NOT/USDT",
+      "quote_volume": 4759562.1221586,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5729,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 265,
+      "symbol": "SOON/USDT",
+      "quote_volume": 4743711.8734,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1397,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 266,
+      "symbol": "GPS/USDT",
+      "quote_volume": 4736585.661417,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5795,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 267,
+      "symbol": "FIL/USDC",
+      "quote_volume": 4727199.5496,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8877,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 268,
+      "symbol": "ACE/USDT",
+      "quote_volume": 4714262.043931,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3424,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 269,
+      "symbol": "GRT/USDT",
+      "quote_volume": 4604813.43945,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6087,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 270,
+      "symbol": "NEWT/USDT",
+      "quote_volume": 4592919.04897,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9997,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 271,
+      "symbol": "GENIUS/USDT",
+      "quote_volume": 4557063.751,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.4018,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 272,
+      "symbol": "NIL/USDT",
+      "quote_volume": 4535520.951866,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8566,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 273,
+      "symbol": "VET/USDT",
+      "quote_volume": 4535401.442844,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1679,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 274,
+      "symbol": "GTC/USDT",
+      "quote_volume": 4484650.749517,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 7.1686,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.99
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 275,
+      "symbol": "SAPIEN/USDT",
+      "quote_volume": 4465733.30092,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0942,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 276,
+      "symbol": "VELVET/USDT",
+      "quote_volume": 4452768.8274,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8438,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 277,
+      "symbol": "PLUME/USDT",
+      "quote_volume": 4420468.58682,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.211,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 278,
+      "symbol": "MOODENG/USDT",
+      "quote_volume": 4397600.24425,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.0099,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 279,
+      "symbol": "TNSR/USDT",
+      "quote_volume": 4390296.949535,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3269,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 280,
+      "symbol": "IDOL/USDT",
+      "quote_volume": 4330661.15834,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.6154,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 281,
+      "symbol": "FORM/USDT",
+      "quote_volume": 4315610.36393,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 5.3675,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 5.37
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 282,
+      "symbol": "UNI/USDC",
+      "quote_volume": 4288429.381,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.372,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 283,
+      "symbol": "LPT/USDT",
+      "quote_volume": 4268424.651,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6072,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 284,
+      "symbol": "ORCL/USDT",
+      "quote_volume": 4185422.8926,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.3133,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 285,
+      "symbol": "IO/USDT",
+      "quote_volume": 4172176.28341,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2006,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 286,
+      "symbol": "SYS/USDT",
+      "quote_volume": 4163964.19227,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 9.7826,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 287,
+      "symbol": "LA/USDT",
+      "quote_volume": 4139341.1928,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4722,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 288,
+      "symbol": "WLD/USDC",
+      "quote_volume": 4115465.66478,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9744,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 289,
+      "symbol": "MOVE/USDT",
+      "quote_volume": 4112419.44491,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5329,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 290,
+      "symbol": "MANTA/USDT",
+      "quote_volume": 4105813.336613,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9633,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 291,
+      "symbol": "EPIC/USDT",
+      "quote_volume": 4092937.67132,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4818,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 292,
+      "symbol": "ENSO/USDT",
+      "quote_volume": 4048529.24033,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8066,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 293,
+      "symbol": "ONT/USDT",
+      "quote_volume": 4034911.3928,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3508,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 294,
+      "symbol": "KNC/USDT",
+      "quote_volume": 4002850.7724,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7798,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 295,
+      "symbol": "META/USDT",
+      "quote_volume": 4000295.4179,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.018,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 296,
+      "symbol": "TAC/USDT",
+      "quote_volume": 3998593.241432,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3773,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 297,
+      "symbol": "PRL/USDT",
+      "quote_volume": 3980072.7456,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.8395,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 298,
+      "symbol": "LIGHT/USDT",
+      "quote_volume": 3966827.5108,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 7.2981,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 7.3
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 299,
+      "symbol": "G/USDT",
+      "quote_volume": 3937348.207115,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 7.4538,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 300,
+      "symbol": "SIGN/USDT",
+      "quote_volume": 3895732.65785,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.6012,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 301,
+      "symbol": "COS/USDT",
+      "quote_volume": 3886287.261844,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.9622,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 302,
+      "symbol": "KAS/USDT",
+      "quote_volume": 3861281.78745,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8818,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 303,
+      "symbol": "TAKE/USDT",
+      "quote_volume": 3855618.75012,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.1221,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 304,
+      "symbol": "ME/USDT",
+      "quote_volume": 3781706.14263,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5263,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 305,
+      "symbol": "USAR/USDT",
+      "quote_volume": 3718411.62,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6253,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 306,
+      "symbol": "HOME/USDT",
+      "quote_volume": 3679528.498469,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7474,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 307,
+      "symbol": "4/USDT",
+      "quote_volume": 3654073.908746,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.0268,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 308,
+      "symbol": "XPD/USDT",
+      "quote_volume": 3602106.0817,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.679,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 309,
+      "symbol": "EVAA/USDT",
+      "quote_volume": 3601156.69891,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 9.7028,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 310,
+      "symbol": "MANA/USDT",
+      "quote_volume": 3560269.9744,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5375,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 311,
+      "symbol": "PENGU/USDC",
+      "quote_volume": 3548346.166325,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1536,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 312,
+      "symbol": "USDC/USDT",
+      "quote_volume": 3530719.790252,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.0024,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 313,
+      "symbol": "BLUR/USDT",
+      "quote_volume": 3489164.30027,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.7788,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 314,
+      "symbol": "C/USDT",
+      "quote_volume": 3470903.36902,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4205,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 315,
+      "symbol": "M/USDT",
+      "quote_volume": 3451227.8294,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.1381,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 316,
+      "symbol": "QCOM/USDT",
+      "quote_volume": 3446818.8754,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8678,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 317,
+      "symbol": "AVGO/USDT",
+      "quote_volume": 3441823.9281,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.6771,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 318,
+      "symbol": "SKY/USDT",
+      "quote_volume": 3438095.95086,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0393,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 319,
+      "symbol": "API3/USDT",
+      "quote_volume": 3418237.5801,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7084,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 320,
+      "symbol": "AMZN/USDT",
+      "quote_volume": 3408882.1918,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.5531,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 321,
+      "symbol": "COMP/USDT",
+      "quote_volume": 3404690.56,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3535,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 322,
+      "symbol": "BIO/USDC",
+      "quote_volume": 3367295.03887,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2945,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 323,
+      "symbol": "JASMY/USDT",
+      "quote_volume": 3359077.31998,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5384,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 324,
+      "symbol": "S/USDT",
+      "quote_volume": 3343972.09937,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2317,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 325,
+      "symbol": "0G/USDT",
+      "quote_volume": 3328471.1936,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5749,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 326,
+      "symbol": "TAG/USDT",
+      "quote_volume": 3251607.7980248,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.6493,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 327,
+      "symbol": "SOLV/USDT",
+      "quote_volume": 3229598.819007,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 4.5352,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 4.54
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 328,
+      "symbol": "IMX/USDT",
+      "quote_volume": 3215122.799,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2807,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 329,
+      "symbol": "MOVR/USDT",
+      "quote_volume": 3211891.59939,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.467,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 330,
+      "symbol": "GUN/USDT",
+      "quote_volume": 3211618.04317,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9593,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 331,
+      "symbol": "WAL/USDT",
+      "quote_volume": 3184741.0685,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1353,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 332,
+      "symbol": "ARKM/USDT",
+      "quote_volume": 3181020.8863,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4692,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 333,
+      "symbol": "SYRUP/USDT",
+      "quote_volume": 3180981.80922,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6869,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 334,
+      "symbol": "CLANKER/USDT",
+      "quote_volume": 3176149.9235,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7745,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 335,
+      "symbol": "CSCO/USDT",
+      "quote_volume": 3143599.9866,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4917,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 336,
+      "symbol": "LINEA/USDT",
+      "quote_volume": 3131547.682989,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0821,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 337,
+      "symbol": "BLESS/USDT",
+      "quote_volume": 3116987.341935,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.8773,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 338,
+      "symbol": "ON/USDT",
+      "quote_volume": 3078678.18577,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.338,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 339,
+      "symbol": "MEME/USDT",
+      "quote_volume": 3077860.2889642,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.1262,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 340,
+      "symbol": "AAPL/USDT",
+      "quote_volume": 3066508.3281,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.6197,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 341,
+      "symbol": "ICNT/USDT",
+      "quote_volume": 3066164.2118,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5811,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 342,
+      "symbol": "BB/USDT",
+      "quote_volume": 3021793.63552,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.5576,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 343,
+      "symbol": "RIF/USDT",
+      "quote_volume": 3017413.77974,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6884,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 344,
+      "symbol": "LUNA2/USDT",
+      "quote_volume": 3001877.66815,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9296,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 345,
+      "symbol": "SUPER/USDT",
+      "quote_volume": 2963417.073,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2002,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 346,
+      "symbol": "MMT/USDT",
+      "quote_volume": 2957187.5591,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1169,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 347,
+      "symbol": "JST/USDT",
+      "quote_volume": 2945846.08499,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.6569,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 348,
+      "symbol": "HIGH/USDT",
+      "quote_volume": 2944907.20831,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.7592,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 349,
+      "symbol": "KMNO/USDT",
+      "quote_volume": 2940526.86983,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4935,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 350,
+      "symbol": "PEOPLE/USDT",
+      "quote_volume": 2927339.74482,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3732,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 351,
+      "symbol": "DRAM/USDT",
+      "quote_volume": 2912399.1018,
+      "total_klines": 120,
+      "hit_count": 0,
+      "max_amplitude": 1.2685,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 352,
+      "symbol": "1INCH/USDT",
+      "quote_volume": 2889605.4584,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2051,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 353,
+      "symbol": "1000SATS/USDT",
+      "quote_volume": 2855655.02731288,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3247,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 354,
+      "symbol": "XPIN/USDT",
+      "quote_volume": 2853769.943744,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.1678,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 355,
+      "symbol": "龙虾/USDT",
+      "quote_volume": 2847511.257012,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 21.6379,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 00:00:00",
+          "direction": "上插针 🔺",
+          "amplitude": 3.05
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 356,
+      "symbol": "D/USDT",
+      "quote_volume": 2839012.184436,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.2893,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 357,
+      "symbol": "AIN/USDT",
+      "quote_volume": 2838953.14369,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 3.3789,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.38
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 358,
+      "symbol": "XTZ/USDT",
+      "quote_volume": 2838243.03619,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0566,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 359,
+      "symbol": "MITO/USDT",
+      "quote_volume": 2832810.32062,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 8.6459,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 360,
+      "symbol": "KGEN/USDT",
+      "quote_volume": 2824732.43772,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9788,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 361,
+      "symbol": "NIGHT/USDT",
+      "quote_volume": 2815992.39254,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0342,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 362,
+      "symbol": "SNX/USDT",
+      "quote_volume": 2806165.9789,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4988,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 363,
+      "symbol": "POWER/USDT",
+      "quote_volume": 2791410.60609,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6416,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 364,
+      "symbol": "US/USDT",
+      "quote_volume": 2787297.115641,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.6825,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 365,
+      "symbol": "1MBABYDOGE/USDT",
+      "quote_volume": 2783168.7725931,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2349,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 366,
+      "symbol": "ZORA/USDT",
+      "quote_volume": 2777911.08405,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.488,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 367,
+      "symbol": "CYBER/USDT",
+      "quote_volume": 2706336.78103,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6382,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 368,
+      "symbol": "RARE/USDT",
+      "quote_volume": 2689370.89399,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.011,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 369,
+      "symbol": "VANA/USDT",
+      "quote_volume": 2686075.72591,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0029,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 370,
+      "symbol": "DODOX/USDT",
+      "quote_volume": 2681285.349154,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.7631,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 371,
+      "symbol": "CTK/USDT",
+      "quote_volume": 2679632.4578,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.3648,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 372,
+      "symbol": "POPCAT/USDT",
+      "quote_volume": 2664158.64198,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.331,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 373,
+      "symbol": "TRUMP/USDC",
+      "quote_volume": 2661251.15957,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5255,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 374,
+      "symbol": "JELLYJELLY/USDT",
+      "quote_volume": 2655201.40423,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.988,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 375,
+      "symbol": "JCT/USDT",
+      "quote_volume": 2641765.292729,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6531,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 376,
+      "symbol": "EGLD/USDT",
+      "quote_volume": 2641452.4,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2745,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 377,
+      "symbol": "FOLKS/USDT",
+      "quote_volume": 2636307.8043,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 9.9923,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 9.99
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 378,
+      "symbol": "GOAT/USDT",
+      "quote_volume": 2618523.51558,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.5071,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 379,
+      "symbol": "BAN/USDT",
+      "quote_volume": 2616275.63165,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2153,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 380,
+      "symbol": "NEO/USDT",
+      "quote_volume": 2584809.614,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6185,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 381,
+      "symbol": "REZ/USDT",
+      "quote_volume": 2579031.509968,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2031,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 382,
+      "symbol": "IOTA/USDT",
+      "quote_volume": 2577246.0064,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9685,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 383,
+      "symbol": "ESP/USDT",
+      "quote_volume": 2570289.97097,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.5828,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 384,
+      "symbol": "AXL/USDT",
+      "quote_volume": 2566295.364196,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0314,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 385,
+      "symbol": "CHILLGUY/USDT",
+      "quote_volume": 2560589.952181,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.8844,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 386,
+      "symbol": "AZTEC/USDT",
+      "quote_volume": 2551178.21585,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0678,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 387,
+      "symbol": "KERNEL/USDT",
+      "quote_volume": 2548278.8343,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7964,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 388,
+      "symbol": "GMT/USDT",
+      "quote_volume": 2538616.77911,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8626,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 389,
+      "symbol": "BULLA/USDT",
+      "quote_volume": 2523397.724595,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 10.4145,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 390,
+      "symbol": "SHELL/USDT",
+      "quote_volume": 2493902.80757,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 9.0239,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 00:55:00",
+          "direction": "上插针 🔺",
+          "amplitude": 3.05
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 391,
+      "symbol": "CRV/USDC",
+      "quote_volume": 2489891.70724,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5328,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 392,
+      "symbol": "ATH/USDT",
+      "quote_volume": 2461787.255081,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3054,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 393,
+      "symbol": "COAI/USDT",
+      "quote_volume": 2430330.2077,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 8.6957,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 8.7
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 394,
+      "symbol": "HEMI/USDT",
+      "quote_volume": 2403492.596515,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.0125,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 395,
+      "symbol": "OGN/USDT",
+      "quote_volume": 2402007.5973328,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4916,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 396,
+      "symbol": "STBL/USDT",
+      "quote_volume": 2366390.69002,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.6276,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 397,
+      "symbol": "NOM/USDT",
+      "quote_volume": 2353224.701872,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.814,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 398,
+      "symbol": "ACH/USDT",
+      "quote_volume": 2339236.136593,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4656,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 399,
+      "symbol": "FOGO/USDT",
+      "quote_volume": 2332697.99229,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 3.3293,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.33
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 400,
+      "symbol": "SUN/USDT",
+      "quote_volume": 2318189.713346,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.8365,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 401,
+      "symbol": "AVNT/USDT",
+      "quote_volume": 2311603.8779,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7326,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 402,
+      "symbol": "CRWV/USDT",
+      "quote_volume": 2284363.9166,
+      "total_klines": 150,
+      "hit_count": 0,
+      "max_amplitude": 3.4419,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 403,
+      "symbol": "LSK/USDT",
+      "quote_volume": 2280563.6066,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4468,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 404,
+      "symbol": "KSM/USDT",
+      "quote_volume": 2250174.448,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5906,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 405,
+      "symbol": "BAT/USDT",
+      "quote_volume": 2245511.0069,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1254,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 406,
+      "symbol": "PTB/USDT",
+      "quote_volume": 2226408.1799279,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 4.5585,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 4.56
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 407,
+      "symbol": "FLOW/USDT",
+      "quote_volume": 2225074.398874,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.0903,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 408,
+      "symbol": "1000SHIB/USDC",
+      "quote_volume": 2223872.30212,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.987,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 409,
+      "symbol": "NFP/USDT",
+      "quote_volume": 2213212.909002,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2048,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 410,
+      "symbol": "RESOLV/USDT",
+      "quote_volume": 2203913.33634,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.1265,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 411,
+      "symbol": "ARPA/USDT",
+      "quote_volume": 2198267.44322,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0499,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 412,
+      "symbol": "1000XEC/USDT",
+      "quote_volume": 2173270.52459,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3481,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 413,
+      "symbol": "MBOX/USDT",
+      "quote_volume": 2173024.34771,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.8216,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 414,
+      "symbol": "SQD/USDT",
+      "quote_volume": 2172392.43054,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2322,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 415,
+      "symbol": "ANKR/USDT",
+      "quote_volume": 2171813.151544,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6195,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 416,
+      "symbol": "我踏马来了/USDT",
+      "quote_volume": 2164934.747491,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.6368,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 417,
+      "symbol": "OG/USDT",
+      "quote_volume": 2145071.1886,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2065,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 418,
+      "symbol": "ID/USDT",
+      "quote_volume": 2102132.77446,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.2566,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 419,
+      "symbol": "LQTY/USDT",
+      "quote_volume": 2086916.14378,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 5.1855,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 5.19
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 420,
+      "symbol": "MASK/USDT",
+      "quote_volume": 2086759.6561,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3873,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 421,
+      "symbol": "DEEP/USDT",
+      "quote_volume": 2039938.37905,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1161,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 422,
+      "symbol": "BANANA/USDT",
+      "quote_volume": 2038569.664,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.6975,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 423,
+      "symbol": "GRASS/USDT",
+      "quote_volume": 2032137.75583,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6497,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 424,
+      "symbol": "SUSHI/USDT",
+      "quote_volume": 2009075.6554,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0568,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 425,
+      "symbol": "CTSI/USDT",
+      "quote_volume": 2008522.7703,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.1426,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 426,
+      "symbol": "MIRA/USDT",
+      "quote_volume": 2000675.83321,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.935,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 427,
+      "symbol": "BANK/USDT",
+      "quote_volume": 1998396.16128,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 5.345,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 5.34
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 428,
+      "symbol": "XAI/USDT",
+      "quote_volume": 1996059.88886,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6706,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 429,
+      "symbol": "GRIFFAIN/USDT",
+      "quote_volume": 1991885.274139,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1734,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 430,
+      "symbol": "THE/USDT",
+      "quote_volume": 1991556.06073,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3046,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 431,
+      "symbol": "AEVO/USDT",
+      "quote_volume": 1982452.148549,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.1282,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 432,
+      "symbol": "1000BONK/USDC",
+      "quote_volume": 1979540.434362,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5881,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 433,
+      "symbol": "RED/USDT",
+      "quote_volume": 1977255.3399,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1087,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 434,
+      "symbol": "XVG/USDT",
+      "quote_volume": 1975723.585355,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9474,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 435,
+      "symbol": "ZIL/USDT",
+      "quote_volume": 1970950.40075,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0566,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 436,
+      "symbol": "MINA/USDT",
+      "quote_volume": 1969942.58571,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9376,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 437,
+      "symbol": "A/USDT",
+      "quote_volume": 1969607.58339,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2543,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 438,
+      "symbol": "SOMI/USDT",
+      "quote_volume": 1965601.4922,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4532,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 439,
+      "symbol": "ARIA/USDT",
+      "quote_volume": 1958519.1851,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.9911,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 440,
+      "symbol": "QTUM/USDT",
+      "quote_volume": 1946506.643,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5959,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 441,
+      "symbol": "MERL/USDT",
+      "quote_volume": 1939133.73083,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.7792,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 442,
+      "symbol": "RSR/USDT",
+      "quote_volume": 1927716.3205,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8994,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 443,
+      "symbol": "PORTAL/USDT",
+      "quote_volume": 1912027.293845,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 5.2511,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 4.88
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 444,
+      "symbol": "RAYSOL/USDT",
+      "quote_volume": 1902255.62513,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3395,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 445,
+      "symbol": "WCT/USDT",
+      "quote_volume": 1895433.55835,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6446,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 446,
+      "symbol": "DOLO/USDT",
+      "quote_volume": 1893165.10318,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.489,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 447,
+      "symbol": "YGG/USDT",
+      "quote_volume": 1884405.61013,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.989,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 448,
+      "symbol": "2Z/USDT",
+      "quote_volume": 1874734.39337,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0789,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 449,
+      "symbol": "YFI/USDT",
+      "quote_volume": 1860819.9,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.856,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 450,
+      "symbol": "BRETT/USDT",
+      "quote_volume": 1838525.344766,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3817,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 451,
+      "symbol": "SAFE/USDT",
+      "quote_volume": 1829086.3894,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 4.7511,
+      "hits": [
+        {
+          "timestamp": "2026-05-18 00:00:00",
+          "direction": "上插针 🔺",
+          "amplitude": 4.75
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 452,
+      "symbol": "BIRB/USDT",
+      "quote_volume": 1826551.22569,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2505,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 453,
+      "symbol": "RKLB/USDT",
+      "quote_volume": 1814360.8109,
+      "total_klines": 115,
+      "hit_count": 0,
+      "max_amplitude": 1.3811,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 454,
+      "symbol": "MUBARAK/USDT",
+      "quote_volume": 1813973.98061,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6419,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 455,
+      "symbol": "TIA/USDC",
+      "quote_volume": 1808665.9768,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2591,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 456,
+      "symbol": "XAN/USDT",
+      "quote_volume": 1776182.096562,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.9925,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 457,
+      "symbol": "LUMIA/USDT",
+      "quote_volume": 1773625.55648,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 4.4396,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 4.44
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 458,
+      "symbol": "DRIFT/USDT",
+      "quote_volume": 1739964.02112,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.1792,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 459,
+      "symbol": "SKL/USDT",
+      "quote_volume": 1738969.60476,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 6.822,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 6.82
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 460,
+      "symbol": "USUAL/USDT",
+      "quote_volume": 1719160.88142,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9301,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 461,
+      "symbol": "KAVA/USDT",
+      "quote_volume": 1701014.6808,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9469,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 462,
+      "symbol": "BTR/USDT",
+      "quote_volume": 1698906.82567,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 2.9367,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.94
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 463,
+      "symbol": "IP/USDC",
+      "quote_volume": 1692677.57094,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.3794,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 464,
+      "symbol": "ALLO/USDT",
+      "quote_volume": 1678944.32324,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0504,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 465,
+      "symbol": "AWE/USDT",
+      "quote_volume": 1656414.30541,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.3073,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 466,
+      "symbol": "MET/USDT",
+      "quote_volume": 1652991.6678,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2362,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 467,
+      "symbol": "SYN/USDT",
+      "quote_volume": 1649677.55207,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.1882,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 468,
+      "symbol": "HMSTR/USDT",
+      "quote_volume": 1625398.0956704,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 7.6499,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 7.65
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 469,
+      "symbol": "AIO/USDT",
+      "quote_volume": 1620407.71838,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 2.6646,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.66
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 470,
+      "symbol": "GLM/USDT",
+      "quote_volume": 1611446.13027,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1492,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 471,
+      "symbol": "SLP/USDT",
+      "quote_volume": 1609861.8934464,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9386,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 472,
+      "symbol": "SXT/USDT",
+      "quote_volume": 1607328.55449,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.589,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 473,
+      "symbol": "MAGIC/USDT",
+      "quote_volume": 1601976.905893,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1944,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 474,
+      "symbol": "NXPC/USDT",
+      "quote_volume": 1600922.2037,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.1002,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 475,
+      "symbol": "BREV/USDT",
+      "quote_volume": 1600853.2345,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.777,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 476,
+      "symbol": "DOOD/USDT",
+      "quote_volume": 1598373.862198,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8634,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 477,
+      "symbol": "SANTOS/USDT",
+      "quote_volume": 1586410.072,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3429,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 478,
+      "symbol": "ZKP/USDT",
+      "quote_volume": 1568969.19676,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7231,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 479,
+      "symbol": "AKE/USDT",
+      "quote_volume": 1552544.1112489,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8231,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 480,
+      "symbol": "BOME/USDC",
+      "quote_volume": 1552529.4274527,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6034,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 481,
+      "symbol": "CHR/USDT",
+      "quote_volume": 1548122.12694,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7864,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 482,
+      "symbol": "HIVE/USDT",
+      "quote_volume": 1539959.78134,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7299,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 483,
+      "symbol": "BR/USDT",
+      "quote_volume": 1535191.6897,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0347,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 484,
+      "symbol": "AUCTION/USDT",
+      "quote_volume": 1534446.11553,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6435,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 485,
+      "symbol": "YB/USDT",
+      "quote_volume": 1526422.9988,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 6.2441,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 486,
+      "symbol": "METIS/USDT",
+      "quote_volume": 1525898.8457,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.0466,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 487,
+      "symbol": "AGT/USDT",
+      "quote_volume": 1512782.060679,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.0594,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 488,
+      "symbol": "WLFI/USDC",
+      "quote_volume": 1503896.1283,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0548,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 489,
+      "symbol": "ANIME/USDT",
+      "quote_volume": 1484433.183563,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9884,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 490,
+      "symbol": "XVS/USDT",
+      "quote_volume": 1476562.654,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8576,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 491,
+      "symbol": "ALCH/USDT",
+      "quote_volume": 1441899.39317,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9305,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 492,
+      "symbol": "FIGHT/USDT",
+      "quote_volume": 1438107.181206,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.4691,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 493,
+      "symbol": "BROCCOLI714/USDT",
+      "quote_volume": 1436282.99258,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 7.2674,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 494,
+      "symbol": "CVX/USDT",
+      "quote_volume": 1428420.6336,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8015,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 495,
+      "symbol": "RVN/USDT",
+      "quote_volume": 1403288.4214,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8553,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 496,
+      "symbol": "COTI/USDT",
+      "quote_volume": 1398456.71072,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0243,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 497,
+      "symbol": "USTC/USDT",
+      "quote_volume": 1396433.829463,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8918,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 498,
+      "symbol": "WET/USDT",
+      "quote_volume": 1382234.40485,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.261,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 499,
+      "symbol": "ZKC/USDT",
+      "quote_volume": 1361632.56785,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1939,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 500,
+      "symbol": "GAS/USDT",
+      "quote_volume": 1360416.3265,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.817,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 501,
+      "symbol": "INIT/USDT",
+      "quote_volume": 1355608.46813,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8303,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 502,
+      "symbol": "BIGTIME/USDT",
+      "quote_volume": 1347439.98912,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3662,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 503,
+      "symbol": "CELO/USDT",
+      "quote_volume": 1346622.479801,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7276,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 504,
+      "symbol": "EUL/USDT",
+      "quote_volume": 1342322.09913,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.55,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 505,
+      "symbol": "TWT/USDT",
+      "quote_volume": 1342116.9668,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1107,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 506,
+      "symbol": "HBAR/USDC",
+      "quote_volume": 1338324.76606,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.2541,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 507,
+      "symbol": "C98/USDT",
+      "quote_volume": 1331072.74829,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2004,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 508,
+      "symbol": "SKR/USDT",
+      "quote_volume": 1330594.960675,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.5847,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 509,
+      "symbol": "ACU/USDT",
+      "quote_volume": 1323808.4877,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7026,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 510,
+      "symbol": "KAITO/USDC",
+      "quote_volume": 1320592.1522,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.411,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 511,
+      "symbol": "ACT/USDT",
+      "quote_volume": 1319497.8153,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 11.9816,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 512,
+      "symbol": "CKB/USDT",
+      "quote_volume": 1302127.820837,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3504,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 513,
+      "symbol": "PROVE/USDT",
+      "quote_volume": 1290393.00088,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5076,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 514,
+      "symbol": "HFT/USDT",
+      "quote_volume": 1285131.76834,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6237,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 515,
+      "symbol": "1000000MOG/USDT",
+      "quote_volume": 1282918.17761,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0969,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 516,
+      "symbol": "XNY/USDT",
+      "quote_volume": 1280534.374088,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2816,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 517,
+      "symbol": "MEW/USDT",
+      "quote_volume": 1272862.0490152,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5791,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 518,
+      "symbol": "STEEM/USDT",
+      "quote_volume": 1272039.60542,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.3848,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 519,
+      "symbol": "TLM/USDT",
+      "quote_volume": 1271708.160514,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4727,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 520,
+      "symbol": "EWJ/USDT",
+      "quote_volume": 1257689.3151,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4088,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 521,
+      "symbol": "SSV/USDT",
+      "quote_volume": 1242805.91239,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.3627,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 522,
+      "symbol": "1000CHEEMS/USDT",
+      "quote_volume": 1228968.4239128,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.0104,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 523,
+      "symbol": "WIF/USDC",
+      "quote_volume": 1223836.60733,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.68,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 524,
+      "symbol": "V/USDT",
+      "quote_volume": 1203165.7499,
+      "total_klines": 135,
+      "hit_count": 0,
+      "max_amplitude": 1.289,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 525,
+      "symbol": "MELANIA/USDT",
+      "quote_volume": 1200615.798476,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6123,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 526,
+      "symbol": "IN/USDT",
+      "quote_volume": 1184417.84376,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9656,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 527,
+      "symbol": "WOO/USDT",
+      "quote_volume": 1182887.7777,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.8076,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 528,
+      "symbol": "SPELL/USDT",
+      "quote_volume": 1168475.2942355,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5161,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 529,
+      "symbol": "T/USDT",
+      "quote_volume": 1161682.925048,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4099,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 530,
+      "symbol": "IOST/USDT",
+      "quote_volume": 1158506.378377,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1339,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 531,
+      "symbol": "CROSS/USDT",
+      "quote_volume": 1154925.61884,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 2.518,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.52
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 532,
+      "symbol": "ZRX/USDT",
+      "quote_volume": 1146868.1982,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4201,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 533,
+      "symbol": "STG/USDT",
+      "quote_volume": 1145459.2126,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0021,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 534,
+      "symbol": "ICX/USDT",
+      "quote_volume": 1133298.90703,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 2.7182,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.72
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 535,
+      "symbol": "PNUT/USDC",
+      "quote_volume": 1133210.07535,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2955,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 536,
+      "symbol": "TREE/USDT",
+      "quote_volume": 1129411.32172,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4882,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 537,
+      "symbol": "ILV/USDT",
+      "quote_volume": 1120498.1036,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7861,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 538,
+      "symbol": "FLNC/USDT",
+      "quote_volume": 1103645.0307,
+      "total_klines": 125,
+      "hit_count": 0,
+      "max_amplitude": 4.1109,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 539,
+      "symbol": "GMX/USDT",
+      "quote_volume": 1099963.78258,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1409,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 540,
+      "symbol": "BICO/USDT",
+      "quote_volume": 1090652.15325,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2432,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 541,
+      "symbol": "BNT/USDT",
+      "quote_volume": 1076852.8494,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2001,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 542,
+      "symbol": "LISTA/USDT",
+      "quote_volume": 1071572.32122,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9252,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 543,
+      "symbol": "ASTR/USDT",
+      "quote_volume": 1070234.346942,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1174,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 544,
+      "symbol": "ERA/USDT",
+      "quote_volume": 1058822.7149,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1704,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 545,
+      "symbol": "COW/USDT",
+      "quote_volume": 1052414.783,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2072,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 546,
+      "symbol": "F/USDT",
+      "quote_volume": 1049445.244912,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4236,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 547,
+      "symbol": "AGLD/USDT",
+      "quote_volume": 1037456.5641,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.056,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 548,
+      "symbol": "CETUS/USDT",
+      "quote_volume": 1031077.98034,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 549,
+      "symbol": "HAEDAL/USDT",
+      "quote_volume": 1006771.70048,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.4647,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 550,
+      "symbol": "VTHO/USDT",
+      "quote_volume": 993763.418986,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5222,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 551,
+      "symbol": "DIS/USDT",
+      "quote_volume": 991148.2867,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1532,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 552,
+      "symbol": "BMT/USDT",
+      "quote_volume": 985878.4604,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2266,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 553,
+      "symbol": "IOTX/USDT",
+      "quote_volume": 982392.80953,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3095,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 554,
+      "symbol": "MAV/USDT",
+      "quote_volume": 981562.23896,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2282,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 555,
+      "symbol": "UMA/USDT",
+      "quote_volume": 978747.4948,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7502,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 556,
+      "symbol": "ZETA/USDT",
+      "quote_volume": 976484.37361,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.7961,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 557,
+      "symbol": "ACX/USDT",
+      "quote_volume": 975528.541032,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7904,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 558,
+      "symbol": "ARK/USDT",
+      "quote_volume": 972483.2934,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.875,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 559,
+      "symbol": "ORDER/USDT",
+      "quote_volume": 971293.23316,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3089,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 560,
+      "symbol": "SFP/USDT",
+      "quote_volume": 970638.2848,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.2945,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 561,
+      "symbol": "ONE/USDT",
+      "quote_volume": 970450.068276,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0885,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 562,
+      "symbol": "ONG/USDT",
+      "quote_volume": 968463.20816,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7649,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 563,
+      "symbol": "CVC/USDT",
+      "quote_volume": 966186.93129,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5187,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 564,
+      "symbol": "JOE/USDT",
+      "quote_volume": 964795.98564,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8363,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 565,
+      "symbol": "ELSA/USDT",
+      "quote_volume": 959302.6998,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7201,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 566,
+      "symbol": "HOT/USDT",
+      "quote_volume": 955642.534998,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0619,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 567,
+      "symbol": "BAND/USDT",
+      "quote_volume": 953587.8682,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4181,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 568,
+      "symbol": "HEI/USDT",
+      "quote_volume": 948179.798965,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.6134,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 569,
+      "symbol": "MTL/USDT",
+      "quote_volume": 939994.5973,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.2732,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 570,
+      "symbol": "CATI/USDT",
+      "quote_volume": 932616.19331,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 4.959,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 4.96
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 571,
+      "symbol": "BSV/USDT",
+      "quote_volume": 917927.163,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.8696,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 572,
+      "symbol": "ASR/USDT",
+      "quote_volume": 894754.7501,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5211,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 573,
+      "symbol": "1000RATS/USDT",
+      "quote_volume": 888271.26266,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.645,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 574,
+      "symbol": "AVAAI/USDT",
+      "quote_volume": 885841.696671,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.7775,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 575,
+      "symbol": "POWR/USDT",
+      "quote_volume": 885472.3586,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.14,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 576,
+      "symbol": "BEAMX/USDT",
+      "quote_volume": 867305.696177,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.627,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 577,
+      "symbol": "BEL/USDT",
+      "quote_volume": 861081.8067,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5641,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 578,
+      "symbol": "AERGO/USDT",
+      "quote_volume": 853009.53749,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3125,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 579,
+      "symbol": "WAXP/USDT",
+      "quote_volume": 851708.61408,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.4824,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 580,
+      "symbol": "ALL/USDT",
+      "quote_volume": 849898.1051,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6831,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 581,
+      "symbol": "MOCA/USDT",
+      "quote_volume": 842656.12816,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.5176,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 582,
+      "symbol": "RPL/USDT",
+      "quote_volume": 838153.7591,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4005,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 583,
+      "symbol": "ETHW/USDT",
+      "quote_volume": 836057.557,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 5.0137,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 584,
+      "symbol": "VANRY/USDT",
+      "quote_volume": 835552.634168,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2028,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 585,
+      "symbol": "FRAX/USDT",
+      "quote_volume": 831877.6064,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7429,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 586,
+      "symbol": "SONIC/USDT",
+      "quote_volume": 819854.155112,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5998,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 587,
+      "symbol": "ETHFI/USDC",
+      "quote_volume": 818248.24826,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.5134,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 588,
+      "symbol": "CARV/USDT",
+      "quote_volume": 816559.55001,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.2793,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 589,
+      "symbol": "PAYP/USDT",
+      "quote_volume": 806416.3752,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5115,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 590,
+      "symbol": "TOSHI/USDT",
+      "quote_volume": 798286.5514797,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6687,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 591,
+      "symbol": "RLC/USDT",
+      "quote_volume": 796275.797,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8222,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 592,
+      "symbol": "HD/USDT",
+      "quote_volume": 784161.5274,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 0.9649,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 593,
+      "symbol": "NEO/USDC",
+      "quote_volume": 782103.682,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1231,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 594,
+      "symbol": "PUNDIX/USDT",
+      "quote_volume": 777926.2314,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.8692,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 595,
+      "symbol": "SCRT/USDT",
+      "quote_volume": 777662.78313,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.1301,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 596,
+      "symbol": "TURTLE/USDT",
+      "quote_volume": 772276.40779,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.8284,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 597,
+      "symbol": "TUT/USDT",
+      "quote_volume": 764840.86775,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.6904,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 598,
+      "symbol": "SCR/USDT",
+      "quote_volume": 761394.02899,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.4108,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 599,
+      "symbol": "FLUID/USDT",
+      "quote_volume": 755538.2088,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.1601,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 600,
+      "symbol": "1000CAT/USDT",
+      "quote_volume": 717334.196043,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.2494,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 601,
+      "symbol": "JPM/USDT",
+      "quote_volume": 707762.7836,
+      "total_klines": 140,
+      "hit_count": 0,
+      "max_amplitude": 1.9062,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 602,
+      "symbol": "B2/USDT",
+      "quote_volume": 705509.2887,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.5757,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 603,
+      "symbol": "PROMPT/USDT",
+      "quote_volume": 697928.8558,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.0951,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 604,
+      "symbol": "MAVIA/USDT",
+      "quote_volume": 691264.56886,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 3.268,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 605,
+      "symbol": "TRUST/USDT",
+      "quote_volume": 678272.42197,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.3806,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 606,
+      "symbol": "AVA/USDT",
+      "quote_volume": 669171.0442,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.349,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 607,
+      "symbol": "CELR/USDT",
+      "quote_volume": 667606.723119,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 4.0162,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 608,
+      "symbol": "BRKB/USDT",
+      "quote_volume": 659880.9088,
+      "total_klines": 130,
+      "hit_count": 0,
+      "max_amplitude": 1.0192,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 609,
+      "symbol": "DIA/USDT",
+      "quote_volume": 639890.1339,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2517,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 610,
+      "symbol": "WMT/USDT",
+      "quote_volume": 632524.3484,
+      "total_klines": 145,
+      "hit_count": 0,
+      "max_amplitude": 1.2133,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 611,
+      "symbol": "VELODROME/USDT",
+      "quote_volume": 594038.78155,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.6011,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 612,
+      "symbol": "FLUX/USDT",
+      "quote_volume": 588093.26191,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.9328,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 613,
+      "symbol": "BROCCOLIF3B/USDT",
+      "quote_volume": 567023.253123,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 3.0923,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 3.09
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 614,
+      "symbol": "ALPINE/USDT",
+      "quote_volume": 551001.73101,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 2.2789,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 615,
+      "symbol": "PUMPBTC/USDT",
+      "quote_volume": 513642.85532,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 7.5707,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 616,
+      "symbol": "1000000BOB/USDT",
+      "quote_volume": 497636.62726,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.9022,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 617,
+      "symbol": "KOMA/USDT",
+      "quote_volume": 485751.016708,
+      "total_klines": 1440,
+      "hit_count": 1,
+      "max_amplitude": 3.6031,
+      "hits": [
+        {
+          "timestamp": "2026-05-17 23:42:00",
+          "direction": "下插针 🔻",
+          "amplitude": 2.9
+        }
+      ],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 618,
+      "symbol": "TAIKO/USDT",
+      "quote_volume": 460801.5178,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.7674,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    },
+    {
+      "rank_vol": 619,
+      "symbol": "UBER/USDT",
+      "quote_volume": 431362.6509,
+      "total_klines": 1440,
+      "hit_count": 0,
+      "max_amplitude": 1.0,
+      "hits": [],
+      "error": null,
+      "timeframe": "1m"
+    }
+  ]
+}
