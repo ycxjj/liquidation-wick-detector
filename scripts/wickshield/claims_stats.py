@@ -63,6 +63,15 @@ def _iter_claim_entries() -> List[Dict[str, Any]]:
 def count_monthly_approved_payouts(month: Optional[str] = None) -> int:
     """当月 decision=approved 的赔付笔数（去重 ts+symbol）。"""
     target = month or _month_key()
+    try:
+        from .claims_db import CLAIMS_DB_PATH, claims_db_enabled, count_approved_in_month
+
+        if claims_db_enabled() and CLAIMS_DB_PATH.is_file():
+            db_n = count_approved_in_month(target)
+            if db_n > 0 or not CLAIMS_LOG.is_file():
+                return db_n
+    except Exception:
+        pass
     seen: set[tuple[str, str]] = set()
     n = 0
     for entry in _iter_claim_entries():

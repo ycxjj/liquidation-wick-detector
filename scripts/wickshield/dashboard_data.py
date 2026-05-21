@@ -12,6 +12,28 @@ from typing import Any, Dict, List, Optional
 
 
 
+_DASHBOARD_CACHE_REQUIRED_KEYS = frozenset(
+    {
+        "solvency_ratio",
+        "global_cap_remaining",
+        "cap_24h",
+        "global_payout_today",
+        "watch_symbols",
+        "recent_claims",
+        "state_date",
+    }
+)
+
+
+def _dashboard_cache_is_complete(cached: Dict[str, Any]) -> bool:
+    if not isinstance(cached, dict):
+        return False
+    # 单元测试 stub 或历史脏数据
+    if "test" in cached and "solvency_ratio" not in cached:
+        return False
+    return _DASHBOARD_CACHE_REQUIRED_KEYS.issubset(cached.keys())
+
+
 from .monitor import (
 
     CLAIMS_LOG,
@@ -49,26 +71,35 @@ from .solvency_check import SolvencyRiskManager
 
 
 
+def format_claim_for_dashboard(claim: Dict[str, Any]) -> Dict[str, Any]:
+    """拒赔/未批准不展示拟赔金额（前端显示 —）。"""
+    out = dict(claim)
+    if str(out.get("decision", "")).lower() != "approved":
+        out["final_payout"] = None
+    return out
+
+
 def _read_claims_tail(limit: int = 30) -> List[Dict[str, Any]]:
+    try:
+        from .claims_db import CLAIMS_DB_PATH, claims_db_enabled, recent_claims
+
+        if claims_db_enabled() and CLAIMS_DB_PATH.is_file():
+            rows = recent_claims(limit)
+            if rows:
+                return rows
+    except Exception:
+        pass
 
     if not CLAIMS_LOG.is_file():
-
         return []
 
     lines = CLAIMS_LOG.read_text(encoding="utf-8").strip().splitlines()
-
     out = []
-
     for line in lines[-limit:]:
-
         try:
-
             out.append(json.loads(line))
-
         except json.JSONDecodeError:
-
             continue
-
     return list(reversed(out))
 
 
@@ -322,14 +353,16 @@ def build_dashboard_snapshot(
     skip_cache: bool = False,
 ) -> Dict[str, Any]:
     if not live_refresh and not skip_cache:
-        from .monitor_cache import load_monitor_snapshot
+        from .monitor_cache import clear_monitor_snapshot, load_monitor_snapshot
 
         cached, hit = load_monitor_snapshot()
         if cached and hit:
-            cached = dict(cached)
-            cached["from_cache"] = True
-            cached["cache_hit"] = True
-            return cached
+            if _dashboard_cache_is_complete(cached):
+                cached = dict(cached)
+                cached["from_cache"] = True
+                cached["cache_hit"] = True
+                return cached
+            clear_monitor_snapshot()
 
     pool, coverage = _pool_coverage()
 
@@ -472,7 +505,9 @@ def build_dashboard_snapshot(
 
         "watch_symbols": symbols_out,
 
-        "recent_claims": _read_claims_tail(20),
+        "recent_claims": [
+            format_claim_for_dashboard(c) for c in _read_claims_tail(20)
+        ],
 
         "monthly_surcharge": monthly_payout_surcharge_detail(),
 

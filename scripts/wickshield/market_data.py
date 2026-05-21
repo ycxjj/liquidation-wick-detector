@@ -182,8 +182,16 @@ def fetch_ohlcv_with_fallback(
     _, fast_fetch_ohlcv_rest = _wick_detector()
     tried = list(exchanges or ohlcv_exchange_order())
     errors: List[str] = []
+    from .ohlcv_live_cache import get_cached_df, merge_ws_into_df, put_cached_df
+
     for ex in tried:
-        df = fast_fetch_ohlcv_rest(ex, symbol, timeframe=timeframe, days_back=days_back)
+        df = get_cached_df(ex, symbol, timeframe, days_back)
+        if df is None:
+            df = fast_fetch_ohlcv_rest(ex, symbol, timeframe=timeframe, days_back=days_back)
+            if df is not None and len(df) >= 20:
+                if ex == "binanceusdm":
+                    df = merge_ws_into_df(symbol, df, ex)
+                put_cached_df(ex, symbol, timeframe, days_back, df)
         if df is not None and len(df) >= 20:
             return df, ex
         errors.append(f"{ex}: empty or too short ({0 if df is None else len(df)} bars)")
@@ -232,7 +240,19 @@ def _fetch_one_exchange_snapshot(
     _, fast_fetch_ohlcv_rest = _wick_detector()
 
     def _do_fetch():
-        return fast_fetch_ohlcv_rest(ex, symbol, timeframe=timeframe, days_back=days_back)
+        from .fetch_guard import record_live_cache_hit
+        from .ohlcv_live_cache import get_cached_df, merge_ws_into_df, put_cached_df
+
+        cached = get_cached_df(ex, symbol, timeframe, days_back)
+        if cached is not None:
+            record_live_cache_hit()
+            return cached
+        df = fast_fetch_ohlcv_rest(ex, symbol, timeframe=timeframe, days_back=days_back)
+        if df is not None and len(df) >= 20:
+            if ex == "binanceusdm":
+                df = merge_ws_into_df(symbol, df, ex)
+            put_cached_df(ex, symbol, timeframe, days_back, df)
+        return df
 
     df, err = run_with_guard(ex, symbol, timeframe, days_back, _do_fetch)
     if df is None:

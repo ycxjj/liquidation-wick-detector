@@ -165,22 +165,82 @@ def _pool_coverage() -> tuple[float, float]:
 
 
 def _notify_chain(entry: Dict[str, Any]) -> None:
-    """链上理赔占位：配置 WICKSHIELD_CHAIN_WEBHOOK 后 POST JSON。"""
-    url = os.environ.get("WICKSHIELD_CHAIN_WEBHOOK", "").strip()
-    if not url or entry.get("decision") != "approved":
+    """兼容旧调用：转 dispatch_claim_payout（链上 USDT 或 Webhook）。"""
+    if entry.get("decision") != "approved":
         return
+    if entry.get("approved_payout") is None and entry.get("final_payout") is not None:
+        entry["approved_payout"] = entry["final_payout"]
+    from .chain_payout import dispatch_claim_payout
+
+    dispatch_claim_payout(entry)
+
+
+def _monitor_policy_only() -> bool:
+    return os.environ.get("WICKSHIELD_MONITOR_POLICY_ONLY", "0").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+    )
+
+
+def _build_monitor_tasks() -> List[Dict[str, Any]]:
+    """监控任务：每个 active 保单一条；无保单币种可走全局模拟额（可关）。"""
+    policy_by_sym: Dict[str, List[Dict[str, Any]]] = {}
     try:
-        body = json.dumps(entry, ensure_ascii=False).encode("utf-8")
-        req = urllib.request.Request(
-            url,
-            data=body,
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            entry["chain_dispatch_status"] = resp.status
-    except Exception as e:
-        entry["chain_dispatch_error"] = str(e)
+        from .policies_db import active_policies_by_symbol, expire_stale_policies
+
+        if os.environ.get("WICKSHIELD_POLICIES_DB", "1").strip().lower() not in (
+            "0",
+            "false",
+            "no",
+        ):
+            expire_stale_policies()
+            policy_by_sym = active_policies_by_symbol()
+    except Exception:
+        policy_by_sym = {}
+
+    symbols: set[str] = set(_watch_symbols())
+    symbols.update(policy_by_sym.keys())
+    tasks: List[Dict[str, Any]] = []
+    for sym in sorted(symbols):
+        plist = policy_by_sym.get(sym) or []
+        if plist:
+            for p in plist:
+                tasks.append({"symbol": sym, "policy": p})
+        elif not _monitor_policy_only():
+            tasks.append({"symbol": sym, "policy": None})
+    return tasks
+
+
+def _claim_entry_from_check(
+    chk: Dict[str, Any],
+    *,
+    symbol: str,
+    policy: Optional[Dict[str, Any]],
+    dry_run: bool,
+) -> Dict[str, Any]:
+    decision = str(chk.get("decision") or "")
+    entry: Dict[str, Any] = {
+        "ts": chk["checked_at"],
+        "symbol": symbol,
+        "decision": decision,
+        "reason": chk["reason"],
+        "amplitude": chk["market"].get("max_amplitude_1h_percent"),
+        "final_payout": (
+            chk["payout"].get("final_payout") if decision == "approved" else None
+        ),
+        "global_cap_remaining_before": chk["payout"].get("global_cap_remaining"),
+        "solvency_ratio": chk["solvency_ratio"],
+        "dynamic_cap_ratio": chk.get("dynamic_cap_ratio"),
+        "dry_run": dry_run,
+    }
+    if policy:
+        entry["policy_id"] = policy.get("id")
+        entry["policy_no"] = policy.get("policy_no")
+        entry["wallet_address"] = policy.get("wallet_address")
+        entry["payout_address"] = policy.get("payout_address")
+        entry["coverage_amount"] = policy.get("coverage_amount")
+    return entry
 
 
 def live_snapshot_from_check(chk: Dict[str, Any]) -> Dict[str, Any]:
@@ -379,8 +439,16 @@ def run_monitor_cycle(dry_run: bool = False) -> Dict[str, Any]:
     st = _load_state()
     gpt = float(st.get("global_payout_today") or 0)
     results: List[Dict[str, Any]] = []
+    claims_db_batch: List[Dict[str, Any]] = []
 
-    symbols = _watch_symbols()
+    tasks = _build_monitor_tasks()
+    symbols = sorted({t["symbol"] for t in tasks})
+    try:
+        from .ohlcv_live_cache import maybe_start_ws
+
+        maybe_start_ws(symbols, timeframe="5m")
+    except Exception:
+        pass
     pool_v, cov_v = _pool_coverage()
     solvency = SolvencyRiskManager.check_risk(pool_v, cov_v)
     ratio = float(solvency["data"]["ratio"]) if solvency.get("success") else 50.0
@@ -389,49 +457,62 @@ def run_monitor_cycle(dry_run: bool = False) -> Dict[str, Any]:
     fetch_ms = int((time.perf_counter() - t_fetch0) * 1000)
     t_compute0 = time.perf_counter()
 
-    for symbol in symbols:
+    for task in tasks:
+        symbol = task["symbol"]
+        policy = task.get("policy")
         if symbol not in fetched:
             err = fetch_errors.get(symbol, "行情未返回")
-            results.append({"success": False, "symbol": symbol, "error": err})
+            results.append(
+                {
+                    "success": False,
+                    "symbol": symbol,
+                    "policy_id": policy.get("id") if policy else None,
+                    "error": err,
+                }
+            )
             continue
 
+        amount = float(policy["coverage_amount"]) if policy else None
         chk = run_live_check(
             symbol,
+            amount=amount,
             global_payout_today=gpt,
             pool=pool_v,
             coverage=cov_v,
             solvency_ratio=ratio,
             market=fetched[symbol],
         )
+        if policy:
+            chk["policy_id"] = policy.get("id")
+            chk["policy_no"] = policy.get("policy_no")
+            chk["wallet_address"] = policy.get("wallet_address")
+
         if not chk.get("success"):
             results.append(chk)
             continue
 
-        entry = {
-            "ts": chk["checked_at"],
-            "symbol": symbol,
-            "decision": chk["decision"],
-            "reason": chk["reason"],
-            "amplitude": chk["market"].get("max_amplitude_1h_percent"),
-            "final_payout": chk["payout"].get("final_payout"),
-            "global_cap_remaining_before": chk["payout"].get("global_cap_remaining"),
-            "solvency_ratio": chk["solvency_ratio"],
-            "dynamic_cap_ratio": chk.get("dynamic_cap_ratio"),
-            "dry_run": dry_run,
-        }
+        entry = _claim_entry_from_check(
+            chk, symbol=symbol, policy=policy, dry_run=dry_run
+        )
 
         if chk["decision"] == "approved" and not dry_run:
             paid = float(chk["approved_payout"])
             gpt += paid
             st["global_payout_today"] = gpt
             entry["global_payout_today_after"] = gpt
-            _notify_chain({**entry, "approved_payout": paid})
+            payout_payload = {**entry, "approved_payout": paid}
+            from .chain_payout import dispatch_claim_payout
+
+            dispatch_claim_payout(payout_payload)
+            entry["payout_tx_hash"] = payout_payload.get("payout_tx_hash")
+            entry["chain_payout"] = payout_payload.get("chain_payout")
 
         st.setdefault("claims", [])
         if chk["decision"] in ("approved", "rejected"):
             st["claims"].append(entry)
             st["claims"] = st["claims"][-200:]
             _append_claim_log(entry)
+            claims_db_batch.append(entry)
 
         st.setdefault("last_checks", {})[symbol] = chk["checked_at"]
         st.setdefault("last_live", {})[symbol] = live_snapshot_from_check(chk)
@@ -439,6 +520,14 @@ def run_monitor_cycle(dry_run: bool = False) -> Dict[str, Any]:
 
     if not dry_run:
         _save_state(st)
+        if claims_db_batch:
+            try:
+                from .claims_db import claims_db_enabled, insert_claims_batch
+
+                if claims_db_enabled():
+                    insert_claims_batch(claims_db_batch)
+            except Exception:
+                pass
 
     compute_ms = int((time.perf_counter() - t_compute0) * 1000)
     elapsed_ms = int((time.perf_counter() - t0) * 1000)
@@ -463,11 +552,20 @@ def run_monitor_cycle(dry_run: bool = False) -> Dict[str, Any]:
             cache_info = {"backend": "error", "error": str(e)}
 
     metrics = get_round_metrics()
+    try:
+        from .ohlcv_live_cache import cache_stats
+        from .ws_kline_feed import ws_status
+
+        metrics["ohlcv_live_cache"] = cache_stats()
+        metrics["ws_feed"] = ws_status()
+    except Exception:
+        pass
     metrics.update(
         {
             "fetch_ohlcv_ms": fetch_ms,
             "compute_ms": compute_ms,
             "redis_write_ms": redis_write_ms,
+            "claims_db_batch": len(claims_db_batch),
             "total_ms": elapsed_ms,
         }
     )

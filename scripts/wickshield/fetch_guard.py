@@ -39,11 +39,19 @@ def reset_round_metrics() -> None:
                 "timeout_count": 0,
                 "circuit_skip_count": 0,
                 "cache_fallback_count": 0,
+                "live_cache_hit_count": 0,
                 "rate_limit_waits_ms": 0,
                 "rate_limit_hits": {},
                 "exchange_errors": [],
             }
         )
+
+
+def record_live_cache_hit() -> None:
+    with _metrics_lock:
+        _round_metrics["live_cache_hit_count"] = int(
+            _round_metrics.get("live_cache_hit_count") or 0
+        ) + 1
 
 
 def get_round_metrics() -> Dict[str, Any]:
