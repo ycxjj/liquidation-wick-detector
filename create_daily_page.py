@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+# 从 app.py 中提取每日日报的 HTML 部分，创建独立页面
+
+with open('app.py', 'r', encoding='utf-8') as f:
+    content = f.read()
+
+# 提取 HTML 模板中的每日日报部分
+# 这里需要复制检测页面的 HTML，但只保留日报部分
+
+daily_html = '''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -13,22 +21,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 .hero{text-align:center;margin-bottom:28px}
 .hero h1{font-size:1.85rem;color:var(--accent);letter-spacing:-.02em}
 .hero p{color:var(--muted);font-size:.95rem;margin-top:8px}
-.nav-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
-.nav-tab{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.92rem;display:inline-block;transition:all 0.2s}
-.nav-tab:hover{border-color:var(--accent);color:var(--accent)}
-.nav-tab.active{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 1px rgba(0,212,255,.15)}
+.nav-links{display:flex;gap:12px;justify-content:center;margin-bottom:28px;flex-wrap:wrap}
+.nav-link{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.92rem;transition:all 0.2s}
+.nav-link:hover{border-color:var(--accent);color:var(--accent)}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;margin-bottom:18px}
 .card h2{font-size:1.05rem;color:var(--accent);margin-bottom:14px}
 .meta{color:var(--muted);font-size:.82rem;margin-bottom:14px}
 .btn{background:var(--accent);color:#042;font-weight:700;border:none;padding:9px 16px;border-radius:9px;cursor:pointer;font-size:.88rem}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:.86rem}
-th{text-align:left;padding:10px 12px;color:var(--muted);border-bottom:2px solid var(--border);white-space:nowrap}
-td{padding:9px 12px;border-bottom:1px solid rgba(30,58,95,.6);vertical-align:top}
-.empty{text-align:center;padding:36px 16px;color:var(--muted)}
-.loading{text-align:center;padding:28px;color:var(--muted)}
 .back-link{color:var(--accent);text-decoration:none;display:inline-block;margin-bottom:20px}
     </style>
 </head>
@@ -39,18 +38,19 @@ td{padding:9px 12px;border-bottom:1px solid rgba(30,58,95,.6);vertical-align:top
         <h1>Wick Detector</h1>
         <p>每日热门榜日报 · 自选合约检测</p>
     </div>
-    <div class="nav-tabs">
-        <a href="/daily" class="nav-tab active">📅 每日热门榜日报</a>
-        <a href="/detect" class="nav-tab">🔍 自选合约检测</a>
-        <a href="/wickshield" class="nav-tab">🛡️ WickShield 看板</a>
+    <div class="nav-links">
+        <a href="/daily" class="nav-link" style="border-color:var(--accent);color:var(--accent);">📅 每日热门榜日报</a>
+        <a href="/detect" class="nav-link">🔍 自选合约检测</a>
     </div>
-    <div class="card">
-        <h2>📅 每日热门榜日报</h2>
-        <div class="meta">自动扫描六所全市场合约，页面展示成交额前100</div>
-        <div class="toolbar">
-            <button class="btn" onclick="loadReport()">🔄 刷新日报</button>
+    <div id="p1" class="panel show">
+        <div class="card">
+            <h2>📅 每日热门榜日报</h2>
+            <div class="meta">自动扫描六所全市场合约，页面展示成交额前100</div>
+            <div class="toolbar">
+                <button class="btn" onclick="loadReport()">🔄 刷新日报</button>
+            </div>
+            <div id="reportContent"></div>
         </div>
-        <div id="reportContent"></div>
     </div>
 </div>
 <script>
@@ -64,10 +64,10 @@ async function loadReport(){
         if(d.status==='success'){
             document.getElementById('reportContent').innerHTML = d.html;
         }else{
-            document.getElementById('reportContent').innerHTML = '<p class="empty">'+d.message+'</p>';
+            document.getElementById('reportContent').innerHTML = '<p style="color:var(--danger);">'+d.message+'</p>';
         }
     }catch(e){
-        document.getElementById('reportContent').innerHTML = '<p class="empty">加载失败</p>';
+        document.getElementById('reportContent').innerHTML = '<p style="color:var(--danger);">加载失败</p>';
     }finally{
         btn.disabled = false;
         btn.textContent = '🔄 刷新日报';
@@ -76,4 +76,9 @@ async function loadReport(){
 loadReport();
 </script>
 </body>
-</html>
+</html>'''
+
+with open('templates/daily.html', 'w', encoding='utf-8') as f:
+    f.write(daily_html)
+
+print('✅ 每日日报页面已创建')

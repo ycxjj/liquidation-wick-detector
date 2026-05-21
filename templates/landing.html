@@ -20,12 +20,19 @@ nav{position:fixed;top:0;width:100%;background:rgba(10,14,39,0.95);backdrop-filt
 .hero h1{font-size:4.5rem;font-weight:900;margin-bottom:1rem;background:linear-gradient(135deg,#fff,var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
 .hero h2{font-size:2rem;color:var(--accent);margin-bottom:1rem;font-weight:600}
 .hero .tagline{font-size:1.3rem;color:#8892b0;margin-bottom:3rem;font-style:italic}
-.cta-buttons{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:5rem}
+.cta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.25rem;max-width:1120px;margin:0 auto 5rem;padding:0 .5rem}
+.cta-item{display:flex;flex-direction:column;align-items:stretch;text-decoration:none;gap:.55rem}
+.cta-btn{width:100%;padding:1rem 1.25rem;font-size:1.05rem;font-weight:700;border:none;border-radius:12px;cursor:pointer;text-decoration:none;transition:all .3s;display:block;text-align:center;line-height:1.25}
+.cta-sub{font-size:.8rem;color:#8892b0;line-height:1.45;text-align:center;padding:0 .25rem}
 .btn{padding:1rem 2.5rem;font-size:1.1rem;font-weight:600;border:none;border-radius:12px;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-block}
 .btn-primary{background:linear-gradient(135deg,var(--primary),#0066ff);color:white;box-shadow:0 10px 30px rgba(0,212,255,0.3)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(0,212,255,0.4)}
 .btn-secondary{background:rgba(100,255,218,0.1);color:var(--accent);border:2px solid var(--accent)}
 .btn-secondary:hover{background:rgba(100,255,218,0.2);transform:translateY(-2px)}
+.btn-accent{background:linear-gradient(135deg,var(--primary),#0066ff);color:#fff;border:none;box-shadow:0 10px 30px rgba(0,212,255,0.25)}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(0,212,255,0.35)}
+.cta-item:hover .cta-btn.btn-primary,.cta-item:hover .cta-btn.btn-accent{transform:translateY(-2px)}
+.cta-item:hover .cta-btn.btn-secondary{background:rgba(100,255,218,0.2);transform:translateY(-2px)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;max-width:1100px;margin:0 auto}
 .stat-card{background:rgba(100,255,218,0.05);border:1px solid rgba(100,255,218,0.2);border-radius:16px;padding:2rem;text-align:center;transition:all 0.3s}
 .stat-card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 10px 30px rgba(100,255,218,0.2)}
@@ -71,13 +78,56 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid rgba(100,255,218
 .footer-text{color:#8892b0}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#050816;padding:1rem 2rem;border-radius:12px;font-weight:600;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:2000}
 .toast.show{opacity:1}
-@media (max-width:768px){.hero h1{font-size:2.5rem}.hero h2{font-size:1.5rem}.nav-links{display:none}.stats{grid-template-columns:1fr}.comparison-row{grid-template-columns:1fr}.comparison-cell.pain{border-right:none;border-bottom:1px solid rgba(100,255,218,0.1)}}
+@media (max-width:768px){
+.nav-container{padding:.75rem 1rem}
+.hero{padding:5.5rem 1rem 2.5rem;min-height:auto}
+.hero h1{font-size:2.2rem;line-height:1.15}
+.hero h2{font-size:1.25rem}
+.hero .tagline{font-size:1rem;margin-bottom:1.5rem;padding:0 .5rem}
+.cta-grid{grid-template-columns:1fr;max-width:400px;gap:1rem;margin-bottom:2.5rem}
+.cta-btn{padding:.9rem 1rem;font-size:.98rem}
+.cta-sub{font-size:.78rem}
+.stats{grid-template-columns:repeat(2,1fr);gap:1rem}
+.stat-card{padding:1.25rem 1rem}
+.stat-number{font-size:2rem}
+.section{padding:3.5rem 1rem}
+.section-title{font-size:2rem}
+.feature-grid{grid-template-columns:1fr}
+.nav-links{display:none}
+.comparison-row{grid-template-columns:1fr}
+.comparison-cell.pain{border-right:none;border-bottom:1px solid rgba(100,255,218,0.1)}
+.comparison-cell{padding:1.25rem}
+.footer-links{flex-direction:column;gap:1rem}
+}
+@media (min-width:769px) and (max-width:1024px){
+.cta-grid{grid-template-columns:repeat(2,1fr);max-width:640px}
+}
+@media (max-width:400px){.stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <nav><div class="nav-container"><div class="logo">⚡ Wick Detector</div><ul class="nav-links"><li><a href="#features">功能</a></li><li><a href="#vision">愿景</a></li><li><a href="/detect">开始使用</a></li></ul></div></nav>
-<section class="hero"><div class="hero-content"><h1>Wick Detector</h1><h2>为散户建立的链上强平风控引擎</h2><p class="tagline">看得见每一次插针，才守得住每一笔仓位。</p><div class="cta-buttons"><a href="/detect" class="btn btn-primary">立即开始检测</a><a href="/daily" class="btn btn-secondary">查看每日报告</a><a href="/points" class="btn btn-secondary" style="background:linear-gradient(135deg,#00d4ff,#0066ff);border:none;color:white;">🎯 积分系统</a></div><div class="stats"><div class="stat-card"><div class="stat-number">43,200+</div><div class="stat-label">监控K线总数</div></div><div class="stat-card"><div class="stat-number">实时</div><div class="stat-label">今日命中</div></div><div class="stat-card"><div class="stat-number">6 家</div><div class="stat-label">覆盖交易所</div></div><div class="stat-card"><div class="stat-number">677+</div><div class="stat-label">支持合约</div></div></div></div></section>
-<section class="section" id="features"><h2 class="section-title">核心功能</h2><p class="section-subtitle">展示技术实力</p><div class="feature-grid"><div class="feature-card"><div class="feature-icon">📅</div><h3 class="feature-title">每日热点日报</h3><p class="feature-desc">自动扫描六所Top100合约，生成每日插针报告，一览昨日风险全貌。</p></div><div class="feature-card"><div class="feature-icon">🔍</div><h3 class="feature-title">自选币种检测</h3><p class="feature-desc">输入你关注的币种、时间范围、振幅阈值，即刻追溯是否遭遇插针。</p></div><div class="feature-card"><div class="feature-icon">📊</div><h3 class="feature-title">多交易所一站式覆盖</h3><p class="feature-desc">币安 · 欧易 · Bybit · Bitget · Gate · MEXC<br>六所数据统一入口，无需切换平台。</p></div></div></section>
+<section class="hero"><div class="hero-content"><h1>Wick Detector</h1><h2>为散户建立的链上强平风控引擎</h2><p class="tagline">看得见每一次插针，才守得住每一笔仓位。</p>
+<div class="cta-grid">
+<a href="/detect" class="cta-item">
+<span class="cta-btn btn btn-primary">立即开始检测</span>
+<span class="cta-sub">检测当前持仓币种 K 线插针风险</span>
+</a>
+<a href="/daily" class="cta-item">
+<span class="cta-btn btn btn-secondary">查看每日报告</span>
+<span class="cta-sub">昨日赔付 / 风控摘要 / 异常币种</span>
+</a>
+<a href="/wickshield" class="cta-item">
+<span class="cta-btn btn btn-secondary">WickShield 看板</span>
+<span class="cta-sub">实时偿付能力 · 动态封顶 · 剩余额度</span>
+</a>
+<a href="/points" class="cta-item">
+<span class="cta-btn btn btn-accent">🎯 积分系统</span>
+<span class="cta-sub">累计检测积分 · 兑换单人赔付上限</span>
+</a>
+</div>
+<div class="stats"><div class="stat-card"><div class="stat-number">43,200+</div><div class="stat-label">监控K线总数</div></div><div class="stat-card"><div class="stat-number">实时</div><div class="stat-label">今日命中</div></div><div class="stat-card"><div class="stat-number">6 家</div><div class="stat-label">覆盖交易所</div></div><div class="stat-card"><div class="stat-number">677+</div><div class="stat-label">支持合约</div></div></div></div></section>
+<section class="section" id="features"><h2 class="section-title">核心功能</h2><p class="section-subtitle">展示技术实力</p><div class="feature-grid"><div class="feature-card"><div class="feature-icon">📅</div><h3 class="feature-title">每日热点日报</h3><p class="feature-desc">自动扫描六所全市场合约，页面展示成交额前100，一览昨日风险全貌。</p></div><div class="feature-card"><div class="feature-icon">🔍</div><h3 class="feature-title">自选币种检测</h3><p class="feature-desc">输入你关注的币种、时间范围、振幅阈值，即刻追溯是否遭遇插针。</p></div><div class="feature-card"><div class="feature-icon">📊</div><h3 class="feature-title">多交易所一站式覆盖</h3><p class="feature-desc">币安 · 欧易 · Bybit · Bitget · Gate · MEXC<br>六所数据统一入口，无需切换平台。</p></div></div></section>
 <section class="pain-solution"><div class="section"><h2 class="section-title">为什么需要 Wick Detector</h2><p class="section-subtitle">散户痛点切入</p><div class="comparison-table"><div class="comparison-row"><div class="comparison-cell pain"><span class="comparison-icon">😰</span><span class="comparison-text">爆仓了，不知道是不是被插针</span></div><div class="comparison-cell solution"><span class="comparison-icon">✅</span><span class="comparison-text">精准追溯：真实行情 vs 恶意插针</span></div></div><div class="comparison-row"><div class="comparison-cell pain"><span class="comparison-icon">😔</span><span class="comparison-text">现有保险只兜底穿仓，不赔散户强平</span></div><div class="comparison-cell solution"><span class="comparison-icon">🛡️</span><span class="comparison-text">链上强平理赔协议（规划中）</span></div></div><div class="comparison-row"><div class="comparison-cell pain"><span class="comparison-icon">🤔</span><span class="comparison-text">单一交易所视角，看不到全局</span></div><div class="comparison-cell solution"><span class="comparison-icon">🌐</span><span class="comparison-text">六所数据一站式对比</span></div></div></div></div></section>
 <section class="vision" id="vision"><div class="vision-box"><h2 class="vision-title">Building the 1st On-Chain Liquidation Insurance for Retail Traders</h2><h3 class="vision-subtitle">未来愿景</h3><p class="vision-desc">我们正在构建第一个面向散户的链上强平保险协议。<br>先看清风险，再触发保护。让每一次插针，都不再以散户的爆仓为代价。</p><div class="roadmap"><div class="roadmap-item done">核心检测引擎 + Web界面</div><div class="roadmap-item done">六所日报 + 自选检测</div><div class="roadmap-item pending">智能合约集成 — 链上自动事件通知</div><div class="roadmap-item pending">链上强平理赔协议主网上线</div></div></div></section>
 <section class="exchanges"><h2 class="section-title">支持的交易所</h2><div class="exchange-logos"><div class="exchange-logo">币安</div><div class="exchange-logo">欧易</div><div class="exchange-logo">Bybit</div><div class="exchange-logo">Bitget</div><div class="exchange-logo">Gate</div><div class="exchange-logo">MEXC</div></div></section>

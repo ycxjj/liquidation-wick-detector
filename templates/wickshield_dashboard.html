@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WickShield 风控看板</title>
+    <link rel="icon" type="image/png" href="/logo.png?v=4">
+    <style>
+:root{--bg:#070b1a;--card:#10192e;--border:#1e3a5f;--accent:#00d4ff;--muted:#8892b0;--text:#e8edf7;--danger:#f87171;--ok:#34d399;--warn:#fbbf24}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 16px 48px}
+.hero{text-align:center;margin-bottom:24px}
+.hero h1{color:var(--accent);font-size:1.75rem}
+.hero p{color:var(--muted);margin-top:8px;font-size:.9rem}
+.nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.nav a{color:var(--muted);text-decoration:none;padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:.85rem}
+.nav a:hover,.nav a.active{border-color:var(--accent);color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.card .label{font-size:.78rem;color:var(--muted);margin-bottom:6px}
+.card .value{font-size:1.6rem;font-weight:700;font-variant-numeric:tabular-nums}
+.card .sub{font-size:.8rem;color:var(--muted);margin-top:6px}
+.bar{height:8px;background:#0a1020;border-radius:4px;overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--ok));transition:width .4s}
+.status-healthy{color:var(--ok)}.status-watch{color:var(--warn)}.status-danger{color:var(--danger)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:10px 12px;border-bottom:1px solid rgba(30,58,95,.5);text-align:left}
+th{color:var(--muted);font-weight:600}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:600}
+.tag-ok{background:rgba(52,211,153,.15);color:var(--ok)}
+.tag-no{background:rgba(136,146,176,.15);color:var(--muted)}
+.tag-rej{background:rgba(248,113,113,.15);color:var(--danger)}
+.tag-pend{background:rgba(251,191,36,.12);color:var(--warn)}
+.src{font-size:.7rem;color:var(--muted);margin-left:4px}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.btn{background:var(--accent);color:#042;border:none;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.85rem;position:relative;min-width:108px;transition:opacity .2s,transform .15s,box-shadow .2s}
+.btn:hover:not(:disabled){filter:brightness(1.08);box-shadow:0 0 0 2px rgba(0,212,255,.25)}
+.btn:active:not(:disabled){transform:scale(.98)}
+.btn:disabled{opacity:.65;cursor:wait}
+.btn .btn-spin{display:none;width:14px;height:14px;border:2px solid rgba(4,34,68,.25);border-top-color:#042;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+.btn.is-loading .btn-spin{display:inline-block}
+.btn.is-loading .btn-label{opacity:.9}
+@keyframes spin{to{transform:rotate(360deg)}}
+.refresh-status{font-size:.78rem;margin-left:4px}
+.refresh-status.loading{color:var(--accent)}
+.refresh-status.ok{color:var(--ok)}
+.refresh-status.err{color:var(--danger)}
+.wrap.is-loading .grid,.wrap.is-loading .card:not(.glossary){opacity:.55;pointer-events:none;transition:opacity .25s}
+.meta{font-size:.78rem;color:var(--muted)}
+.glossary{margin-bottom:18px}
+.glossary h2{font-size:1rem;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.glossary-toggle{
+  background:rgba(0,212,255,.18);border:1px solid rgba(0,212,255,.55);color:#e8f7ff;
+  padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:700;
+  box-shadow:0 1px 0 rgba(0,212,255,.2);transition:background .2s,border-color .2s,color .2s
+}
+.glossary-toggle:hover{background:rgba(0,212,255,.32);border-color:var(--accent);color:#fff}
+.glossary-toggle[aria-expanded="true"]{background:rgba(0,212,255,.28);border-color:var(--accent);color:#fff}
+.glossary-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 20px;font-size:.82rem;line-height:1.55}
+.glossary-body.collapsed{display:none}
+.glossary dt{color:var(--accent);font-weight:600;margin-top:8px}
+.glossary dt:first-child{margin-top:0}
+.glossary dd{color:var(--muted);margin:4px 0 0}
+.glossary .sec-title{grid-column:1/-1;color:var(--text);font-weight:700;font-size:.88rem;margin-top:4px;border-bottom:1px solid rgba(30,58,95,.5);padding-bottom:6px}
+.th-tip{cursor:help;border-bottom:1px dotted var(--muted)}
+.card .hint{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.4}
+.glossary code{font-size:.78rem;color:var(--text);background:rgba(0,212,255,.08);padding:1px 5px;border-radius:4px}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="hero">
+        <h1>WickShield 风控看板</h1>
+        <p>偿付能力 · 24h 赔付额度 · 动态封顶 · 实时监控</p>
+    </div>
+    <div class="nav">
+        <a href="/">首页</a>
+        <a href="/daily">日报</a>
+        <a href="/wickshield" class="active">WickShield</a>
+    </div>
+    <div class="toolbar">
+        <button type="button" class="btn" id="btnRefresh" aria-busy="false">
+            <span class="btn-spin" aria-hidden="true"></span>
+            <span class="btn-label">立即刷新</span>
+        </button>
+        <span class="refresh-status" id="refreshStatus"></span>
+        <label class="meta"><input type="checkbox" id="autoLive"> 刷新时拉交易所实时行情（六所+多币并行，约数秒~数十秒）</label>
+        <span class="meta"> · 未勾选时用缓存；cron monitor 同样已并行加速（<code>MONITOR_WORKERS</code>/<code>OHLCV_WORKERS</code>）</span>
+        <span class="meta" id="updatedAt">—</span>
+        <span class="meta" id="resetMeta"></span>
+    </div>
+
+    <div class="card glossary">
+        <h2>
+            <span>名词解释</span>
+            <button type="button" class="glossary-toggle" id="glossaryToggle" aria-expanded="false">展开</button>
+        </h2>
+        <dl class="glossary-body collapsed" id="glossaryBody">
+            <div class="sec-title">资金池与偿付</div>
+            <dt>偿付能力比率</dt>
+            <dd>资金池 ÷ 总保额 × 100%。反映基金能否覆盖潜在赔付：≥60% 为 healthy；约 45%–60% 为 watch（你当前 50%）；更低则进入 danger，可能暂停新赔。</dd>
+            <dt>状态 healthy / watch / danger</dt>
+            <dd>精算状态机档位。watch 表示需关注：24h 全局限额收紧、单笔赔付可能按偿付比例折减。</dd>
+            <dt>资金池 / 保额</dt>
+            <dd>环境变量 <code>WICKSHIELD_POOL</code> 与 <code>WICKSHIELD_COVERAGE</code>（示例 50000 / 100000），用于偿付检查与压力测试，不是链上实时余额。</dd>
+
+            <div class="sec-title">赔付额度（每日 00:00 重置）</div>
+            <dt>今日已赔付</dt>
+            <dd>本自然日已通过 monitor 累计入账的理赔金额（USDT）。0 表示今日尚未发生批准赔付。</dd>
+            <dt>24h 上限 / 剩余赔付额度</dt>
+            <dd>全站单日赔付熔断上限（watch 档常见 3000 U）及剩余额度 = 上限 − 今日已赔付。用尽后新索赔会被拒绝，防止透支。</dd>
+            <dt>单人上限</dt>
+            <dd>单笔索赔最高可赔金额（watch 档常见 300 U），与动态封顶、振幅比例共同约束最终赔付。</dd>
+            <dt>24h 赔付额度使用</dt>
+            <dd>进度条 = 今日已赔付占 24h 上限的百分比。0% 表示当日熔断未触发。</dd>
+
+            <div class="sec-title">币种定价与风险档</div>
+            <dt>风险档 A-/A/A+ 与 B/C/D</dt>
+            <dd>A 档按<strong>定价系数</strong>再细分：A-（系数 1~5，如 BTC/XAU/XAUT）、A（5~10，如 DASH/INJ）、A+（10~25，如 RIVER/ORDI）。系数 = 有效日费率÷冷启动底价，并叠加峰值振幅与插针频率。B/C/D 仍为原字母档。</dd>
+            <dt>动态附加费（当月）</dt>
+            <dd>全站当月已批准赔付笔数越多，新保单费率乘子越高（0 笔=1.0×，1 笔≈1.08×，递增至 20+ 笔≈1.7×）。与 A 档细分乘子叠加。</dd>
+            <dt>基础日费率</dt>
+            <dd>该币种基准日保费率（%）。风险越高、历史插针越多，费率越高（故 LAB 显著高于 BTC）。数据来自 <code>dynamic_rates.json</code>（08:00 日报后刷新）。</dd>
+            <dt>动态封顶</dt>
+            <dd>保费与风险的上限比例：随偿付能力、ATR 波动、1h 插针密度调整（约 10%–75%）。也约束极端行情下的赔付膨胀，属于核心风控旋钮。</dd>
+
+            <div class="sec-title">实时监控列</div>
+            <dt>1h 振幅</dt>
+            <dd>近 1 小时 K 线上的最大插针幅度（%）。旁注「阈 X%」为该币触发理赔的振幅门槛（LAB 约 5%）。带 ⚡ 表示已达或超过阈值。</dd>
+            <dt>剩余额度（表中）</dt>
+            <dd>与顶部 KPI 相同：全站 24h 剩余额度，各监控币种共享同一池子。</dd>
+            <dt>状态 · 未达阈值</dt>
+            <dd>实时振幅低于理赔门槛，不赔付。</dd>
+            <dt>状态 · 已触发·可赔 / 已触发·拒赔</dt>
+            <dd>已达插针条件：可赔表示在额度与偿付规则内可批准；拒赔表示额度用尽、偿付阻断或金额为 0。</dd>
+            <dt>状态 · 待行情</dt>
+            <dd>尚未拉取交易所 K 线；请运行 monitor 或勾选「拉交易所 live」后刷新。</dd>
+            <dt>标注：估算 / 缓存 / 实时</dt>
+            <dd>估算 = 仅用费率表+精算引擎；缓存 = 最近一次 monitor；实时 = 本次刷新刚拉行情。</dd>
+            <dt>行情源（六所聚合）</dt>
+            <dd>与日报一致：对<strong>币安 / 欧易 / Gate / Bybit / MEXC / Bitget</strong> 分别拉 K 线，取<strong>最大 1h 振幅</strong>与<strong>最多插针次数</strong>作为触发依据；表内显示「六所聚合(牵头所)」。赔付额度仍全站共用。</dd>
+
+            <div class="sec-title">理赔记录</div>
+            <dt>最近理赔记录</dt>
+            <dd>由 <code>scripts/wickshield/cli monitor</code> 写入，记录每次触发的决策、原因与拟赔付金额；仅 approved / rejected 会落库。</dd>
+        </dl>
+    </div>
+
+    <div class="grid" id="kpiGrid"></div>
+    <div class="card" style="margin-bottom:18px">
+        <h2 style="font-size:1rem;color:var(--accent);margin-bottom:12px" class="th-tip" title="全站今日已赔付占 24h 熔断上限的比例；每日 00:00 计数归零">24h 赔付额度使用</h2>
+        <div class="bar"><i id="capBar" style="width:0%"></i></div>
+        <p class="meta" id="capHint" style="margin-top:8px"></p>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+        <h2 style="font-size:1rem;color:var(--accent);margin-bottom:12px">监控币种</h2>
+        <div style="overflow-x:auto"><table><thead><tr>
+            <th class="th-tip" title="WICKSHIELD_MONITOR_SYMBOLS 配置的监控交易对">币种</th>
+            <th class="th-tip" title="默认六所分别拉 K 线后聚合（取最大振幅）；括号内为触发最严的那一家">行情源</th>
+            <th class="th-tip" title="A 档显示 A-/A/A+ 与定价系数；B/C/D 为原档；括号为风险分数">风险档</th>
+            <th class="th-tip" title="动态费率表中的基准日保费率（%），08:00 日报后更新">基础日费率</th>
+            <th class="th-tip" title="v3 动态保费/风险封顶比例，随偿付能力、ATR、插针密度变化">动态封顶</th>
+            <th class="th-tip" title="近 1h 最大插针幅度；阈值为触发理赔的最低振幅">1h振幅</th>
+            <th class="th-tip" title="全站 24h 剩余赔付额度（各币共用）">剩余额度</th>
+            <th class="th-tip" title="当前是否触发理赔及是否可批准赔付">状态</th>
+        </tr></thead><tbody id="symBody"></tbody></table></div>
+    </div>
+    <div class="card">
+        <h2 style="font-size:1rem;color:var(--accent);margin-bottom:12px">最近理赔记录</h2>
+        <div style="overflow-x:auto"><table><thead><tr>
+            <th>时间</th><th>币种</th>
+            <th class="th-tip" title="approved=已批准赔付；rejected=拒绝（额度用尽或风控阻断）">决策</th>
+            <th class="th-tip" title="精算引擎给出的判定说明">原因</th>
+            <th class="th-tip" title="若批准，为该笔最终赔付金额（USDT）">赔付</th>
+        </tr></thead><tbody id="claimBody"></tbody></table></div>
+    </div>
+</div>
+<script>
+const POLL_MS = 30000;
+let __loading = false;
+const EX_NAMES={binanceusdm:'币安',okx:'欧易',gate:'Gate',bybit:'Bybit',mexc:'MEXC',bitget:'Bitget'};
+function fmtEx(lv){
+  if(!lv) return '—';
+  if(lv.exchange==='multi'||lv.exchanges_count>1){
+    var lead=lv.lead_exchange?fmtExId(lv.lead_exchange):'';
+    var n=lv.exchanges_count||(lv.exchanges_used&&lv.exchanges_used.length)||6;
+    return '六所聚合'+(lead?'('+lead+')':'')+' · '+n+'所';
+  }
+  return fmtExId(lv.exchange||lv.lead_exchange);
+}
+function fmtExId(id){return id?(EX_NAMES[id]||id):'—';}
+
+function setRefreshUi(mode, detail){
+  var btn=document.getElementById('btnRefresh');
+  var st=document.getElementById('refreshStatus');
+  var wrap=document.querySelector('.wrap');
+  if(!btn) return;
+  if(mode==='loading'){
+    __loading=true;
+    btn.disabled=true;
+    btn.classList.add('is-loading');
+    btn.setAttribute('aria-busy','true');
+    if(wrap) wrap.classList.add('is-loading');
+    if(st){st.className='refresh-status loading';st.textContent=detail||'正在刷新…';}
+    return;
+  }
+  __loading=false;
+  btn.disabled=false;
+  btn.classList.remove('is-loading');
+  btn.setAttribute('aria-busy','false');
+  if(wrap) wrap.classList.remove('is-loading');
+  if(!st) return;
+  if(mode==='ok'){
+    st.className='refresh-status ok';
+    st.textContent=detail||'已更新';
+  }else if(mode==='err'){
+    st.className='refresh-status err';
+    st.textContent=detail||'刷新失败';
+  }else{
+    st.className='refresh-status';
+    st.textContent='';
+  }
+}
+
+function statusClass(s){
+  if(!s) return '';
+  if(s==='healthy') return 'status-healthy';
+  if(['watch','warning'].includes(s)) return 'status-watch';
+  return 'status-danger';
+}
+
+function tag(dec){
+  if(dec==='approved') return '<span class="tag tag-ok">已触发·可赔</span>';
+  if(dec==='rejected') return '<span class="tag tag-rej">已触发·拒赔</span>';
+  if(dec==='no_trigger') return '<span class="tag tag-no">未达阈值</span>';
+  if(dec==='pending') return '<span class="tag tag-pend">待行情</span>';
+  return '<span class="tag">'+dec+'</span>';
+}
+function srcLabel(s){
+  if(s==='live') return '<span class="src">实时</span>';
+  if(s==='cached') return '<span class="src">缓存</span>';
+  if(s==='estimated') return '<span class="src">估算</span>';
+  return '';
+}
+
+function render(d){
+  const used = d.global_cap_used_percent || 0;
+  document.getElementById('kpiGrid').innerHTML = `
+    <div class="card"><div class="label th-tip" title="资金池÷总保额；50% 为 watch 关注档">偿付能力比率</div>
+      <div class="value ${statusClass(d.solvency_status)}">${d.solvency_ratio}%</div>
+      <div class="sub">状态 ${d.solvency_status || '—'}</div>
+      <div class="hint">≥60% 健康 · 45–60% 关注 · 更低危险</div></div>
+    <div class="card"><div class="label th-tip" title="本日 monitor 已批准赔付累计；00:00 重置">今日已赔付</div>
+      <div class="value">${d.global_payout_today} U</div>
+      <div class="sub">24h 上限 ${d.cap_24h} U</div>
+      <div class="hint">0 表示今日尚未触发批准赔付</div></div>
+    <div class="card"><div class="label th-tip" title="24h 上限 − 今日已赔付；用尽则拒赔">剩余赔付额度</div>
+      <div class="value">${d.global_cap_remaining} U</div>
+      <div class="sub">单人上限 ${d.cap_single} U</div>
+      <div class="hint">全站共享额度，非单币独立池</div></div>
+    <div class="card"><div class="label th-tip" title="当月已批准赔付笔数越多，动态附加费越高">当月动态附加费</div>
+      <div class="value">${(d.monthly_surcharge&&d.monthly_surcharge.monthly_surcharge_factor)||1}×</div>
+      <div class="sub">本月已赔 ${(d.monthly_surcharge&&d.monthly_surcharge.monthly_approved_payout_count)||0} 笔</div>
+      <div class="hint">0 笔=1.0× · 赔付越多费率越高</div></div>
+    <div class="card"><div class="label th-tip" title="偿付与费率表计算的输入参数">资金池 / 保额</div>
+      <div class="value" style="font-size:1.1rem">${d.pool_total} / ${d.total_coverage}</div>
+      <div class="sub">费率表 ${d.rate_table_symbol_count || 0} 币 · ${d.rate_table_generated_at || '—'}</div>
+      <div class="hint">日报 08:00 后刷新 dynamic_rates</div></div>`;
+  document.getElementById('capBar').style.width = Math.min(100, used) + '%';
+  document.getElementById('capHint').textContent = `已用 ${used}% · 剩余 ${d.global_cap_remaining} USDT`;
+  document.getElementById('symBody').innerHTML = (d.watch_symbols||[]).map(r=>{
+    const lv = r.live || {};
+    const thr = lv.threshold_percent!=null ? '阈'+lv.threshold_percent+'%' : '';
+    const amp = lv.amplitude!=null
+      ? lv.amplitude+'%'+(lv.triggered?' ⚡':'')
+      : '<span class="meta">—</span>';
+    return `<tr>
+      <td>${r.symbol}</td>
+      <td>${fmtEx(lv)}</td>
+      <td>${r.risk_subgrade||r.risk_grade||'—'}${r.pricing_coefficient!=null?' · 系数'+r.pricing_coefficient:''} ${r.risk_score!=null?'('+r.risk_score+')':''}</td>
+      <td>${r.base_daily_rate_percent!=null?r.base_daily_rate_percent+'%':'—'}</td>
+      <td>${lv.dynamic_cap_ratio!=null?(lv.dynamic_cap_ratio*100).toFixed(0)+'%':'—'}${srcLabel(lv.source)}</td>
+      <td>${amp} <span class="src">${thr}</span></td>
+      <td>${lv.global_cap_remaining!=null?lv.global_cap_remaining+' U':'—'}</td>
+      <td>${lv.decision?tag(lv.decision):'—'}${srcLabel(lv.source)}</td></tr>`;
+  }).join('') || '<tr><td colspan="8" class="meta">无监控币种</td></tr>';
+  document.getElementById('claimBody').innerHTML = (d.recent_claims||[]).map(c=>`
+    <tr><td>${(c.ts||'').slice(0,19)}</td><td>${c.symbol}</td><td>${tag(c.decision)}</td>
+    <td>${c.reason||''}</td><td>${c.final_payout??'—'}</td></tr>`).join('') ||
+    '<tr><td colspan="5" class="meta">暂无记录（运行 monitor 后产生）</td></tr>';
+  document.getElementById('updatedAt').textContent = '数据日: ' + (d.state_date || d.updated_at || '—');
+  var rm = d.last_reset;
+  document.getElementById('resetMeta').textContent = rm && rm.ts
+    ? ' · 上次日切重置: ' + String(rm.ts).slice(0, 19) + 'Z'
+    : '';
+}
+
+async function load(opts){
+  opts=opts||{};
+  if(__loading) return;
+  var live=document.getElementById('autoLive').checked;
+  var hint=live?'正在拉取交易所实时行情，请稍候…':'正在更新看板数据…';
+  if(!opts.silent) setRefreshUi('loading',hint);
+  try{
+    var r=await fetch('/api/wickshield/dashboard?live='+(live?'1':'0'));
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    var d=await r.json();
+    if(!d.success) throw new Error(d.error||d.message||'接口返回失败');
+    render(d);
+    if(!opts.silent){
+      var t=new Date();
+      var ts=t.getHours().toString().padStart(2,'0')+':'+t.getMinutes().toString().padStart(2,'0')+':'+t.getSeconds().toString().padStart(2,'0');
+      setRefreshUi('ok',(live?'实时刷新完成 · ':'已更新 · ')+ts);
+    }
+  }catch(e){
+    console.error(e);
+    if(!opts.silent) setRefreshUi('err',(e&&e.message)?String(e.message).slice(0,40):'网络错误');
+  }
+}
+
+document.getElementById('btnRefresh').onclick=function(){load({silent:false});};
+document.getElementById('autoLive').addEventListener('change',function(){
+  if(!__loading) load({silent:false});
+});
+(function(){
+  var btn=document.getElementById('glossaryToggle');
+  var body=document.getElementById('glossaryBody');
+  if(!btn||!body) return;
+  function syncGlossary(){
+    var open=!body.classList.contains('collapsed');
+    btn.textContent=open?'收起':'展开';
+    btn.setAttribute('aria-expanded',open?'true':'false');
+  }
+  syncGlossary();
+  btn.onclick=function(){
+    body.classList.toggle('collapsed');
+    syncGlossary();
+  };
+})();
+load({silent:true});
+setInterval(function(){load({silent:true});}, POLL_MS);
+</script>
+</body>
+</html>

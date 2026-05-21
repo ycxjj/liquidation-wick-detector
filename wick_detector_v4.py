@@ -50,6 +50,8 @@ import json
 import hashlib
 import time
 import threading
+
+_GATE_REST_CHUNK_HOURS = int(os.environ.get("GATE_REST_CHUNK_HOURS", "4"))
 from datetime import datetime, timedelta
 import warnings
 warnings.filterwarnings('ignore')
@@ -100,6 +102,11 @@ def _symbol_dash_swap(symbol):
 def _symbol_underscore(symbol):
     return symbol.replace('/', '_').replace(':USDT', '').upper()
 
+def _candle_ts_ms(raw) -> int:
+    """Gate 等接口可能返回秒或毫秒时间戳。"""
+    t = int(float(raw))
+    return t if t >= 10**12 else t * 1000
+
 def _filter_closed_klines(df, timeframe, start_ms=None, end_ms=None):
     if df is None or df.empty:
         return pd.DataFrame()
@@ -132,15 +139,13 @@ def _df_from_rows(rows, columns, timeframe, start_ms=None, end_ms=None):
     df = pd.DataFrame(rows, columns=columns)
     return _filter_closed_klines(df[['timestamp', 'open', 'high', 'low', 'close', 'volume']], timeframe, start_ms, end_ms)
 
-def fast_fetch_ohlcv_rest(exchange_name, symbol, timeframe='15m', days_back=1):
-    """六家主流合约交易所 REST K线快速抓取，返回统一 OHLCV DataFrame。"""
+def _fetch_ohlcv_rest_range(exchange_name, symbol, timeframe, start_ms, end_ms, contract=None):
+    """六家主流合约交易所 REST K线抓取（指定毫秒时间窗）。"""
     exchange_name = (exchange_name or '').lower()
     timeframe_ms = _timeframe_to_ms(timeframe)
-    if timeframe_ms <= 0:
+    if timeframe_ms <= 0 or start_ms >= end_ms:
         return pd.DataFrame()
-    end_ms = int(datetime.now().timestamp() * 1000)
-    start_ms = int((datetime.now() - timedelta(days=days_back)).timestamp() * 1000)
-    timeout = 8
+    timeout = 12
 
     try:
         if exchange_name in ('binanceusdm', 'binance'):
@@ -164,7 +169,8 @@ def fast_fetch_ohlcv_rest(exchange_name, symbol, timeframe='15m', days_back=1):
             url = 'https://www.okx.com/api/v5/market/history-candles'
             rows = []
             after = None
-            max_pages = min(40, int((days_back * 24 * 60 * 60 * 1000 / timeframe_ms) / 300) + 3)
+            range_ms = max(timeframe_ms, end_ms - start_ms)
+            max_pages = min(200, int(range_ms / timeframe_ms / 300) + 5)
             for _ in range(max_pages):
                 params = {'instId': _symbol_dash_swap(symbol), 'bar': timeframe, 'limit': '300'}
                 if after:
@@ -182,27 +188,67 @@ def fast_fetch_ohlcv_rest(exchange_name, symbol, timeframe='15m', days_back=1):
 
         if exchange_name in ('gateio', 'gate'):
             url = 'https://api.gateio.ws/api/v4/futures/usdt/candlesticks'
-            interval = timeframe.replace('m', 'm').replace('h', 'h')
+            interval = timeframe
+            contract = contract or _symbol_underscore(symbol)
             rows = []
             step_seconds = max(1, int(timeframe_ms / 1000))
-            chunk_seconds = int((timeframe_ms * 1900) / 1000)
+            chunk_seconds = max(
+                step_seconds * 50,
+                _GATE_REST_CHUNK_HOURS * 3600,
+            )
             since = start_ms // 1000
             end_sec = end_ms // 1000
             while since < end_sec:
                 to_sec = min(end_sec, since + chunk_seconds)
-                params = {'contract': _symbol_underscore(symbol), 'interval': interval, 'from': since, 'to': to_sec}
-                data = requests.get(url, params=params, timeout=timeout).json()
+                params = {
+                    'contract': contract,
+                    'interval': interval,
+                    'from': since,
+                    'to': to_sec,
+                }
+                data = None
+                for attempt in range(4):
+                    try:
+                        resp = requests.get(url, params=params, timeout=timeout)
+                        data = resp.json()
+                        if isinstance(data, list):
+                            break
+                    except Exception:
+                        pass
+                    time.sleep(0.25 * (attempt + 1))
+                if not isinstance(data, list):
+                    since = to_sec + step_seconds
+                    continue
                 batch_rows = []
                 for x in data if isinstance(data, list) else []:
                     if isinstance(x, dict):
-                        batch_rows.append([int(float(x.get('t', 0))) * 1000, x.get('o'), x.get('h'), x.get('l'), x.get('c'), x.get('v', 0)])
+                        batch_rows.append(
+                            [
+                                _candle_ts_ms(x.get('t', 0)),
+                                x.get('o'),
+                                x.get('h'),
+                                x.get('l'),
+                                x.get('c'),
+                                x.get('v', 0),
+                            ]
+                        )
                     elif isinstance(x, list) and len(x) >= 6:
-                        batch_rows.append([int(float(x[0])) * 1000, x[5], x[3], x[4], x[2], x[1]])
+                        batch_rows.append(
+                            [
+                                _candle_ts_ms(x[0]),
+                                x[5],
+                                x[3],
+                                x[4],
+                                x[2],
+                                x[1],
+                            ]
+                        )
                 rows.extend(batch_rows)
                 if not batch_rows:
                     since = to_sec + step_seconds
                 else:
-                    since = max(to_sec + step_seconds, int(max(x[0] for x in batch_rows) / 1000) + step_seconds)
+                    last_sec = max(_candle_ts_ms(x[0]) for x in batch_rows) // 1000
+                    since = max(to_sec + step_seconds, last_sec + step_seconds)
             return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
 
         if exchange_name == 'bybit':
@@ -254,6 +300,36 @@ def fast_fetch_ohlcv_rest(exchange_name, symbol, timeframe='15m', days_back=1):
         return pd.DataFrame()
 
     return pd.DataFrame()
+
+
+def fast_fetch_ohlcv_rest(exchange_name, symbol, timeframe='15m', days_back=1):
+    """六家主流合约交易所 REST K线快速抓取，返回统一 OHLCV DataFrame。"""
+    end_ms = int(datetime.now().timestamp() * 1000)
+    start_ms = int((datetime.now() - timedelta(days=days_back)).timestamp() * 1000)
+    return _fetch_ohlcv_rest_range(exchange_name, symbol, timeframe, start_ms, end_ms)
+
+
+def fetch_ohlcv_calendar_day_rest(
+    exchange_name,
+    symbol,
+    timeframe,
+    day,
+    tz_name='Asia/Shanghai',
+    contract=None,
+):
+    """按日历日（指定时区）REST 拉取 K 线，供日报历史补跑使用。"""
+    try:
+        from zoneinfo import ZoneInfo
+    except ImportError:
+        from backports.zoneinfo import ZoneInfo  # type: ignore
+    tz = ZoneInfo(tz_name)
+    start = datetime.combine(day, datetime.min.time(), tzinfo=tz)
+    end = start + timedelta(days=1)
+    start_ms = int(start.timestamp() * 1000)
+    end_ms = int(end.timestamp() * 1000)
+    return _fetch_ohlcv_rest_range(
+        exchange_name, symbol, timeframe, start_ms, end_ms, contract=contract
+    )
 
 
 # ============================================================

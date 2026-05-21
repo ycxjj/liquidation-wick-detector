@@ -346,16 +346,44 @@ details.hit-detail{margin-top:6px}
   table{font-size:.78rem;min-width:640px}
   th,td{padding:8px 9px}
   .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  #dailyMetaEx{word-break:break-word}
+  #dailyMetaEx{word-break:break-word;font-size:.74rem;line-height:1.5}
+  .date-explainer{font-size:.76rem;padding:10px 12px}
+  .date-bar-actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .date-bar-actions .toolbar-chip{width:100%;justify-content:center}
+  .toolbar-actions .toolbar-chip{flex:1 1 calc(50% - 4px);min-width:calc(50% - 4px);justify-content:center}
 }
 @media (max-width: 420px){
+  .ex-tabs{grid-template-columns:1fr}
+  .toolbar-actions .toolbar-chip{flex:1 1 100%;min-width:100%}
   .form-row{grid-template-columns:1fr}
   .form-group:nth-child(2){grid-column:auto}
   .result-stats{grid-template-columns:1fr}
 }
+{% if page == 'daily' %}
+.date-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.date-bar .form-group-daily{flex:1;min-width:200px;margin-bottom:0}
+.daily-date-input{width:100%;cursor:pointer}
+.date-bar-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-bottom:2px}
+.date-explainer{margin:0 0 14px;padding:12px 14px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:10px;font-size:.8rem;color:var(--muted);line-height:1.55}
+.date-explainer strong{color:var(--accent)}
+.date-explainer ul{margin:8px 0 0;padding-left:1.2rem}
+.date-explainer li{margin:4px 0}
+.flatpickr-calendar{background:#10192e;border:1px solid #1e3a5f;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.flatpickr-months .flatpickr-month,.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-weekdays,.flatpickr-day{color:#e8edf7}
+.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange{
+  background:#00d4ff;border-color:#00d4ff;color:#042}
+.flatpickr-day:hover,.flatpickr-day:focus{background:rgba(0,212,255,.2);border-color:#00d4ff}
+.flatpickr-day.today{border-color:#ffb020}
+.flatpickr-day.flatpickr-disabled{color:#4a5568}
+span.flatpickr-weekday{color:#8892b0}
+{% endif %}
     </style>
+{% if page == 'daily' %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+{% endif %}
 </head>
-<body>
+<body{% if page == 'daily' %} class="page-daily"{% endif %}>
 <div id="modalMask" class="modal-mask" role="dialog" aria-modal="true">
   <div class="modal-card">
     <p id="modalMsg"></p>
@@ -382,7 +410,7 @@ details.hit-detail{margin-top:6px}
   <div class="hero">
     {% if page == 'daily' %}
     <h1>📅 每日热门日报</h1>
-    <p>昨日 Top100 插针概览 · 六所永续市场</p>
+    <p>昨日全市场扫描 · 页面展示成交额前100 · 六所永续市场</p>
     {% else %}
     <h1>自选合约检测</h1>
     <p>输入合约与时间范围，追溯是否遭遇插针</p>
@@ -392,22 +420,34 @@ details.hit-detail{margin-top:6px}
   <div id="p1">
     <div class="card">
       <h2>热门榜插针概览 <span class="badge" id="jobBadge">—</span></h2>
-      <p class="meta">每日 <strong>08:00（Asia/Shanghai）</strong> 依次对 <strong>币安 / 欧易 / Gate / Bybit / MEXC / Bitget</strong> 六家 USDT 永续市场分别取 <strong>24h 成交额 Top100</strong>，
-      对<strong>前一自然日</strong>整日 K 线做插针扫描（规则与自选检测一致）。下方切换交易所查看；首次可手动触发生成。</p>
+      <p class="meta">每日 <strong>08:00（北京时间）</strong> 自动生成<strong>上一自然日</strong>日报（例：5 月 21 日 08:00 生成 → <strong>数据日 5 月 20 日</strong>）。扫描六所 USDT 永续全市场（按 24h 成交额排序），统计该日 <strong>00:00–24:00 北京时间</strong> 的 1m K 线插针（Gate 可能降级 5m）。页面默认展示成交额前 100；事件列表时间为<strong>北京时间</strong>。</p>
+      <div class="date-explainer">
+        <strong>数据日是什么意思？</strong>
+        <ul>
+          <li><strong>数据日</strong> = 北京时间自然日（当天 0–24 点）的统计标签，存档数据不改。</li>
+          <li><strong>生成时间</strong>在次日 08:00：例 5/21 早 8 点发布 → 数据日 5/20。</li>
+          <li id="tzDisplayHint">插针<strong>事件时间</strong>按您访问地区推断的时区显示（默认北京时间）。</li>
+        </ul>
+      </div>
       <div class="toolbar">
         <div class="toolbar-actions">
           <button type="button" class="toolbar-chip" id="btnRefreshDaily">刷新数据</button>
-          <label class="toolbar-chip"><input type="checkbox" id="onlyHits"><span>仅显示有插针命中</span></label>
+          <label class="toolbar-chip"><input type="checkbox" id="onlyHits"><span>仅显示有插针命中（全市场）</span></label>
+          <label class="toolbar-chip"><input type="checkbox" id="onlyKlines" checked><span>仅显示有K线</span></label>
           {% if is_admin %}<button type="button" class="btn" id="btnRunDaily">后台生成昨日日报（六所）</button>{% endif %}
         </div>
       </div>
       <div class="date-bar">
-        <div class="form-group"><label for="dailyDatePick">按已有存档选日期</label>
-          <select id="dailyDatePick"><option value="">最新（各所各自最近一条）</option></select></div>
-        <div class="form-group"><label for="dailyDateManual">或指定日历日</label>
-          <input type="date" id="dailyDateManual" title="查询该数据日的三所日报"></div>
-        <button type="button" class="toolbar-chip" id="btnQueryDate">查询</button>
+        <div class="form-group form-group-daily">
+          <label for="dailyReportDate">数据日（北京时间自然日，点击选日历）</label>
+          <input type="text" id="dailyReportDate" class="daily-date-input" placeholder="选择有存档的日期" readonly autocomplete="off">
+        </div>
+        <div class="date-bar-actions">
+          <button type="button" class="toolbar-chip" id="btnDailyLatest" title="各交易所各自最新一条">最新</button>
+          <button type="button" class="toolbar-chip" id="btnDailyApply">查询</button>
+        </div>
       </div>
+      <p id="dailyArchiveHint" class="view-hint"></p>
       <p id="dailyViewHint" class="view-hint"></p>
       <p id="jobStatusHint" class="meta" style="display:none;color:#ffb020;font-weight:600"></p>
       <div class="ex-tabs" id="exTabs">
@@ -454,6 +494,8 @@ details.hit-detail{margin-top:6px}
 
   <p class="disclaimer">仅供教育、科研和技术演示目的使用</p>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/zh.js"></script>
 <script>
 (function(){
 var PAGE='{{ page }}';
@@ -464,6 +506,47 @@ sym=document.getElementById('sym');dd=document.getElementById('dd');ex=document.
 var all=[],loading=false,symReady=false,pollT=null,prevJobRunning=false;
 var EX_NAMES={binanceusdm:'币安 USDM',okx:'欧易',gate:'Gate.io',bybit:'Bybit',mexc:'MEXC',bitget:'Bitget'};
 var __reports=null,__dailyRows=[],currentDailyEx='binanceusdm';
+var __displayTz='Asia/Shanghai',__tzLabel='北京时间';
+
+function applyDisplayTimezone(info){
+  if(!info) return;
+  if(info.timezone) __displayTz=info.timezone;
+  if(info.label) __tzLabel=info.label;
+  var el=document.getElementById('tzDisplayHint');
+  if(el){
+    el.innerHTML='插针<strong>事件时间</strong>按 <strong>'+escHtml(__tzLabel)+'</strong> 显示'
+      +'（根据 IP/地区推断；测试可加 <code>?tz=Asia/Tokyo</code>）';
+  }
+}
+function parseStoredTs(s){
+  if(s==null||s==='') return null;
+  s=String(s).trim();
+  if(/[zZ]$/.test(s)||/[+-]\d{2}:?\d{2}$/.test(s)){
+    var d0=new Date(s);
+    return isNaN(d0)?null:d0;
+  }
+  var m=s.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/);
+  if(m){
+    return new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6]));
+  }
+  var d1=new Date(s);
+  return isNaN(d1)?null:d1;
+}
+function formatDisplayTime(s){
+  var d=parseStoredTs(s);
+  if(!d) return s==null||s===''?'—':String(s);
+  try{
+    return d.toLocaleString('sv-SE',{timeZone:__displayTz,hour12:false}).replace('T',' ');
+  }catch(e){
+    return String(s);
+  }
+}
+function loadDisplayTimezone(){
+  var q=location.search||'';
+  return fetch('/api/display-timezone'+q).then(function(r){return r.json();}).then(function(d){
+    if(d&&d.timezone) applyDisplayTimezone(d);
+  }).catch(function(){});
+}
 
 function showModal(msg){
   document.getElementById('modalMsg').textContent=msg||'';
@@ -487,9 +570,9 @@ function escHtml(s){
 function showHitModal(symbol,hits){
   var title=document.getElementById('hitModalTitle');
   var list=document.getElementById('hitModalList');
-  title.textContent=(symbol||'合约')+' · 插针详情（'+hits.length+' 条）';
+  title.textContent=(symbol||'合约')+' · 插针详情（'+hits.length+' 条 · '+__tzLabel+'）';
   list.innerHTML=hits.map(function(e,i){
-    return '<div class="hit-line"><strong>'+(i+1)+'.</strong> '+escHtml(e.timestamp)+' · '+escHtml(e.direction)+' · <span class="amp">'+escHtml(e.amplitude)+'%</span></div>';
+    return '<div class="hit-line"><strong>'+(i+1)+'.</strong> '+escHtml(formatDisplayTime(e.timestamp))+' · '+escHtml(e.direction)+' · <span class="amp">'+escHtml(e.amplitude)+'%</span></div>';
   }).join('');
   document.getElementById('hitModalMask').classList.add('show');
 }
@@ -566,11 +649,16 @@ function buildTableLegacy(rows){
   rows.forEach(function(r){
     var hit=r.hit_count>0;
     h+='<tr class="'+(hit?'row-hit':'')+'"><td class="num">'+r.rank_vol+'</td><td class="sym">'+r.symbol+'</td><td class="num">'+fmtVol(r.quote_volume)+'</td>';
-    h+='<td class="num">'+(r.total_klines||0)+'</td><td class="num">'+(r.hit_count||0)+'</td><td class="amp">'+(r.max_amplitude!=null?r.max_amplitude+'%':'—')+'</td><td>';
-    if(r.error){h+='<span class="err" title="'+r.error.replace(/"/g,'&quot;')+'">数据异常</span>';}
+    h+='<td class="num">'+(r.total_klines||0)+'</td><td class="num">'+(r.hit_count||0)+'</td><td class="amp">';
+    if((r.total_klines||0)>0&&r.max_amplitude!=null)h+=r.max_amplitude+'%';
+    else if(r.total_klines>0)h+='0%';
+    else h+='—';
+    h+='</td><td>';
+    if(r.error){h+='<span class="err" title="'+r.error.replace(/"/g,'&quot;')+'">'+escHtml(r.error.length>28?r.error.slice(0,28)+'…':r.error)+'</span>';}
+    else if(!(r.total_klines||0)){h+='<span class="err" title="该数据日未拉到K线，振幅无法计算">未取到K线</span>';}
     else if(r.hits&&r.hits.length){
       h+='<details class="hit-detail"><summary>'+r.hits.length+' 条事件</summary><div class="details">';
-      r.hits.forEach(function(e){h+=e.timestamp+' '+e.direction+' '+e.amplitude+'%<br>';});
+      r.hits.forEach(function(e){h+=formatDisplayTime(e.timestamp)+' '+e.direction+' '+e.amplitude+'%<br>';});
       h+='</div></details>';
     }else{h+='—';}
     h+='</td></tr>';
@@ -585,9 +673,10 @@ function buildTableMobileCards(rows){
     cards+='<div class="drc-top"><span class="drc-rank">#'+r.rank_vol+'</span><span class="drc-sym">'+escHtml(r.symbol)+'</span>';
     if(hit)cards+='<span class="drc-badge">命中 '+r.hit_count+'</span>';
     cards+='</div><div class="drc-meta">24h '+fmtVol(r.quote_volume)+' · K线 '+(r.total_klines||0);
-    if(r.max_amplitude!=null)cards+=' · 最大 <span class="amp">'+r.max_amplitude+'%</span>';
+    if((r.total_klines||0)>0&&r.max_amplitude!=null)cards+=' · 最大 <span class="amp">'+r.max_amplitude+'%</span>';
     cards+='</div>';
     if(r.error)cards+='<p class="drc-err">'+escHtml(r.error)+'</p>';
+    else if(!(r.total_klines||0))cards+='<p class="drc-err">未取到该日K线，无法计算振幅</p>';
     else if(r.hits&&r.hits.length)cards+='<button type="button" class="btn ghost drc-hit-btn" data-hit-idx="'+idx+'">查看 '+r.hits.length+' 条插针详情</button>';
     cards+='</div>';
   });
@@ -603,18 +692,58 @@ function renderDailyTab(){
     body.innerHTML='<div class="empty">该交易所暂无记录，请稍后刷新查看</div>';
     return;
   }
-  mb.innerHTML='<strong>'+EX_NAMES[currentDailyEx]+'</strong> · 数据日 <strong>'+rep.report_date+'</strong> · 生成 '+rep.generated_at
-    +' · 扫描 '+rep.symbol_count+' · <span style="color:#ffb020">命中 '+rep.with_hits_count+'</span>';
+  if(currentDailyEx==='gate'){
+    var cut=(__gateMeta&&__gateMeta.earliest_date)||rep.gate_earliest_date;
+    if(rep.gate_history_unavailable||(cut&&rep.report_date&&rep.report_date<cut)){
+      var gmsg=rep.gate_history_message||(
+        'Gate 5m 历史约仅保留最近 '+((__gateMeta&&__gateMeta.history_days)||32)+' 天。'
+        +rep.report_date+' 无法从官方接口获取 K 线，请改选 '
+        +(cut||'最近一个月')+' 及之后的日期。'
+      );
+      mb.innerHTML='<strong>Gate.io</strong> · 数据日 <strong>'+rep.report_date+'</strong> · <span style="color:#ffb020">无历史数据</span>';
+      body.innerHTML='<div class="empty" style="text-align:left;line-height:1.7;max-width:640px;margin:0 auto">'
+        +'<p>'+escHtml(gmsg)+'</p>'
+        +'<p style="color:#8892b0;margin-top:12px">说明：币安/欧易等其它交易所可能有更早日期；仅 Gate 受官方接口限制。</p></div>';
+      return;
+    }
+  }
+  var tfLabel=rep.timeframe?(' · K线 '+rep.timeframe):'';
+  var allRows=rep.rows||[];
+  var kOk=allRows.filter(function(r){return (r.total_klines||0)>0;}).length;
+  var kMiss=allRows.length-kOk;
+  var pool=allRows;
+  if(document.getElementById('onlyKlines').checked){
+    pool=pool.filter(function(r){return (r.total_klines||0)>0;});
+  }
+  var visibleRows=pool.slice(0,100);
+  var visibleHitCount=visibleRows.reduce(function(n,r){return n+(r.hit_count>0?1:0);},0);
   var only=document.getElementById('onlyHits').checked;
-  var rows=rep.rows.filter(function(r){return !only||r.hit_count>0;});
+  mb.innerHTML='<strong>'+EX_NAMES[currentDailyEx]+'</strong> · 数据日 <strong>'+rep.report_date+'</strong>（北京自然日） · 生成 '+formatDisplayTime(rep.generated_at)+tfLabel
+    +' · 事件时间 '+__tzLabel
+    +' · 扫描 '+rep.symbol_count+' · 有K线 <strong>'+kOk+'</strong> · 无K线 '+kMiss
+    +' · 页面展示前100'
+    +' · <span style="color:#ffb020">前100命中 '+visibleHitCount+'</span>'
+    +' · 全量命中 '+(rep.with_hits_count||0)
+    +(kMiss>0?' · <span style="color:#8892b0">无K线多为当时未上市合约</span>':'')
+    +(only?' · 当前展示全市场命中':'');
+  var rows=only
+    ? pool.filter(function(r){return r.hit_count>0;})
+    : visibleRows;
   if(rows.length===0){
-    body.innerHTML='<div class="empty">当前筛选下无数据</div>';
+    var msg=only ? '全市场当前无插针命中' : '当前筛选下无数据';
+    if(currentDailyEx==='gate'&&kOk===0&&!only){
+      msg='该日 Gate 无有效 K 线（可能超出官方约 '+((__gateMeta&&__gateMeta.history_days)||32)+' 天历史窗口）。请换日期或查看其它交易所。';
+    }
+    body.innerHTML='<div class="empty">'+msg+'</div>';
     return;
   }
   body.innerHTML=buildTable(rows);
 }
 
 function renderDaily(data){
+  if(data&&data.display_timezone){
+    applyDisplayTimezone({timezone:data.display_timezone,label:data.display_tz_label});
+  }
   var body=document.getElementById('dailyBody'),mb=document.getElementById('dailyMetaEx');
   if(!data||data.status==='error'){
     body.innerHTML='<div class="empty">'+(data&&data.message?data.message:'加载失败')+'</div>';
@@ -625,7 +754,7 @@ function renderDaily(data){
   if(data.status==='empty'||!data.reports){
     __reports=null;
     var msg='暂无日报。请稍后刷新查看。';
-    if(data.date){msg='数据日 <strong>'+data.date+'</strong> 尚无存档。请换一天或等待生成后在下拉中选择。';}
+    if(data.message){msg=data.message;}else if(data.date){msg='数据日 <strong>'+data.date+'</strong> 尚无存档。请换一天或从日历选择有存档的日期。';}
     body.innerHTML='<div class="empty">'+msg+'</div>';
     mb.textContent='';
     return;
@@ -634,45 +763,91 @@ function renderDaily(data){
   renderDailyTab();
 }
 
-function fillDatePick(){
-  fetch('/api/daily/dates').then(function(r){return r.json();}).then(function(d){
-    var sel=document.getElementById('dailyDatePick'),keep=sel.value;
-    sel.innerHTML='<option value="">最新（各所各自最近一条）</option>';
-    if(d.status==='ok'&&d.dates&&d.dates.length){
-      d.dates.forEach(function(dt){
-        var o=document.createElement('option');
-        o.value=dt;o.textContent=dt;
-        sel.appendChild(o);
-      });
+var __dailyDateFp=null;
+var __archiveDates=[];
+var __gateMeta=null;
+
+function loadDailyLatest(){
+  var hint=document.getElementById('dailyViewHint');
+  if(hint)hint.textContent='正在查看：各交易所「最新一条」记录（未必同一天）';
+  fetch('/api/daily/latest').then(function(r){return r.json();}).then(renderDaily).catch(function(){
+    document.getElementById('dailyBody').innerHTML='<div class="empty">加载失败</div>';
+  });
+}
+
+function loadDailyByDate(dateStr){
+  if(!dateStr){loadDailyLatest();return;}
+  var hint=document.getElementById('dailyViewHint');
+  if(hint)hint.textContent='正在查看数据日：'+dateStr;
+  fetch('/api/daily/snapshot?date='+encodeURIComponent(dateStr)).then(function(r){return r.json();}).then(function(data){
+    if(data.status==='empty'||!data.reports){
+      renderDaily({status:'empty',date:dateStr,message:'数据日 '+dateStr+' 尚无日报存档（该日可能未生成或仅部分交易所有数据）'});
+      return;
     }
-    if(keep){
-      var ok=false;
-      for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===keep){ok=true;break;}}
-      if(ok)sel.value=keep;
+    var hasAny=false;
+    if(data.reports){for(var k in data.reports){if(data.reports[k]){hasAny=true;break;}}}
+    if(!hasAny){
+      renderDaily({status:'empty',date:dateStr,message:'数据日 '+dateStr+' 尚无日报存档'});
+      return;
     }
+    renderDaily(data);
+  }).catch(function(){
+    document.getElementById('dailyBody').innerHTML='<div class="empty">加载失败</div>';
+  });
+}
+
+function loadGateMeta(){
+  return fetch('/api/daily/gate-meta').then(function(r){return r.json();}).then(function(d){
+    if(d&&d.status==='ok')__gateMeta=d;
   }).catch(function(){});
 }
 
-function loadDaily(){
-  var pick=document.getElementById('dailyDatePick');
-  var manual=document.getElementById('dailyDateManual');
-  var dsel=pick?pick.value:'';
-  var dman=manual&&manual.value?manual.value:'';
-  var url;
-  var hint=document.getElementById('dailyViewHint');
-  if(dman){
-    url='/api/daily/snapshot?date='+encodeURIComponent(dman);
-    if(hint)hint.textContent='正在查看数据日：'+dman+'（指定查询）';
-  }else if(dsel){
-    url='/api/daily/snapshot?date='+encodeURIComponent(dsel);
-    if(hint)hint.textContent='正在查看数据日：'+dsel+'（库内存档）';
-  }else{
-    url='/api/daily/latest';
-    if(hint)hint.textContent='正在查看：各交易所「最新一条」记录（未必同一天）';
-  }
-  fetch(url).then(function(r){return r.json();}).then(renderDaily).catch(function(){
-    document.getElementById('dailyBody').innerHTML='<div class="empty">加载失败</div>';
+function initDailyDatePicker(){
+  return fetch('/api/daily/dates?limit=0').then(function(r){return r.json();}).then(function(d){
+    __archiveDates=(d&&d.status==='ok'&&d.dates)?d.dates:[];
+    if(d&&d.gate_earliest)__gateMeta={earliest_date:d.gate_earliest,history_days:d.gate_history_days};
+    var archiveHint=document.getElementById('dailyArchiveHint');
+    if(archiveHint){
+      if(__archiveDates.length){
+        archiveHint.textContent='共有 '+__archiveDates.length+' 个数据日（'+__archiveDates[__archiveDates.length-1]+' ～ '+__archiveDates[0]+'），日历中可选日期均有存档';
+      }else{
+        archiveHint.textContent='暂无存档目录，可点「最新」或等待日报生成';
+      }
+    }
+    var input=document.getElementById('dailyReportDate');
+    if(!input||typeof flatpickr==='undefined'){
+      if(__archiveDates.length)loadDailyByDate(__archiveDates[0]);
+      else loadDailyLatest();
+      return;
+    }
+    if(__dailyDateFp){try{__dailyDateFp.destroy();}catch(e){}}
+    var opts={
+      locale:(flatpickr.l10ns&&flatpickr.l10ns.zh)?flatpickr.l10ns.zh:'zh',
+      dateFormat:'Y-m-d',
+      allowInput:false,
+      disableMobile:false,
+      onChange:function(_sel,dateStr){if(dateStr)loadDailyByDate(dateStr);}
+    };
+    if(__archiveDates.length){
+      opts.enable=__archiveDates.slice();
+      opts.defaultDate=__archiveDates[0];
+    }else{
+      var minD=new Date();minD.setDate(minD.getDate()-400);
+      opts.minDate=minD;opts.maxDate='today';
+    }
+    __dailyDateFp=flatpickr(input,opts);
+    if(__archiveDates.length)loadDailyByDate(__archiveDates[0]);
+    else loadDailyLatest();
+  }).catch(function(){
+    loadDailyLatest();
   });
+}
+
+function loadDaily(){
+  var v=__dailyDateFp&&__dailyDateFp.selectedDates.length
+    ?__dailyDateFp.formatDate(__dailyDateFp.selectedDates[0],'Y-m-d')
+    :(document.getElementById('dailyReportDate')||{}).value||'';
+  if(v)loadDailyByDate(v);else loadDailyLatest();
 }
 {% if page == 'daily' %}
 document.getElementById('btnRefreshDaily').onclick=function(){
@@ -680,21 +855,16 @@ document.getElementById('btnRefreshDaily').onclick=function(){
   var orig=b.textContent;
   b.disabled=true;
   b.textContent='刷新中…';
-  fillDatePick();
-  loadDaily();
+  initDailyDatePicker();
   setTimeout(function(){b.disabled=false;b.textContent=orig;},800);
 };
-document.getElementById('dailyDatePick').onchange=function(){
-  document.getElementById('dailyDateManual').value='';
-  loadDaily();
+document.getElementById('btnDailyLatest').onclick=function(){
+  if(__dailyDateFp)__dailyDateFp.clear();
+  loadDailyLatest();
 };
-document.getElementById('btnQueryDate').onclick=function(){
-  var v=document.getElementById('dailyDateManual').value;
-  if(!v){showModal('请先选择或输入一个日期');return;}
-  document.getElementById('dailyDatePick').value='';
-  loadDaily();
-};
+document.getElementById('btnDailyApply').onclick=function(){loadDaily();};
 document.getElementById('onlyHits').onchange=function(){renderDailyTab();};
+document.getElementById('onlyKlines').onchange=function(){renderDailyTab();};
 document.getElementById('dailyBody').addEventListener('click',function(e){
   var b=e.target.closest('.drc-hit-btn');
   if(!b)return;
@@ -721,7 +891,7 @@ document.getElementById('btnRunDaily').onclick=function(){
       return;
     }
     if(d.started){
-      showModal('已在后台开始依次扫描「币安 → 欧易 → Gate → Bybit → MEXC → Bitget」昨日热门 Top100。\n请勿重复点击；进度见标题旁徽章与本页橙色提示。');
+      showModal('已在后台开始依次扫描「币安 → 欧易 → Gate → Bybit → MEXC → Bitget」昨日全市场合约。\n请勿重复点击；进度见标题旁徽章与本页橙色提示。');
       startPoll();
     }else{
       showModal(d.message||'未启动（可能已有任务在运行）');
@@ -926,8 +1096,7 @@ finally{if(!taskSubmitted)finishDetection();}});
 
 {% endif %}
 {% if page == 'daily' %}
-fillDatePick();
-loadDaily();
+loadDisplayTimezone().then(loadGateMeta).then(initDailyDatePicker);
 startPoll();
 {% endif %}
 })();
@@ -949,9 +1118,24 @@ def landing():
 
 @app.route("/daily")
 def daily_page():
-    """昨日热门 Top100 日报（独立页面）"""
+    """昨日热门全市场日报（独立页面，页面只展示前100）"""
     session["is_admin"] = False
     return render_template_string(HTML, is_admin=False, page="daily")
+
+
+@app.route("/wickshield")
+@app.route("/wickshield/")
+def wickshield_dashboard_page():
+    """WickShield 偿付与赔付额度看板"""
+    return render_template("wickshield_dashboard.html")
+
+
+@app.route("/api/wickshield/dashboard")
+def api_wickshield_dashboard():
+    from scripts.wickshield.dashboard_data import build_dashboard_snapshot
+
+    live = request.args.get("live", "0").strip().lower() in ("1", "true", "yes")
+    return jsonify(build_dashboard_snapshot(live_refresh=live))
 
 
 @app.route("/detect")
@@ -974,12 +1158,34 @@ def admin_index():
     return render_template_string(HTML, is_admin=True, page="daily")
 
 
+def _daily_display_tz_fields() -> dict:
+    from timezone_display import resolve_from_flask_request
+
+    info = resolve_from_flask_request(request)
+    return {
+        "display_timezone": info["timezone"],
+        "display_tz_label": info["label"],
+        "display_tz_source": info["source"],
+        "display_country": info.get("country"),
+    }
+
+
+@app.route("/api/display-timezone")
+def api_display_timezone():
+    """根据访问 IP / CDN 头返回前端展示用时区（不改日报存档）。"""
+    from timezone_display import resolve_from_flask_request
+
+    info = resolve_from_flask_request(request)
+    return jsonify({"success": True, **info})
+
+
 @app.route("/api/health")
 def api_health():
     """轻量健康检查（监控/部署探活）"""
     return jsonify({
         "status": "ok",
         "ts": datetime.now(ZoneInfo("Asia/Shanghai")).isoformat(),
+        "wickshield_routes": "wickshield_dashboard_page" in app.view_functions,
     })
 
 
@@ -1314,8 +1520,8 @@ def api_daily_latest():
         reports = daily_scan.get_all_latest_reports()
         st = daily_scan.get_job_state()
         if not any(v is not None for v in reports.values()):
-            return jsonify({"status": "empty", "reports": reports, "job": st})
-        return jsonify({"status": "ok", "reports": reports, "job": st})
+            return jsonify({"status": "empty", "reports": reports, "job": st, **_daily_display_tz_fields()})
+        return jsonify({"status": "ok", "reports": reports, "job": st, **_daily_display_tz_fields()})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
@@ -1334,9 +1540,9 @@ def api_daily_snapshot():
         st = daily_scan.get_job_state()
         if not any(v is not None for v in reports.values()):
             return jsonify(
-                {"status": "empty", "date": d, "reports": reports, "job": st}
+                {"status": "empty", "date": d, "reports": reports, "job": st, **_daily_display_tz_fields()}
             )
-        return jsonify({"status": "ok", "date": d, "reports": reports, "job": st})
+        return jsonify({"status": "ok", "date": d, "reports": reports, "job": st, **_daily_display_tz_fields()})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
@@ -1361,7 +1567,37 @@ def api_daily_report():
 def api_daily_dates():
     try:
         daily_scan._ensure_db()
-        return jsonify({"status": "ok", "dates": daily_scan.list_report_dates()})
+        limit_raw = request.args.get("limit")
+        if limit_raw is None:
+            dates = daily_scan.list_report_dates()
+        else:
+            dates = daily_scan.list_report_dates(limit=int(limit_raw))
+        return jsonify({
+            "status": "ok",
+            "dates": dates,
+            "count": len(dates),
+            "min": dates[-1] if dates else None,
+            "max": dates[0] if dates else None,
+            "gate_earliest": daily_scan.gate_history_earliest_date().isoformat(),
+            "gate_history_days": daily_scan.GATE_HISTORY_DAYS,
+        })
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route("/api/daily/gate-meta")
+def api_daily_gate_meta():
+    try:
+        earliest = daily_scan.gate_history_earliest_date()
+        return jsonify({
+            "status": "ok",
+            "earliest_date": earliest.isoformat(),
+            "history_days": daily_scan.GATE_HISTORY_DAYS,
+            "message": (
+                f"Gate 5m K 线历史约仅保留最近 {daily_scan.GATE_HISTORY_DAYS} 天，"
+                f"最早可查询约 {earliest.isoformat()}（含）。"
+            ),
+        })
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 

@@ -29,3 +29,7 @@ Thumbs.db
 # 运行时日志（勿提交）
 gunicorn.log
 *.log
+nohup.out
+data/.daily_scan.lock
+templates/points.html.backup
+__pycache__/

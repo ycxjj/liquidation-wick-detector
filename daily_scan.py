@@ -9,6 +9,7 @@ import os
 import sqlite3
 import subprocess
 import threading
+import time
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta
@@ -16,7 +17,12 @@ from typing import Any, Callable, List, Optional, Tuple
 
 import pandas as pd
 
-from wick_detector_v4 import LiquidationDetector, get_default_amplitude
+from wick_detector_v4 import (
+    LiquidationDetector,
+    fetch_ohlcv_calendar_day_rest,
+    get_default_amplitude,
+    _timeframe_to_ms,
+)
 
 from zoneinfo import ZoneInfo
 
@@ -24,8 +30,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "data", "wick_daily.db")
 
 TZ_NAME = os.environ.get("DAILY_REPORT_TZ", "Asia/Shanghai")
-TOP_N = int(os.environ.get("DAILY_TOP_N", "100"))
-TIMEFRAME = os.environ.get("DAILY_TIMEFRAME", "5m")
+# 0 表示扫描交易所返回的全部符合条件的永续合约；页面仍只展示前 100。
+TOP_N = int(os.environ.get("DAILY_TOP_N", "0"))
+TIMEFRAME = os.environ.get("DAILY_TIMEFRAME", "1m")
 WORKERS = max(1, min(8, int(os.environ.get("DAILY_SCAN_WORKERS", "4"))))
 # 单所覆盖用（兼容旧环境）；多所用 DAILY_EXCHANGES
 EXCHANGE_ID = os.environ.get("DAILY_HOT_EXCHANGE", "binanceusdm")
@@ -47,6 +54,21 @@ EXCHANGE_LABELS = {
 
 _job_lock = threading.Lock()
 _daily_scan_lock_fd = None
+_scan_exchange_local = threading.local()
+
+# gate / bitget / mexc 历史 1m 常不足整日，自动降级 5m
+_OLD_1M_FALLBACK_5M = os.environ.get(
+    "DAILY_OLD_1M_FALLBACK_5M",
+    os.environ.get("DAILY_GATE_OLD_1M_FALLBACK_5M", "1"),
+).lower() in ("1", "true", "yes")
+_MIN_KLINE_RATIO = float(os.environ.get("DAILY_MIN_KLINE_RATIO", "0.35"))
+# Gate 5m 整日约 288 根；低于该比例视为不完整并尝试第二数据源
+_GATE_MIN_KLINE_RATIO = float(os.environ.get("DAILY_GATE_MIN_KLINE_RATIO", "0.88"))
+# Gate 官方 5m 历史 K 线约仅保留最近 N 天（实测约 30～32 天，4/1～4/19 无法补全）
+GATE_HISTORY_DAYS = int(os.environ.get("DAILY_GATE_HISTORY_DAYS", "32"))
+_REST_CALENDAR_EXCHANGES = frozenset({"bitget", "mexc"})
+_TF_FALLBACK_EXCHANGES = frozenset({"gate", "bitget", "mexc"})
+_EXPECTED_KLINES = {"1m": 1440, "5m": 288, "15m": 96, "1h": 24}
 JOB_STATE: dict[str, Any] = {
     "running": False,
     "started_at": None,
@@ -59,6 +81,25 @@ JOB_STATE: dict[str, Any] = {
 
 def _tz() -> ZoneInfo:
     return ZoneInfo(TZ_NAME)
+
+
+def gate_history_earliest_date() -> date:
+    """Gate 5m 可查询的最早日历日（含）。"""
+    return datetime.now(_tz()).date() - timedelta(days=GATE_HISTORY_DAYS)
+
+
+def gate_supports_report_date(report_date: date) -> bool:
+    return report_date >= gate_history_earliest_date()
+
+
+def gate_history_unavailable_message(report_date: date) -> str:
+    earliest = gate_history_earliest_date()
+    return (
+        f"Gate 官方 5m K 线历史约仅保留最近 {GATE_HISTORY_DAYS} 天。"
+        f"{report_date.isoformat()} 早于可查询范围（最早约 {earliest.isoformat()}），"
+        f"无法从接口获取整日数据，不是扫描脚本故障。"
+        f"请查看 {earliest.isoformat()} 及之后的日期。"
+    )
 
 
 def _acquire_daily_scan_lock() -> bool:
@@ -125,18 +166,186 @@ def _ensure_db() -> None:
         )
 
 
+def _get_scan_exchange(exchange_id: str):
+    """线程内复用 ccxt 实例，避免每个合约 load_markets 触发限频。"""
+    cache = getattr(_scan_exchange_local, "by_id", None)
+    if cache is None:
+        cache = {}
+        _scan_exchange_local.by_id = cache
+    if exchange_id not in cache:
+        import ccxt
+
+        opts: dict = {"defaultType": "swap"}
+        if exchange_id == "gate":
+            opts["defaultSettle"] = "usdt"
+        ex = getattr(ccxt, exchange_id)(
+            {"enableRateLimit": True, "timeout": 30000, "options": opts}
+        )
+        ex.load_markets()
+        cache[exchange_id] = ex
+    return cache[exchange_id]
+
+
+def _expected_klines(timeframe: str) -> int:
+    return _EXPECTED_KLINES.get(timeframe, 288)
+
+
+def _min_kline_ratio(exchange_id: str = "") -> float:
+    if (exchange_id or "").lower() == "gate":
+        return _GATE_MIN_KLINE_RATIO
+    return _MIN_KLINE_RATIO
+
+
+def _insufficient_klines(
+    df: pd.DataFrame, timeframe: str, exchange_id: str = ""
+) -> bool:
+    if df is None or df.empty:
+        return True
+    ratio = _min_kline_ratio(exchange_id)
+    return len(df) < int(_expected_klines(timeframe) * ratio)
+
+
+def _merge_ohlcv_dataframes(*parts: pd.DataFrame) -> pd.DataFrame:
+    frames = [p for p in parts if p is not None and not p.empty]
+    if not frames:
+        return pd.DataFrame()
+    df = pd.concat(frames, ignore_index=True)
+    if "timestamp" not in df.columns:
+        return df
+    return (
+        df.drop_duplicates(subset=["timestamp"])
+        .sort_values("timestamp")
+        .reset_index(drop=True)
+    )
+
+
 def _normalize_symbol(sym: str) -> str:
     return sym.split(":")[0] if ":" in sym else sym
 
 
-def get_hot_symbols_usdm(exchange_id: str, limit: int) -> List[Tuple[str, float]]:
+def _ohlcv_symbol_candidates(exchange, exchange_id: str, symbol: str) -> List[str]:
+    """Return exchange-compatible OHLCV symbols for swap markets.
+
+    Public report rows use clean symbols like BTC/USDT, but several ccxt swap
+    markets (Gate/OKX/Bybit and sometimes others) require BTC/USDT:USDT when
+    fetching OHLCV. Try exact market keys first, then fall back to matching by
+    base/quote so the report can keep the clean display symbol.
+    """
+    candidates: List[str] = []
+
+    def add(value: Optional[str]) -> None:
+        if value and value not in candidates:
+            candidates.append(value)
+
+    add(symbol)
+
+    if "/" in symbol and ":" not in symbol:
+        base, quote = symbol.split("/", 1)
+        quote = quote.split(":")[0]
+        add(f"{base}/{quote}:{quote}")
+
+    for key, market in exchange.markets.items():
+        if _normalize_symbol(key) == symbol and (market.get("swap") or market.get("linear")):
+            add(key)
+            add(market.get("symbol"))
+
+    # Some exchanges expose only clean symbols, while others expose settled
+    # symbols. Keep both orders to support binanceusdm and Gate/OKX/Bybit.
+    if exchange_id in ("gate", "okx", "bybit", "bitget", "mexc"):
+        for key, market in exchange.markets.items():
+            if not (market.get("swap") or market.get("linear")):
+                continue
+            if market.get("symbol") and _normalize_symbol(market["symbol"]) == symbol:
+                add(market["symbol"])
+            if market.get("base") and market.get("quote"):
+                clean = f"{market['base']}/{market['quote']}"
+                if clean == symbol:
+                    add(market.get("symbol"))
+                    add(key)
+
+    return candidates
+
+
+def _market_is_tradable_swap(market: Optional[dict]) -> bool:
+    if not market:
+        return False
+    if not (market.get("swap") or market.get("linear")):
+        return False
+    if market.get("active") is False:
+        return False
+    return True
+
+
+def _market_listing_ms(market: Optional[dict]) -> Optional[int]:
+    """合约上线时间（毫秒），用于历史日报过滤当时尚未上市的币。"""
+    if not market:
+        return None
+    for key in ("created", "listed", "listing"):
+        v = market.get(key)
+        if v is not None:
+            try:
+                t = int(v)
+                return t if t >= 10**12 else t * 1000
+            except (TypeError, ValueError):
+                pass
+    info = market.get("info")
+    if isinstance(info, dict):
+        for key in ("create_time", "launch_time", "create_time_ms", "in_delisting_time"):
+            v = info.get(key)
+            if v is not None and v != "":
+                try:
+                    t = int(float(v))
+                    return t if t >= 10**12 else t * 1000
+                except (TypeError, ValueError):
+                    pass
+    return None
+
+
+def _market_listed_before_day(
+    exchange, exchange_id: str, clean_symbol: str, day: date
+) -> bool:
+    """该合约在 day 当日结束前是否已上线（无法判断时保留）。"""
+    tz = _tz()
+    day_end_ms = int(
+        datetime.combine(day + timedelta(days=1), datetime.min.time(), tzinfo=tz).timestamp()
+        * 1000
+    )
+    for sym in _ohlcv_symbol_candidates(exchange, exchange_id, clean_symbol):
+        m = exchange.markets.get(sym)
+        if not _market_is_tradable_swap(m):
+            continue
+        listed_ms = _market_listing_ms(m)
+        if listed_ms is None:
+            return True
+        return listed_ms < day_end_ms
+    return True
+
+
+def resolve_swap_ohlcv_symbol(exchange, exchange_id: str, symbol: str) -> Optional[str]:
+    """Return first ccxt market id that can fetch swap OHLCV, else None."""
+    for sym in _ohlcv_symbol_candidates(exchange, exchange_id, symbol):
+        market = exchange.markets.get(sym)
+        if _market_is_tradable_swap(market):
+            return sym
+    return None
+
+
+def get_hot_symbols_usdm(
+    exchange_id: str,
+    limit: int,
+    report_date: Optional[date] = None,
+) -> List[Tuple[str, float]]:
     import ccxt
 
+    exid = exchange_id.lower()
     try:
-        ex = getattr(ccxt, exchange_id)(
-            {"enableRateLimit": True, "timeout": 30000, "options": {"defaultType": "swap"}}
-        )
-        ex.load_markets()
+        if exid == "gate":
+            ex = _get_scan_exchange("gate")
+        else:
+            ex = getattr(ccxt, exchange_id)(
+                {"enableRateLimit": True, "timeout": 30000, "options": {"defaultType": "swap"}}
+            )
+            ex.load_markets()
         tickers = ex.fetch_tickers()
     except Exception as e:
         raise RuntimeError(f"无法获取热门合约列表: {exchange_id} - {type(e).__name__}: {str(e)[:100]}")
@@ -156,6 +365,12 @@ def get_hot_symbols_usdm(exchange_id: str, limit: int) -> List[Tuple[str, float]
         clean = _normalize_symbol(sid)
         # 接受 /USDT、/USD、/USDC 结尾
         if not (clean.endswith("/USDT") or clean.endswith("/USD") or clean.endswith("/USDC")):
+            continue
+        if resolve_swap_ohlcv_symbol(ex, exchange_id, clean) is None:
+            continue
+        if report_date is not None and not _market_listed_before_day(
+            ex, exchange_id, clean, report_date
+        ):
             continue
         # 尝试多个字段：quoteVolume, baseVolume * last
         qv = 0.0
@@ -184,7 +399,7 @@ def get_hot_symbols_usdm(exchange_id: str, limit: int) -> List[Tuple[str, float]
             continue
         seen.add(s)
         out.append((s, v))
-        if len(out) >= limit:
+        if limit > 0 and len(out) >= limit:
             break
     return out
 
@@ -195,13 +410,10 @@ def fetch_ohlcv_calendar_day(
     timeframe: str,
     day: date,
     market_type: str = "swap",
+    ex: Optional[Any] = None,
 ) -> pd.DataFrame:
-    import ccxt
-
-    ex = getattr(ccxt, exchange_id)(
-        {"enableRateLimit": True, "timeout": 30000, "options": {"defaultType": "swap"}}
-    )
-    ex.load_markets()
+    if ex is None:
+        ex = _get_scan_exchange(exchange_id)
     tz = _tz()
     start = datetime.combine(day, datetime.min.time(), tzinfo=tz)
     end = start + timedelta(days=1)
@@ -211,25 +423,64 @@ def fetch_ohlcv_calendar_day(
     params: dict = {}
     if market_type == "swap":
         params["defaultType"] = "swap"
+    if exchange_id == "gate":
+        params["settle"] = "usdt"
 
-    sym = symbol
-    if exchange_id == "okx" and ":USDT" not in sym:
-        sym = sym + ":USDT"
-    elif exchange_id == "bybit" and ":USDT" not in sym:
-        sym = sym + ":USDT"
+    valid_symbols = [
+        sym
+        for sym in _ohlcv_symbol_candidates(ex, exchange_id, symbol)
+        if _market_is_tradable_swap(ex.markets.get(sym))
+    ]
+    if not valid_symbols:
+        return pd.DataFrame()
 
+    timeframe_ms = _timeframe_to_ms(timeframe) or 60_000
+    gate_pacing = exchange_id == "gate"
     chunks: list = []
-    since = start_ms
-    while since < end_ms:
-        batch = ex.fetch_ohlcv(sym, timeframe, since=since, limit=1000, params=params)
-        if not batch:
-            break
-        for c in batch:
-            if c[0] < end_ms:
-                chunks.append(c)
-        since = batch[-1][0] + 1
-        if len(batch) < 50:
-            break
+    last_error: Optional[Exception] = None
+    for sym in valid_symbols:
+        chunks = []
+        since = start_ms
+        try:
+            while since < end_ms:
+                batch = None
+                for attempt in range(4 if gate_pacing else 2):
+                    try:
+                        batch = ex.fetch_ohlcv(
+                            sym, timeframe, since=since, limit=1000, params=params
+                        )
+                        break
+                    except Exception as e:
+                        last_error = e
+                        err = str(e).lower()
+                        if gate_pacing and any(
+                            x in err
+                            for x in ("rate", "429", "too many", "limit", "timeout")
+                        ):
+                            time.sleep(0.35 * (attempt + 1))
+                            continue
+                        raise
+                if not batch:
+                    break
+                for c in batch:
+                    if start_ms <= c[0] < end_ms:
+                        chunks.append(c)
+                last_ts = batch[-1][0]
+                since = last_ts + timeframe_ms
+                if gate_pacing:
+                    time.sleep(0.08)
+                if last_ts + timeframe_ms >= end_ms:
+                    break
+            if chunks:
+                break
+        except Exception as e:
+            last_error = e
+            if gate_pacing:
+                time.sleep(0.2)
+            continue
+
+    if not chunks and last_error is not None:
+        raise last_error
 
     if not chunks:
         return pd.DataFrame()
@@ -238,6 +489,99 @@ def fetch_ohlcv_calendar_day(
     )
     df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
     return df
+
+
+def _gate_rest_contract(symbol: str) -> str:
+    """Gate REST 合约名优先用 ccxt market id（如 BTC_USDT）。"""
+    try:
+        ex = _get_scan_exchange("gate")
+        for sym in _ohlcv_symbol_candidates(ex, "gate", symbol):
+            m = ex.markets.get(sym)
+            if not m:
+                continue
+            cid = m.get("id") or (m.get("info") or {}).get("name")
+            if cid and isinstance(cid, str) and "_" in cid:
+                return cid.upper()
+    except Exception:
+        pass
+    return _normalize_symbol(symbol).replace("/", "_").upper()
+
+
+def _fetch_gate_calendar_day(
+    symbol: str, timeframe: str, target_day: date
+) -> pd.DataFrame:
+    """Gate：ccxt + REST 双通道拉取并合并，提高整日 K 线完整度。"""
+    df_ccxt = pd.DataFrame()
+    for attempt in range(3):
+        try:
+            df_ccxt = fetch_ohlcv_calendar_day(
+                "gate", symbol, timeframe, target_day
+            )
+            if not _insufficient_klines(df_ccxt, timeframe, "gate"):
+                break
+        except Exception:
+            df_ccxt = pd.DataFrame()
+        time.sleep(0.25 * (attempt + 1))
+
+    df_rest = pd.DataFrame()
+    try:
+        df_rest = fetch_ohlcv_calendar_day_rest(
+            "gate",
+            symbol,
+            timeframe,
+            target_day,
+            TZ_NAME,
+            contract=_gate_rest_contract(symbol),
+        )
+    except Exception:
+        pass
+
+    return _merge_ohlcv_dataframes(df_ccxt, df_rest)
+
+
+def _fetch_calendar_primary(
+    exchange_id: str, symbol: str, timeframe: str, target_day: date
+) -> pd.DataFrame:
+    exid = exchange_id.lower()
+    if exid == "gate":
+        return _fetch_gate_calendar_day(symbol, timeframe, target_day)
+    if exid in _REST_CALENDAR_EXCHANGES:
+        df = fetch_ohlcv_calendar_day_rest(
+            exid, symbol, timeframe, target_day, TZ_NAME
+        )
+        if df.empty:
+            try:
+                df_ccxt = fetch_ohlcv_calendar_day(
+                    exid, symbol, timeframe, target_day
+                )
+                if len(df_ccxt) > len(df):
+                    return df_ccxt
+            except Exception:
+                pass
+        return df
+    return fetch_ohlcv_calendar_day(exid, symbol, timeframe, target_day)
+
+
+def _fetch_ohlcv_with_tf_fallback(
+    exchange_id: str, symbol: str, timeframe: str, target_day: date
+) -> tuple[pd.DataFrame, str]:
+    """拉取日历日 K 线；gate/bitget/mexc 历史 1m 不足时自动降级 5m。"""
+    exid = exchange_id.lower()
+    should_fallback = (
+        _OLD_1M_FALLBACK_5M and exid in _TF_FALLBACK_EXCHANGES and timeframe == "1m"
+    )
+    try:
+        df = _fetch_calendar_primary(exid, symbol, timeframe, target_day)
+    except Exception:
+        if not should_fallback:
+            raise
+        df = pd.DataFrame()
+
+    if should_fallback and _insufficient_klines(df, "1m", exid):
+        df5 = _fetch_calendar_primary(exid, symbol, "5m", target_day)
+        if not df5.empty and (df.empty or len(df5) >= len(df)):
+            return df5, "5m"
+    return df, timeframe
 
 
 def _scan_one(args: Tuple[int, str, float, date, str, str]) -> dict:
@@ -251,12 +595,24 @@ def _scan_one(args: Tuple[int, str, float, date, str, str]) -> dict:
         "max_amplitude": 0.0,
         "hits": [],
         "error": None,
+        "timeframe": tf,
     }
     try:
-        df = fetch_ohlcv_calendar_day(exchange_id, symbol, tf, target_day)
+        df, used_tf = _fetch_ohlcv_with_tf_fallback(exchange_id, symbol, tf, target_day)
+        row["timeframe"] = used_tf
         row["total_klines"] = len(df)
         if df.empty:
+            row["error"] = (
+                f"未取到 {target_day.isoformat()} 当日K线"
+                f"（当时未上市、已下架，或 Gate 历史接口无数据）"
+            )
             return row
+        exp = _expected_klines(used_tf)
+        min_need = int(exp * _min_kline_ratio(exchange_id))
+        if exchange_id.lower() == "gate" and len(df) < min_need:
+            row["error"] = (
+                f"K线不完整 {len(df)}/{exp}（Gate 目标≥{min_need} 根）"
+            )
         det = LiquidationDetector(exchange_name=exchange_id, symbol=symbol)
         _ma = os.environ.get("DAILY_MIN_AMP")
         min_amp = (
@@ -278,7 +634,14 @@ def _scan_one(args: Tuple[int, str, float, date, str, str]) -> dict:
                     }
                 )
     except Exception as e:
-        row["error"] = f"{type(e).__name__}: {e}"
+        msg = str(e)
+        if "does not have market symbol" in msg or type(e).__name__ in (
+            "BadSymbol",
+            "BadRequest",
+        ):
+            row["error"] = f"合约不存在或已下架: {symbol}"
+        else:
+            row["error"] = f"{type(e).__name__}: {e}"
     return row
 
 
@@ -298,9 +661,23 @@ def run_daily_scan(
     if report_date is None:
         report_date = (datetime.now(tz) - timedelta(days=1)).date()
 
-    hot = get_hot_symbols_usdm(exid, TOP_N)
+    if exid.lower() == "gate" and not gate_supports_report_date(report_date):
+        return _write_gate_history_unavailable_report(report_date)
+
+    sym_limit = TOP_N
+    if exid.lower() == "gate" and report_date:
+        days_ago = (datetime.now(_tz()).date() - report_date).days
+        if days_ago > 2:
+            cap = int(os.environ.get("DAILY_GATE_HISTORICAL_TOP_N", "400"))
+            sym_limit = cap if TOP_N <= 0 else min(TOP_N, cap)
+
+    hot = get_hot_symbols_usdm(exid, sym_limit, report_date=report_date)
     if not hot:
         raise RuntimeError(f"无法获取热门合约列表: {exid}")
+
+    # 预热 ccxt（Gate 也依赖 ccxt 拉历史 K 线）
+    if exid.lower() == "gate" or exid.lower() not in _REST_CALENDAR_EXCHANGES:
+        _get_scan_exchange(exid)
 
     total = len(hot)
     JOB_STATE["progress"] = f"0/{total}"
@@ -312,7 +689,14 @@ def run_daily_scan(
         if progress_cb:
             progress_cb(s)
 
-    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+    scan_workers = WORKERS
+    if exid.lower() == "gate":
+        scan_workers = max(
+            1,
+            min(3, int(os.environ.get("DAILY_GATE_SCAN_WORKERS", "2"))),
+        )
+
+    with ThreadPoolExecutor(max_workers=scan_workers) as pool:
         futs = []
         for i, (sym, qv) in enumerate(hot, start=1):
             args = (i, sym, qv, report_date, exid, TIMEFRAME)
@@ -322,6 +706,23 @@ def run_daily_scan(
             results.append(fut.result())
             done += 1
             _prog(done)
+
+    def _row_counts_as_success(row: dict) -> bool:
+        k = int(row.get("total_klines") or 0)
+        if k <= 0:
+            return False
+        err = str(row.get("error") or "")
+        if err.startswith("K线不完整"):
+            return True
+        return not err
+
+    successful_rows = [r for r in results if _row_counts_as_success(r)]
+    min_success = max(1, min(10, len(results) // 20))
+    if not successful_rows or len(successful_rows) < min_success:
+        raise RuntimeError(
+            f"{exid} {report_date.isoformat()} 扫描有效数据过少 "
+            f"({len(successful_rows)}/{len(results)})，已停止写库以避免覆盖旧日报"
+        )
 
     with_hits = sum(1 for r in results if r.get("hit_count", 0) > 0)
     generated_at = datetime.now(tz).isoformat(timespec="seconds")
@@ -366,7 +767,11 @@ def run_daily_scan(
                     r["hit_count"],
                     r["max_amplitude"],
                     json.dumps(
-                        {"hits": r.get("hits") or [], "error": r.get("error")},
+                        {
+                            "hits": r.get("hits") or [],
+                            "error": r.get("error"),
+                            "timeframe": r.get("timeframe"),
+                        },
                         ensure_ascii=False,
                     ),
                 ),
@@ -391,9 +796,57 @@ def _rows_for_export(results: List[dict]) -> List[dict]:
                 "max_amplitude": r["max_amplitude"],
                 "hits": r.get("hits") or [],
                 "error": r.get("error"),
+                "timeframe": r.get("timeframe"),
             }
         )
     return out
+
+
+def _write_gate_history_unavailable_report(report_date: date) -> int:
+    """超出 Gate 历史窗口的日期：写入说明型空报告，避免满屏「未取到K线」。"""
+    tz = _tz()
+    exid = "gate"
+    generated_at = datetime.now(tz).isoformat(timespec="seconds")
+    msg = gate_history_unavailable_message(report_date)
+    results: List[dict] = []
+    _ensure_db()
+    with sqlite3.connect(DB_PATH) as conn:
+        old = conn.execute(
+            "SELECT id FROM daily_reports WHERE report_date = ? AND exchange = ?",
+            (report_date.isoformat(), exid),
+        ).fetchone()
+        if old:
+            conn.execute(
+                "DELETE FROM daily_report_rows WHERE report_id = ?", (old[0],)
+            )
+            conn.execute("DELETE FROM daily_reports WHERE id = ?", (old[0],))
+        cur = conn.execute(
+            """INSERT INTO daily_reports
+               (report_date, exchange, generated_at, symbol_count, with_hits_count)
+               VALUES (?,?,?,?,?)""",
+            (report_date.isoformat(), exid, generated_at, 0, 0),
+        )
+        rid = int(cur.lastrowid)
+        conn.commit()
+    day_dir = os.path.join(BASE_DIR, "data", "reports", report_date.isoformat())
+    os.makedirs(day_dir, exist_ok=True)
+    payload = {
+        "report_date": report_date.isoformat(),
+        "exchange": exid,
+        "generated_at": generated_at,
+        "timeframe": TIMEFRAME,
+        "symbol_count": 0,
+        "with_hits_count": 0,
+        "rows": [],
+        "gate_history_unavailable": True,
+        "gate_history_message": msg,
+        "gate_earliest_date": gate_history_earliest_date().isoformat(),
+        "gate_history_days": GATE_HISTORY_DAYS,
+    }
+    path = os.path.join(day_dir, "gate.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+    return rid
 
 
 def _write_daily_json_file(
@@ -402,6 +855,7 @@ def _write_daily_json_file(
     generated_at: str,
     results: List[dict],
     with_hits: int,
+    extra_meta: Optional[dict] = None,
 ) -> str:
     """按日期落盘：data/reports/YYYY-MM-DD/{exchange}.json"""
     if os.environ.get("DISABLE_DAILY_JSON_EXPORT") == "1":
@@ -412,10 +866,13 @@ def _write_daily_json_file(
         "report_date": report_date.isoformat(),
         "exchange": exid,
         "generated_at": generated_at,
+        "timeframe": TIMEFRAME,
         "symbol_count": len(results),
         "with_hits_count": with_hits,
         "rows": _rows_for_export(results),
     }
+    if extra_meta:
+        payload.update(extra_meta)
     path = os.path.join(day_dir, f"{exid}.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
@@ -548,6 +1005,26 @@ def _git_auto_commit(report_date: date) -> None:
         _git_append_log(f"异常: {e}")
 
 
+def _refresh_wickshield_rates_after_daily_reports() -> None:
+    """日报六所扫描结束后，由日报数据重建精算费率表。"""
+    if os.environ.get("DISABLE_RATE_TABLE_REFRESH", "").strip() in ("1", "true", "yes"):
+        print("[wickshield] 费率表刷新已跳过 (DISABLE_RATE_TABLE_REFRESH)", flush=True)
+        return
+    try:
+        from scripts.wickshield.rate_table import refresh_rates_after_daily_reports
+
+        result = refresh_rates_after_daily_reports()
+        if result.get("success"):
+            print(
+                f"[wickshield] 费率表已更新: {result.get('symbol_count')} 币种 -> data/rates/dynamic_rates.json",
+                flush=True,
+            )
+        else:
+            print(f"[wickshield] 费率表刷新失败: {result.get('error', result)}", flush=True)
+    except Exception as e:
+        print(f"[wickshield] 费率表刷新异常: {e}", flush=True)
+
+
 def job_worker(report_date: Optional[date] = None) -> None:
     with _job_lock:
         if JOB_STATE["running"]:
@@ -571,6 +1048,10 @@ def job_worker(report_date: Optional[date] = None) -> None:
                 errs.append(f"{exid}: {traceback.format_exc()}")
                 JOB_STATE["last_error"] = "\n---\n".join(errs)
         
+        # 六所日报落盘后：刷新 WickShield 动态费率表（data/rates/dynamic_rates.json）
+        if not errs or len(errs) < len(exlist):
+            _refresh_wickshield_rates_after_daily_reports()
+
         # 所有交易所扫描完成后，自动提交到 GitHub
         if not errs or len(errs) < len(exlist):  # 至少有一个成功
             _git_auto_commit(actual_report_date)
@@ -620,9 +1101,19 @@ def _report_rows_from_db_row(conn: sqlite3.Connection, rid: int) -> List[dict]:
                 "max_amplitude": r["max_amplitude"],
                 "hits": hj.get("hits") or [],
                 "error": hj.get("error"),
+                "timeframe": hj.get("timeframe"),
             }
         )
     return out_rows
+
+
+def _infer_report_timeframe(rows: List[dict]) -> Optional[str]:
+    seen = sorted({r.get("timeframe") for r in rows if r.get("timeframe")})
+    if not seen:
+        return None
+    if len(seen) == 1:
+        return seen[0]
+    return "mixed(" + ",".join(seen) + ")"
 
 
 def get_latest_report_for(exchange_id: str) -> Optional[dict]:
@@ -643,6 +1134,7 @@ def get_latest_report_for(exchange_id: str) -> Optional[dict]:
         "report_date": row["report_date"],
         "exchange": row["exchange"],
         "generated_at": row["generated_at"],
+        "timeframe": _infer_report_timeframe(out_rows),
         "symbol_count": row["symbol_count"],
         "with_hits_count": row["with_hits_count"],
         "rows": out_rows,
@@ -662,38 +1154,96 @@ def get_all_latest_reports() -> dict[str, Optional[dict]]:
     return out
 
 
-def list_report_dates(limit: int = 30) -> List[str]:
+def _list_report_dates_from_disk() -> List[str]:
+    """data/reports/YYYY-MM-DD 目录名（有任意 json 即算有存档）。"""
+    root = os.path.join(BASE_DIR, "data", "reports")
+    if not os.path.isdir(root):
+        return []
+    out: List[str] = []
+    for name in os.listdir(root):
+        path = os.path.join(root, name)
+        if not os.path.isdir(path) or len(name) != 10:
+            continue
+        try:
+            date.fromisoformat(name)
+        except ValueError:
+            continue
+        if any(f.endswith(".json") for f in os.listdir(path)):
+            out.append(name)
+    return out
+
+
+def list_report_dates(limit: Optional[int] = None) -> List[str]:
+    """合并库内日期与磁盘 JSON 日期，供页面日历选择。limit=0 表示不截断。"""
+    cap: int
+    if limit is None:
+        cap = int(os.environ.get("DAILY_DATES_LIST_LIMIT", "365"))
+    elif limit == 0:
+        cap = 0
+    else:
+        cap = limit
+    dates: set[str] = set(_list_report_dates_from_disk())
     _ensure_db()
     with sqlite3.connect(DB_PATH) as conn:
         cur = conn.execute(
-            """SELECT DISTINCT report_date FROM daily_reports
-               ORDER BY report_date DESC LIMIT ?""",
-            (limit,),
+            """SELECT DISTINCT report_date FROM daily_reports"""
         )
-        return [r[0] for r in cur.fetchall()]
+        dates.update(r[0] for r in cur.fetchall())
+    merged = sorted(dates, reverse=True)
+    if cap > 0:
+        return merged[:cap]
+    return merged
+
+
+def _load_report_from_json(report_date: str, exchange_id: str) -> Optional[dict]:
+    path = os.path.join(
+        BASE_DIR, "data", "reports", report_date, f"{exchange_id}.json"
+    )
+    if not os.path.isfile(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as f:
+            payload = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return None
+    rows = payload.get("rows") or []
+    return {
+        "report_date": payload.get("report_date") or report_date,
+        "exchange": payload.get("exchange") or exchange_id,
+        "generated_at": payload.get("generated_at") or "",
+        "timeframe": payload.get("timeframe") or _infer_report_timeframe(rows),
+        "symbol_count": payload.get("symbol_count") or len(rows),
+        "with_hits_count": payload.get("with_hits_count")
+        or sum(1 for r in rows if r.get("hit_count", 0) > 0),
+        "rows": rows,
+        "gate_history_unavailable": bool(payload.get("gate_history_unavailable")),
+        "gate_history_message": payload.get("gate_history_message"),
+        "gate_earliest_date": payload.get("gate_earliest_date"),
+    }
 
 
 def get_report_by_date(report_date: str, exchange_id: Optional[str] = None) -> Optional[dict]:
-    _ensure_db()
     exid = exchange_id or EXCHANGE_ID
+    _ensure_db()
     with sqlite3.connect(DB_PATH) as conn:
         conn.row_factory = sqlite3.Row
         row = conn.execute(
             """SELECT * FROM daily_reports WHERE report_date = ? AND exchange = ?""",
             (report_date, exid),
         ).fetchone()
-        if not row:
-            return None
-        rid = row["id"]
-        out_rows = _report_rows_from_db_row(conn, rid)
-    return {
-        "report_date": row["report_date"],
-        "exchange": row["exchange"],
-        "generated_at": row["generated_at"],
-        "symbol_count": row["symbol_count"],
-        "with_hits_count": row["with_hits_count"],
-        "rows": out_rows,
-    }
+        if row:
+            rid = row["id"]
+            out_rows = _report_rows_from_db_row(conn, rid)
+            return {
+                "report_date": row["report_date"],
+                "exchange": row["exchange"],
+                "generated_at": row["generated_at"],
+                "timeframe": _infer_report_timeframe(out_rows),
+                "symbol_count": row["symbol_count"],
+                "with_hits_count": row["with_hits_count"],
+                "rows": out_rows,
+            }
+    return _load_report_from_json(report_date, exid)
 
 
 def get_job_state() -> dict:
