@@ -16,6 +16,10 @@ data/points.db
 data/points.db-*
 data/wickshield/*.jsonl
 data/wickshield/monitor_state.json
+data/wickshield/claims.db
+data/wickshield/claims.db-*
+data/wickshield/policies.db
+data/wickshield/policies.db-*
 data/rates/dynamic_rates.json
 
 # 检测事件输出（本地生成）
@@ -55,3 +59,8 @@ htmlcov/
 # 临时文件
 *.swp
 *~
+data/.daily_scan.lock
+data/points.db
+data/wickshield/claims_log.jsonl
+data/wickshield/monitor_state.json
+data/wickshield/reset_log.jsonl
