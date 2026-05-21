@@ -273,9 +273,25 @@ def _fetch_ohlcv_rest_range(exchange_name, symbol, timeframe, start_ms, end_ms, 
             chunk_ms = timeframe_ms * 1000
             while since < end_ms:
                 chunk_end = min(end_ms, since + chunk_ms)
-                params = {'symbol': _symbol_compact(symbol), 'productType': 'USDT-FUTURES', 'granularity': timeframe, 'startTime': since, 'endTime': chunk_end, 'limit': '1000'}
-                data = requests.get(url, params=params, timeout=timeout).json().get('data', [])
-                batch = [[int(x[0]), x[1], x[2], x[3], x[4], x[5] if len(x) > 5 else 0] for x in data if isinstance(x, list) and len(x) >= 5]
+                params = {
+                    'symbol': _symbol_compact(symbol),
+                    'productType': 'USDT-FUTURES',
+                    'granularity': timeframe,
+                    'startTime': since,
+                    'endTime': chunk_end,
+                    'limit': '1000',
+                }
+                payload = requests.get(url, params=params, timeout=timeout).json()
+                data = payload.get('data') if isinstance(payload, dict) else None
+                if not isinstance(data, list):
+                    break
+                batch = [
+                    [int(x[0]), x[1], x[2], x[3], x[4], x[5] if len(x) > 5 else 0]
+                    for x in data
+                    if isinstance(x, list) and len(x) >= 5
+                ]
+                if not batch:
+                    break
                 rows.extend(batch)
                 since = chunk_end + timeframe_ms
             return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
@@ -296,7 +312,12 @@ def _fetch_ohlcv_rest_range(exchange_name, symbol, timeframe, start_ms, end_ms, 
                 since = chunk_end + timeframe_ms
             return _df_from_rows(rows, ['timestamp', 'open', 'high', 'low', 'close', 'volume'], timeframe, start_ms, end_ms)
     except Exception as e:
-        print(f"  ⚠️ REST快速抓取失败: {exchange_name} {symbol} {type(e).__name__}: {e}")
+        if os.environ.get('WICKSHIELD_VERBOSE_REST', '').strip() in ('1', 'true', 'yes'):
+            import sys
+            print(
+                f"  ⚠️ REST快速抓取失败: {exchange_name} {symbol} {type(e).__name__}: {e}",
+                file=sys.stderr,
+            )
         return pd.DataFrame()
 
     return pd.DataFrame()

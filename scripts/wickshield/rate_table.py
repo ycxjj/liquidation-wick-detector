@@ -60,7 +60,9 @@ def rebuild_rate_table(
     total = len(symbols)
     for i, sym in enumerate(symbols, start=1):
         if i == 1 or i % 50 == 0 or i == total:
-            print(f"[wickshield] 费率画像 {i}/{total} {sym}", flush=True)
+            import sys
+
+            print(f"[wickshield] 费率画像 {i}/{total} {sym}", flush=True, file=sys.stderr)
         profile = build_report_risk_profile(sym, lookback_days, ex_list)
         if profile.get("success"):
             ins = profile.get("insurance_risk") or {}

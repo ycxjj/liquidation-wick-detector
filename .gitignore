@@ -8,28 +8,50 @@ build/
 .venv/
 venv/
 
-# 数据文件（示例保留，大批量数据不上传）
+# 数据与运行时（勿提交生产数据）
 data/*.csv
 !data/.gitkeep
 data/logs/
 data/points.db
+data/points.db-*
+data/wickshield/*.jsonl
+data/wickshield/monitor_state.json
+data/rates/dynamic_rates.json
 
-# IDE
+# 检测事件输出（本地生成）
+events/
+events/**/*.json
+
+# IDE / OS
 .vscode/
 .idea/
-
-# OS
 .DS_Store
 Thumbs.db
 
-# 敏感配置
+# 敏感配置与私密笔记（切勿提交）
 .env
+.env.*
+!.env.example
 *.pem
+*.key
+*_credentials*
+*密码*
+*重要信息*
+*secret*
+*.backup
+app.py.backup.*
 
-# 运行时日志（勿提交）
-gunicorn.log
+# 日志
+logs/
 *.log
+gunicorn.log
 nohup.out
-data/.daily_scan.lock
-templates/points.html.backup
-__pycache__/
+
+# 测试 / 覆盖率
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 临时文件
+*.swp
+*~

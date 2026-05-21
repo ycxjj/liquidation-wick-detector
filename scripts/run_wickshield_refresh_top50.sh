@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # 从六所拉取最新热门 USDT 永续 Top50，写入 data/wickshield/monitor_symbols.json
-# 用法: bash scripts/run_wickshield_refresh_top50.sh
-set -e
+set -eu
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 mkdir -p data/wickshield data/logs

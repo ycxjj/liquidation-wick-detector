@@ -1,8 +1,6 @@
-#!/usr/bin/env bash
-# WickShield 动态 Worker + v2.0 监控（可按小时 cron）
-set -e
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$ROOT"
+#!/bin/bash
+set -eu
+source "$(dirname "$0")/_wickshield_env.sh"
 
 HOUR=$(date +%H 2>/dev/null || echo 12)
 if [ "$HOUR" -ge 1 ] && [ "$HOUR" -le 6 ]; then

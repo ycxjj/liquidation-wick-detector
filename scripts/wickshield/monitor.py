@@ -445,7 +445,12 @@ def run_monitor_cycle(dry_run: bool = False) -> Dict[str, Any]:
 
     cache_info: Optional[Dict[str, Any]] = None
     redis_write_ms = 0
-    if not dry_run:
+    skip_cache = os.environ.get("WICKSHIELD_MONITOR_SKIP_DASHBOARD_CACHE", "").strip() in (
+        "1",
+        "true",
+        "yes",
+    )
+    if not dry_run and not skip_cache:
         try:
             from .dashboard_data import build_dashboard_snapshot
             from .monitor_cache import save_monitor_snapshot

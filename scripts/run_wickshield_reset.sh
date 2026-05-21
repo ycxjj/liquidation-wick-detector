@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
-set -e
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$ROOT"
+#!/bin/bash
+set -eu
+# shellcheck source=_wickshield_env.sh
+source "$(dirname "$0")/_wickshield_env.sh"
 export DAILY_REPORT_TZ="${DAILY_REPORT_TZ:-Asia/Shanghai}"
 export WICKSHIELD_POOL="${WICKSHIELD_POOL:-50000}"
 export WICKSHIELD_COVERAGE="${WICKSHIELD_COVERAGE:-100000}"
 mkdir -p data/logs data/wickshield
-python3 -m scripts.wickshield.cli reset --compact
+_wickshield_cli reset
