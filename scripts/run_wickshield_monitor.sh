@@ -14,4 +14,8 @@ export WICKSHIELD_CACHE_TTL="${WICKSHIELD_CACHE_TTL:-30}"
 export WICKSHIELD_OHLCV_WORKERS="${WICKSHIELD_OHLCV_WORKERS:-}"
 export WICKSHIELD_MONITOR_WORKERS="${WICKSHIELD_MONITOR_WORKERS:-}"
 mkdir -p data/logs data/wickshield
-_wickshield_cli monitor
+if [ "${WICKSHIELD_MONITOR_COMPACT:-0}" = "1" ]; then
+  _wickshield_cli monitor --compact
+else
+  _wickshield_cli monitor
+fi
