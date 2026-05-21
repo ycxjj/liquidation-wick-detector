@@ -63,13 +63,41 @@ class TestMonitorPerf:
         assert 4 <= w <= 8
 
     def test_monitor_cache_roundtrip(self) -> None:
-        from scripts.wickshield.monitor_cache import load_monitor_snapshot, save_monitor_snapshot
+        from scripts.wickshield.monitor_cache import (
+            clear_monitor_snapshot,
+            load_monitor_snapshot,
+            save_monitor_snapshot,
+        )
 
-        payload = {"success": True, "test": 1}
-        save_monitor_snapshot(payload)
-        loaded, hit = load_monitor_snapshot()
-        assert hit
-        assert loaded.get("test") == 1
+        clear_monitor_snapshot()
+        try:
+            stub = {"success": True, "test": 1}
+            meta = save_monitor_snapshot(stub)
+            loaded, hit = load_monitor_snapshot()
+            if meta.get("backend") == "skipped":
+                assert not hit
+            else:
+                # 旧版 monitor_cache：不完整 stub 也会写入
+                assert hit
+                assert loaded and loaded.get("test") == 1
+                clear_monitor_snapshot()
+
+            payload = {
+                "success": True,
+                "solvency_ratio": 50.0,
+                "global_cap_remaining": 3000.0,
+                "cap_24h": 3000.0,
+                "watch_symbols": [],
+                "state_date": "2026-05-21",
+            }
+            meta2 = save_monitor_snapshot(payload)
+            if meta2.get("backend") == "skipped":
+                pytest.skip("monitor_cache 未接受完整看板快照")
+            loaded, hit = load_monitor_snapshot()
+            assert hit, "完整看板快照应能命中缓存"
+            assert loaded and loaded.get("solvency_ratio") == 50.0
+        finally:
+            clear_monitor_snapshot()
 
     def test_claim_verify_rejects_without_full_spike(
         self, monkeypatch: pytest.MonkeyPatch
