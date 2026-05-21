@@ -11,7 +11,6 @@
         h1 { color: #00d4ff; text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
         .subtitle { text-align: center; color: #8892b0; margin-bottom: 30px; }
         .card { background: #10192e; border: 1px solid #1e3a5f; border-radius: 12px; padding: 30px; margin: 20px 0; }
-        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
         
         .task-item {
             display: flex;
@@ -117,10 +116,10 @@
 </head>
 <body>
     <div class="container">
-        <a href="/points" class="back-link">← 返回积分系统</a>
-        
         <h1>📋 每日任务</h1>
         <p class="subtitle">完成任务获取积分奖励</p>
+        {% set nav_active = 'points' %}
+        {% include 'partials/site_nav.html' %}
 
         <div id="loading" class="loading">加载中...</div>
 

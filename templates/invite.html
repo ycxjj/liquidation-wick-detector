@@ -11,7 +11,6 @@
         h1 { color: #00d4ff; text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
         .subtitle { text-align: center; color: #8892b0; margin-bottom: 30px; }
         .card { background: #10192e; border: 1px solid #1e3a5f; border-radius: 12px; padding: 30px; margin: 20px 0; }
-        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
         
         .invite-code-box { 
             background: rgba(0,212,255,0.05); 
@@ -94,10 +93,10 @@
 </head>
 <body>
     <div class="container">
-        <a href="/points" class="back-link">← 返回积分系统</a>
-        
         <h1>👥 邀请好友</h1>
         <p class="subtitle">邀请好友注册，双方各得 100 积分</p>
+        {% set nav_active = 'points' %}
+        {% include 'partials/site_nav.html' %}
 
         <div id="loginPrompt" class="card login-prompt" style="display:none;">
             请先<a href="/points" style="color:#00d4ff;">登录</a>查看邀请信息

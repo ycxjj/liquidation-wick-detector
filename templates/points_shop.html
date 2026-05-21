@@ -10,7 +10,6 @@
         .container { max-width: 1200px; margin: 0 auto; }
         h1 { color: #00d4ff; text-align: center; font-size: 2.5rem; margin-bottom: 10px; }
         .subtitle { text-align: center; color: #8892b0; margin-bottom: 30px; }
-        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
         
         .user-points {
             text-align: center;
@@ -153,10 +152,10 @@
 </head>
 <body>
     <div class="container">
-        <a href="/points" class="back-link">← 返回积分系统</a>
-        
         <h1>🛒 积分商城</h1>
         <p class="subtitle">使用积分兑换专属权益</p>
+        {% set nav_active = 'points' %}
+        {% include 'partials/site_nav.html' %}
 
         <div class="user-points">
             <div class="points-balance" id="userPoints">-</div>

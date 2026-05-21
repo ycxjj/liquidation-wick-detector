@@ -25,7 +25,6 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #1e3a5f; }
         th { color: #00d4ff; font-weight: 600; }
-        .back-link { color: #00d4ff; text-decoration: none; display: inline-block; margin-bottom: 20px; }
         .login-buttons { display: flex; flex-direction: column; gap: 15px; align-items: center; }
         .wallet-info { background: rgba(0,212,255,0.05); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.9rem; color: #8892b0; }
         .wallet-info a { color: #00d4ff; text-decoration: none; }
@@ -69,7 +68,8 @@
         @media (max-width: 720px) {
             body { padding: 12px; }
             .container { max-width: 100%; }
-            h1 { font-size: 1.8rem; }
+            h1 { font-size: 1.8rem; margin-bottom: 8px; }
+            .container > p { font-size: .88rem; margin-bottom: 12px !important; }
             .card { padding: 16px; margin: 14px 0; }
             .btn { width: 100%; margin: 6px 0 !important; }
             .stats { grid-template-columns: 1fr; gap: 12px; }
@@ -80,9 +80,10 @@
 </head>
 <body>
     <div class="container">
-        <a href="/" class="back-link">← 返回首页</a>
         <h1>🎯 积分系统</h1>
-        <p style="text-align:center;color:#8892b0;margin-bottom:30px;">完成任务获取积分，解锁更多权益</p>
+        <p style="text-align:center;color:#8892b0;margin-bottom:16px;">完成任务获取积分，解锁更多权益</p>
+        {% set nav_active = 'points' %}
+        {% include 'partials/site_nav.html' %}
 
         <div id="loginSection" class="card" style="text-align:center;display:none;">
             <h2>连接钱包登录</h2>

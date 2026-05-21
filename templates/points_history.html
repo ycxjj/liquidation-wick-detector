@@ -10,8 +10,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px}
 .container{max-width:900px;margin:0 auto}
-.back{color:var(--accent);text-decoration:none;display:inline-block;margin-bottom:20px}
-h1{color:var(--accent);margin-bottom:20px}
+h1{color:var(--accent);margin-bottom:12px;text-align:center}
+h1+p.subtitle{text-align:center;color:var(--muted);margin-bottom:16px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
 .history-item{padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .history-item:last-child{border-bottom:none}
@@ -20,12 +20,19 @@ h1{color:var(--accent);margin-bottom:20px}
 .points.negative{color:#f44}
 .time{color:var(--muted);font-size:.85rem}
 .loading{text-align:center;padding:40px;color:var(--muted)}
+@media (max-width:720px){
+body{padding:12px}
+h1{font-size:1.5rem}
+.history-item{flex-direction:column;align-items:flex-start;gap:6px}
+}
     </style>
 </head>
 <body>
 <div class="container">
-    <a href="/points" class="back">← 返回积分系统</a>
     <h1>📜 积分历史</h1>
+    <p class="subtitle">查看积分变动记录</p>
+    {% set nav_active = 'points' %}
+    {% include 'partials/site_nav.html' %}
     <div class="card">
         <div id="historyList" class="loading">加载中...</div>
     </div>

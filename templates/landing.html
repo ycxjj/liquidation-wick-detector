@@ -20,7 +20,7 @@ nav{position:fixed;top:0;width:100%;background:rgba(10,14,39,0.95);backdrop-filt
 .hero h1{font-size:4.5rem;font-weight:900;margin-bottom:1rem;background:linear-gradient(135deg,#fff,var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
 .hero h2{font-size:2rem;color:var(--accent);margin-bottom:1rem;font-weight:600}
 .hero .tagline{font-size:1.3rem;color:#8892b0;margin-bottom:3rem;font-style:italic}
-.cta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.25rem;max-width:1120px;margin:0 auto 5rem;padding:0 .5rem}
+.cta-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1.25rem;max-width:1280px;margin:0 auto 5rem;padding:0 .5rem}
 .cta-item{display:flex;flex-direction:column;align-items:stretch;text-decoration:none;gap:.55rem}
 .cta-btn{width:100%;padding:1rem 1.25rem;font-size:1.05rem;font-weight:700;border:none;border-radius:12px;cursor:pointer;text-decoration:none;transition:all .3s;display:block;text-align:center;line-height:1.25}
 .cta-sub{font-size:.8rem;color:#8892b0;line-height:1.45;text-align:center;padding:0 .25rem}
@@ -99,7 +99,10 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid rgba(100,255,218
 .comparison-cell{padding:1.25rem}
 .footer-links{flex-direction:column;gap:1rem}
 }
-@media (min-width:769px) and (max-width:1024px){
+@media (min-width:769px) and (max-width:1200px){
+.cta-grid{grid-template-columns:repeat(3,1fr);max-width:840px}
+}
+@media (min-width:769px) and (max-width:920px){
 .cta-grid{grid-template-columns:repeat(2,1fr);max-width:640px}
 }
 @media (max-width:400px){.stats{grid-template-columns:1fr}}
@@ -115,11 +118,15 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid rgba(100,255,218
 </a>
 <a href="/daily" class="cta-item">
 <span class="cta-btn btn btn-secondary">查看每日报告</span>
-<span class="cta-sub">昨日赔付 / 风控摘要 / 异常币种</span>
+<span class="cta-sub">昨日赔付 · 风控摘要 · 异常币种</span>
 </a>
 <a href="/wickshield" class="cta-item">
 <span class="cta-btn btn btn-secondary">WickShield 看板</span>
 <span class="cta-sub">实时偿付能力 · 动态封顶 · 剩余额度</span>
+</a>
+<a href="/wickshield/insure" class="cta-item">
+<span class="cta-btn btn btn-secondary">WickShield 投保</span>
+<span class="cta-sub">保单报价 · 链上付保费 · 激活保单</span>
 </a>
 <a href="/points" class="cta-item">
 <span class="cta-btn btn btn-accent">🎯 积分系统</span>
