@@ -1,0 +1,22 @@
+{# nav_active: home | detect | daily | wickshield | insure | points — 隐藏当前页对应项，始终显示 5 个跳转 #}
+{% set cur = nav_active|default('') %}
+<style>
+.nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;max-width:100%}
+.nav a{color:var(--muted,#8892b0);text-decoration:none;padding:8px 14px;border:1px solid var(--border,#1e3a5f);border-radius:8px;font-size:.85rem;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+.nav a:hover{border-color:var(--accent,#00d4ff);color:var(--accent,#00d4ff)}
+@media (max-width:720px){
+.nav{gap:6px;margin-bottom:16px}
+.nav a{flex:1 1 calc(50% - 3px);min-width:0;min-height:44px;padding:10px 8px;font-size:.8rem;text-align:center;display:inline-flex;align-items:center;justify-content:center;line-height:1.2}
+}
+@media (max-width:380px){
+.nav a{font-size:.74rem;padding:9px 6px}
+}
+</style>
+<div class="nav" role="navigation" aria-label="站点导航">
+    {% if cur != 'home' %}<a href="/">首页</a>{% endif %}
+    {% if cur != 'detect' %}<a href="/detect">检测</a>{% endif %}
+    {% if cur != 'daily' %}<a href="/daily">日报</a>{% endif %}
+    {% if cur != 'wickshield' %}<a href="/wickshield">看板</a>{% endif %}
+    {% if cur != 'insure' %}<a href="/wickshield/insure">投保</a>{% endif %}
+    {% if cur != 'points' %}<a href="/points">积分</a>{% endif %}
+</div>
