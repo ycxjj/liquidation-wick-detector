@@ -309,16 +309,12 @@ details.hit-detail{margin-top:6px}
 .modal-mask.show{display:flex}
 .modal-card{background:var(--card);border:1px solid var(--accent);border-radius:16px;padding:26px 22px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.55)}
 .modal-card p{color:var(--text);font-size:.93rem;line-height:1.6;margin-bottom:20px;white-space:pre-wrap}
-.top-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.top-link{color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:4px;font-size:.9rem;border:1px solid var(--border);padding:7px 12px;border-radius:9px;background:rgba(16,25,46,.7)}
-.top-link:hover{border-color:var(--accent);background:rgba(0,212,255,.08)}
 @media (max-width: 720px){
   .wrap{padding:14px 10px 38px}
   .hero{margin-bottom:18px}
   .hero h1{font-size:1.45rem}
   .hero p{font-size:.82rem}
-  .top-nav{gap:8px;margin-bottom:14px}
-  .top-link{font-size:.82rem;padding:7px 10px}
+  .nav{margin-bottom:14px}
   .card{padding:16px 12px;border-radius:12px}
   .toolbar{align-items:center}
   .toolbar-actions{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:stretch;width:100%;gap:8px}
@@ -398,24 +394,16 @@ span.flatpickr-weekday{color:#8892b0}
   </div>
 </div>
 <div class="wrap">
-  <div class="top-nav">
-    <a href="/" class="top-link">← 返回首页</a>
-    {% if page == 'daily' %}
-    <a href="/detect" class="top-link">自选合约检测 →</a>
-    {% else %}
-    <a href="/daily" class="top-link">📅 每日日报 →</a>
-    {% endif %}
-    <a href="/points" class="top-link">积分系统 →</a>
-  </div>
   <div class="hero">
     {% if page == 'daily' %}
-    <h1>📅 每日热门日报</h1>
+    <h1>📅 每日热门榜</h1>
     <p>昨日全市场扫描 · 页面展示成交额前100 · 六所永续市场</p>
     {% else %}
-    <h1>自选合约检测</h1>
-    <p>输入合约与时间范围，追溯是否遭遇插针</p>
+    <h1>🔍 插针检测</h1>
+    <p>自选合约 · 输入时间与振幅，追溯是否遭遇插针</p>
     {% endif %}
   </div>
+  {% include 'partials/site_nav.html' %}
   {% if page == 'daily' %}
   <div id="p1">
     <div class="card">
@@ -1120,7 +1108,9 @@ def landing():
 def daily_page():
     """昨日热门全市场日报（独立页面，页面只展示前100）"""
     session["is_admin"] = False
-    return render_template_string(HTML, is_admin=False, page="daily")
+    return render_template_string(
+        HTML, is_admin=False, page="daily", nav_active="daily"
+    )
 
 
 @app.route("/wickshield")
@@ -1132,10 +1122,170 @@ def wickshield_dashboard_page():
 
 @app.route("/api/wickshield/dashboard")
 def api_wickshield_dashboard():
+    from flask import current_app
+
     from scripts.wickshield.dashboard_data import build_dashboard_snapshot
 
     live = request.args.get("live", "0").strip().lower() in ("1", "true", "yes")
-    return jsonify(build_dashboard_snapshot(live_refresh=live))
+    skip_raw = request.args.get("skip_cache", "").strip().lower()
+    if skip_raw == "":
+        skip_cache = bool(current_app.config.get("TESTING"))
+    else:
+        skip_cache = skip_raw in ("1", "true", "yes")
+    return jsonify(
+        build_dashboard_snapshot(live_refresh=live, skip_cache=skip_cache)
+    )
+
+
+@app.route("/wickshield/insure")
+def wickshield_insure_page():
+    """WickShield 用户投保页（需钱包登录）。"""
+    return render_template("wickshield_insure.html")
+
+
+def _wickshield_wallet_required():
+    if "wallet_address" not in session:
+        return None, (jsonify({"success": False, "error": "请先连接钱包登录"}), 401)
+    return session["wallet_address"].lower(), None
+
+
+@app.route("/api/wickshield/quote", methods=["POST"])
+def api_wickshield_quote():
+    try:
+        from scripts.wickshield.policy_service import quote_policy
+    except ImportError as e:
+        return jsonify({"success": False, "error": f"投保模块未部署: {e}"}), 500
+
+    data = request.get_json() or {}
+    symbol = (data.get("symbol") or "BTC/USDT").strip()
+    try:
+        coverage = float(data.get("coverage_amount") or 0)
+    except (TypeError, ValueError):
+        return jsonify({"success": False, "error": "保额无效"}), 400
+    if coverage <= 0:
+        return jsonify({"success": False, "error": "保额须 > 0"}), 400
+    wallet = session.get("wallet_address")
+    try:
+        out = quote_policy(
+            symbol=symbol,
+            coverage_amount=coverage,
+            days=int(data.get("days") or 7),
+            leverage=int(data.get("leverage") or 10),
+            wallet_address=wallet,
+            product_tier=(data.get("product_tier") or "basic").strip(),
+            credit_score=int(data.get("credit_score") or 300),
+        )
+        return jsonify(out)
+    except Exception as e:
+        app.logger.exception("wickshield quote failed")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/wickshield/policies", methods=["POST"])
+def api_wickshield_create_policy():
+    try:
+        from scripts.wickshield.policy_service import create_policy_pending
+    except ImportError as e:
+        return jsonify({"success": False, "error": f"投保模块未部署: {e}"}), 500
+
+    wallet, err = _wickshield_wallet_required()
+    if err:
+        return err
+    data = request.get_json() or {}
+    symbol = (data.get("symbol") or "").strip()
+    if not symbol:
+        return jsonify({"success": False, "error": "缺少 symbol"}), 400
+    try:
+        coverage = float(data.get("coverage_amount") or 0)
+    except (TypeError, ValueError):
+        return jsonify({"success": False, "error": "保额无效"}), 400
+    try:
+        out = create_policy_pending(
+            wallet_address=wallet,
+            symbol=symbol,
+            coverage_amount=coverage,
+            days=int(data.get("days") or 7),
+            leverage=int(data.get("leverage") or 10),
+            product_tier=(data.get("product_tier") or "basic").strip(),
+            credit_score=int(data.get("credit_score") or 300),
+            payout_address=(data.get("payout_address") or "").strip() or None,
+        )
+        status = 200 if out.get("success") else 400
+        return jsonify(out), status
+    except Exception as e:
+        app.logger.exception("wickshield create policy failed")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/wickshield/policies/<int:policy_id>/pay-info", methods=["GET"])
+def api_wickshield_policy_pay_info(policy_id: int):
+    try:
+        from scripts.wickshield.policy_service import get_policy_pay_info
+    except ImportError as e:
+        return jsonify({"success": False, "error": f"投保模块未部署: {e}"}), 500
+
+    wallet, err = _wickshield_wallet_required()
+    if err:
+        return err
+    try:
+        return jsonify(get_policy_pay_info(policy_id, wallet_address=wallet))
+    except Exception as e:
+        app.logger.exception("wickshield pay-info failed")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/wickshield/policies/<int:policy_id>/confirm", methods=["POST"])
+def api_wickshield_confirm_policy(policy_id: int):
+    from scripts.wickshield.policy_service import confirm_policy_payment
+
+    wallet, err = _wickshield_wallet_required()
+    if err:
+        return err
+    data = request.get_json() or {}
+    tx_hash = (data.get("premium_tx_hash") or data.get("tx_hash") or "").strip()
+    if not tx_hash:
+        return jsonify({"success": False, "error": "缺少 premium_tx_hash"}), 400
+    out = confirm_policy_payment(
+        policy_id, wallet_address=wallet, premium_tx_hash=tx_hash
+    )
+    status = 200 if out.get("success") else 400
+    return jsonify(out), status
+
+
+@app.route("/api/wickshield/policies/mine", methods=["GET"])
+def api_wickshield_my_policies():
+    try:
+        from scripts.wickshield.policy_service import get_user_policies
+    except ImportError as e:
+        return jsonify({"success": False, "error": f"投保模块未部署: {e}", "policies": []}), 500
+
+    wallet, err = _wickshield_wallet_required()
+    if err:
+        return err
+    try:
+        return jsonify(get_user_policies(wallet))
+    except Exception as e:
+        app.logger.exception("wickshield policies/mine failed")
+        return jsonify({"success": False, "error": str(e), "policies": []}), 500
+
+
+@app.route("/api/wickshield/insure/health", methods=["GET"])
+def api_wickshield_insure_health():
+    """诊断投保 API 依赖是否齐全。"""
+    mods = {}
+    ok = True
+    for name in (
+        "scripts.wickshield.policies_db",
+        "scripts.wickshield.policy_service",
+        "scripts.wickshield.chain_payout",
+    ):
+        try:
+            __import__(name)
+            mods[name] = "ok"
+        except Exception as e:
+            mods[name] = str(e)
+            ok = False
+    return jsonify({"success": ok, "modules": mods})
 
 
 @app.route("/detect")
@@ -1144,7 +1294,9 @@ def detect_page():
     if request.args.get("tab") in ("p1", "daily"):
         return redirect("/daily", code=302)
     session["is_admin"] = False
-    return render_template_string(HTML, is_admin=False, page="detect")
+    return render_template_string(
+        HTML, is_admin=False, page="detect", nav_active="detect"
+    )
 
 
 @app.route("/detect/", methods=["GET"])
@@ -1155,7 +1307,9 @@ def detect_page_slash():
 @app.route(ADMIN_PATH)
 def admin_index():
     session["is_admin"] = True
-    return render_template_string(HTML, is_admin=True, page="daily")
+    return render_template_string(
+        HTML, is_admin=True, page="daily", nav_active="daily"
+    )
 
 
 def _daily_display_tz_fields() -> dict:
